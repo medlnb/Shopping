@@ -474,7 +474,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
         </div>
       ))}
       <h3 className="text-gray-500 font-semibold mb-2 mt-5">
-        Add Some of your product's images
+        Add Some of your {"product's"} images
         <span className="text-sm text-gray-500"> *</span>
       </h3>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-2">

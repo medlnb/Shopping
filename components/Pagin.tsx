@@ -2,13 +2,6 @@
 import { Pagination } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 
-interface QueriesProps {
-  p?: string;
-  min?: number;
-  max?: number;
-  category?: string;
-}
-
 function Pagin({
   page,
   count,

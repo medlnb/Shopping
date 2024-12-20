@@ -28,11 +28,11 @@ function Filters({ queries }: { queries: QueriesProps }) {
 
     const queryString = Object.entries(updatedQueries)
       .filter(
-        ([_, value]) =>
-          value !== undefined &&
-          value !== null &&
-          value !== 0 &&
-          value !== 10000
+        (value) =>
+          value[1] !== undefined &&
+          value[1] !== null &&
+          value[1] !== 0 &&
+          value[1] !== 10000
       )
       .map(([key, value]) => `${key}=${value}`)
       .join("&");
@@ -91,7 +91,7 @@ function Filters({ queries }: { queries: QueriesProps }) {
               max={10000}
               value={[selectedPrice.from, selectedPrice.to]}
               onChange={(event: Event, newValue: number | number[]) => {
-                if (typeof newValue === "number") return;
+                if (typeof newValue === "number" || !event) return;
                 setSelectedPrice({
                   from: Math.floor(newValue[0]),
                   to: Math.ceil(newValue[1]),
