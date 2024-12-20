@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.underlined::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: black;
+  transition: width 0.2s ease-in-out;
+}
+
+.underlined:hover::after {
+  width: 100%;
+}
+
+.loading--background {
+  background: linear-gradient(to right, #ffce6c, #171731);
+  background-size: 400% auto; /* Increased for smoother effect */
+  animation: gradientAnimation 3s ease infinite; /* Changed to ease for smoother transition */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%; /* Loop back for a seamless animation */
+  }
+}
