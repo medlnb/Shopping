@@ -90,7 +90,7 @@ function ImagePost({
               className="top-3 left-3 absolute z-10 hover:scale-125 duration-200 text-yellow-500"
               onClick={(e) => {
                 e.stopPropagation();
-                HandleMakeFirst && HandleMakeFirst(image);
+                if (HandleMakeFirst) HandleMakeFirst(image);
               }}
             />
           ))}
