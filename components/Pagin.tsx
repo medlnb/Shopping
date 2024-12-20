@@ -27,12 +27,12 @@ function Pagin({
 
     const queryString = Object.entries(updatedQueries)
       .filter(
-        ([_, value]) =>
-          value !== undefined &&
-          value !== null &&
-          value !== 0 &&
-          value !== 10000 &&
-          value !== "1"
+        (value) =>
+          value[1] !== undefined &&
+          value[1] !== null &&
+          value[1] !== 0 &&
+          value[1] !== 10000 &&
+          value[1] !== "1"
       )
       .map(([key, value]) => `${key}=${value}`)
       .join("&");
