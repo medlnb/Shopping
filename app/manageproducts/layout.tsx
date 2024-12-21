@@ -1,10 +1,12 @@
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import Nav from "./Nav";
 
 function Layout({ children }: { children: ReactNode }) {
   return (
     <main className="bg-gray-100">
-      <Nav />
+      <Suspense>
+        <Nav />
+      </Suspense>
       {children}
     </main>
   );
