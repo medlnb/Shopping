@@ -27,6 +27,7 @@ interface Product {
   description: string;
   variances: {
     price: number;
+    newPrice: number;
     quantity: number;
     unit: string;
     stock: number;
@@ -65,6 +66,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
     quantity: 0,
     unit: "L",
     stock: 0,
+    newPrice: 0,
     info: "",
   });
 
@@ -143,6 +145,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
       unit: prev.unit,
       stock: 0,
       info: "",
+      newPrice: 0,
     }));
   };
 
@@ -344,56 +347,101 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
         {"Add the product's prices"}
         <span className="text-sm text-gray-500">*</span>
       </h3>
-      <div className="grid grid-cols-3 md:gap-1 gap-0.5 items-center mb-4">
-        <input
-          value={variances.price === 0 ? "" : variances.price}
-          onChange={(e) =>
-            setVariances((prev) => ({
-              ...prev,
-              price: Number(e.target.value) || 0,
-            }))
-          }
-          className="focus:outline-none border border-black rounded-md px-2 text-center bg-transparent"
-          placeholder="100.00 Dzd"
-          type="number"
-        />
-        <input
-          value={variances.stock === 0 ? "" : variances.stock}
-          onChange={(e) =>
-            setVariances((prev) => ({
-              ...prev,
-              stock: Number(e.target.value) || 0,
-            }))
-          }
-          className="focus:outline-none border border-black rounded-md px-2 text-center bg-transparent"
-          placeholder="stock"
-          type="number"
-        />
-        <div className="flex items-center justify-center border border-black rounded-md px-2">
+      <div className="grid grid-cols-3 md:gap-1 gap-0.5 gap-y-2 items-center mb-4">
+        <div>
+          <h3 className="text-gray-500 font-semibold mb-1">
+            Price <span className="text-sm text-gray-500">*</span>
+          </h3>
           <input
-            value={variances.quantity === 0 ? "" : variances.quantity}
+            value={variances.price === 0 ? "" : variances.price}
             onChange={(e) =>
               setVariances((prev) => ({
                 ...prev,
-                quantity: Number(e.target.value) || 0,
+                price: Number(e.target.value) || 0,
               }))
             }
-            className="focus:outline-none text-center w-16 bg-transparent"
-            placeholder="quantity"
-            type="number"
+            className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md"
+            placeholder="100.00 Dzd"
           />
-          <select
-            value={variances.unit}
-            onChange={(e) =>
-              setVariances((prev) => ({ ...prev, unit: e.target.value }))
-            }
-            className="focus:outline-none bg-transparent"
-          >
-            <option value="L">L</option>
-            <option value="Kg">Kg</option>
-          </select>
         </div>
-        <div className="col-span-3 flex ">
+        <div>
+          <h3 className="text-gray-500 font-semibold mb-1">New Price</h3>
+          <input
+            value={variances.newPrice === 0 ? "" : variances.newPrice}
+            onChange={(e) =>
+              setVariances((prev) => ({
+                ...prev,
+                newPrice: Number(e.target.value) || 0,
+              }))
+            }
+            className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md"
+            placeholder="100.00 Dzd"
+          />
+        </div>
+        <div>
+          <h3 className="text-gray-500 font-semibold mb-1">Discount %</h3>
+          {(() => {
+            const t = (1 - variances.newPrice / variances.price) * -100;
+            const persontage =
+              !variances.price || !variances.newPrice
+                ? "/"
+                : t.toFixed(0) + "%";
+            return (
+              <p className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md text-center">
+                {persontage}
+              </p>
+            );
+          })()}
+        </div>
+        <div>
+          <h3 className="text-gray-500 font-semibold mb-1">
+            Stock<span className="text-sm text-gray-500">*</span>
+          </h3>
+          <input
+            value={variances.stock === 0 ? "" : variances.stock}
+            onChange={(e) =>
+              setVariances((prev) => ({
+                ...prev,
+                stock: Number(e.target.value) || 0,
+              }))
+            }
+            className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md"
+            placeholder="100"
+          />
+        </div>
+        <div>
+          <h3 className="text-gray-500 font-semibold mb-1">
+            Quantity <span className="text-sm text-gray-500">*</span>
+          </h3>
+          <div className="flex justify-between border bg-gray-100 border-gray-300 rounded-md p-2">
+            <input
+              value={variances.quantity === 0 ? "" : variances.quantity}
+              onChange={(e) =>
+                setVariances((prev) => ({
+                  ...prev,
+                  quantity: Number(e.target.value) || 0,
+                }))
+              }
+              className="focus:outline-none bg-transparent w-16 md:w-28"
+              placeholder="10"
+              type="number"
+            />
+            <select
+              value={variances.unit}
+              onChange={(e) =>
+                setVariances((prev) => ({ ...prev, unit: e.target.value }))
+              }
+              className="focus:outline-none bg-transparent w-8"
+            >
+              <option value="L">L</option>
+              <option value="Kg">Kg</option>
+            </select>
+          </div>
+        </div>
+        <div className="col-span-3">
+          <h3 className="text-gray-500 font-semibold mb-1">
+            Extra Information
+          </h3>
           <input
             value={variances.info}
             onChange={(e) =>
@@ -402,26 +450,31 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
                 info: e.target.value,
               }))
             }
-            className="text-xs flex-1 focus:outline-none border border-black rounded-md px-2 py-0.5 bg-transparent"
-            placeholder="extra info..."
-          />
-          <IoMdAdd
-            size={25}
-            className="hover:scale-125 duration-200 cursor-pointer md:mx-0 mx-auto"
-            onClick={HandleAddVariance}
+            className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md"
+            placeholder="Blue color model..."
           />
         </div>
+
+        <button
+          type="button"
+          onClick={HandleAddVariance}
+          className="col-start-3 bg-gray-600 text-white p-1 mt-1 rounded-md w-full hover:bg-gray-500 duration-150"
+        >
+          Add
+        </button>
       </div>
+
       {input.variances.map((varn, index) => (
         <div
           key={index}
-          className="grid grid-cols-3 md:gap-2 gap-0.5 items-center pb-2 mb-2 border-b"
+          className="grid grid-cols-4 md:gap-2 gap-0.5 items-center pb-2 mb-2 border-b"
         >
-          <div className="flex items-center gap-1">
+          <div className="flex items-center justify-center gap-1">
             {!index ? (
               <GoStarFill />
             ) : (
               <GoStar
+                className="p-1 cursor-pointer hover:scale-110 duration-150"
                 onClick={() =>
                   setInput((prev) => ({
                     ...prev,
@@ -437,25 +490,9 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
                     ],
                   }))
                 }
+                size={23}
               />
             )}
-            <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1 text-center">
-              {varn.price}
-            </p>
-          </div>
-
-          <p className="overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1 text-center">
-            {varn.stock}
-          </p>
-
-          <div className="overflow-auto hidden-scrollbar flex items-center justify-center gap-1 border border-black rounded-md md:px-2 px-1">
-            <p>{varn.quantity}</p>
-            <p> {varn.unit}</p>
-          </div>
-          <div className="col-span-3 flex gap-1">
-            <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1">
-              {varn.info}
-            </p>
             <FaTrash
               onClick={() =>
                 setInput((prev) => ({
@@ -467,9 +504,28 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
                   ),
                 }))
               }
-              size={25}
-              className="p-1 cursor-pointer mx-auto hover:scale-110 duration-150"
+              size={23}
+              className="p-1 cursor-pointer hover:scale-110 duration-150"
             />
+          </div>
+          <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1 text-center">
+            {varn.price} Dzd
+          </p>
+          <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1 text-center">
+            {varn.newPrice ? varn.newPrice + " Dzd" : "/"}
+          </p>
+          <p className="overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1 text-center">
+            {varn.stock}
+          </p>
+
+          <div className="overflow-auto hidden-scrollbar flex items-center justify-center gap-1 border border-black rounded-md md:px-2 px-1">
+            <p>{varn.quantity}</p>
+            <p> {varn.unit}</p>
+          </div>
+          <div className="col-span-3 flex">
+            <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1">
+              {varn.info}
+            </p>
           </div>
         </div>
       ))}

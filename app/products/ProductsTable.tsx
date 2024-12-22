@@ -49,7 +49,7 @@ async function ProductsTable({ queries }: { queries: QueriesProps }) {
         <div className="flex-1 pt-0.5 grid grid-cols-2 md:grid-cols-3 gap-1">
           {products.map((product) => (
             <Link key={product._id} href={`/product/${product._id}`}>
-              <section className="bg-white p-2 rounded-lg">
+              <section className="bg-white p-2 rounded-lg hover:shadow-md duration-150">
                 <LoadImage
                   Css="h-40 w-full object-cover mx-auto rounded-md"
                   Url={product.image}

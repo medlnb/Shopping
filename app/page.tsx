@@ -1,7 +1,14 @@
-import React from "react";
+import Promotions from "@components/Promotions";
+import { Suspense } from "react";
 
 function Page() {
-  return <div>Page</div>;
+  return (
+    <main>
+      <Suspense>
+        <Promotions />
+      </Suspense>
+    </main>
+  );
 }
 
 export default Page;

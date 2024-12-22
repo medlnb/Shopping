@@ -2,9 +2,11 @@
 import { useState, useEffect, useRef, Fragment } from "react";
 import categories from "@data/categories.json";
 import { CiHeart } from "react-icons/ci";
+import { IoIosMore } from "react-icons/io";
 
 function Filters() {
   const [selected, setSelected] = useState<number>();
+  const [showMore, setShowMore] = useState(false);
   const [StickyMenu, setStickyMenu] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -14,9 +16,8 @@ function Filters() {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
-      ) {
+      )
         setSelected(0);
-      }
     }
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -24,6 +25,7 @@ function Filters() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) setStickyMenu(true);
     else setStickyMenu(false);
@@ -37,7 +39,14 @@ function Filters() {
         ref={containerRef}
         className="max-w-[50rem] mx-auto flex items-center gap-4 flex-wrap font-semibold text-xs text-gray-600 relative"
       >
-        {categories.map((cat, index) => (
+        <IoIosMore
+          className={`md:hidden text-xl duration-150 ${
+            showMore ? "rotate-90 " : ""
+          }`}
+          onClick={() => setShowMore((prev) => !prev)}
+        />
+        <CiHeart size={15} />
+        {categories.slice(0, 4).map((cat, index) => (
           <p
             key={cat.aisle}
             className={`cursor-pointer relative underlined ${
@@ -48,7 +57,21 @@ function Filters() {
             {cat.aisle}
           </p>
         ))}
-        <CiHeart size={15} />
+
+        {categories.slice(4).map((cat, index) => (
+          <p
+            key={cat.aisle}
+            className={`${
+              showMore ? "" : "hidden"
+            } md:block cursor-pointer relative underlined ${
+              selected === index + 1 ? "after:w-full" : ""
+            }`}
+            onClick={() => setSelected(index + 1)}
+          >
+            {cat.aisle}
+          </p>
+        ))}
+
         {!!selected && (
           <div className="absolute w-full p-3 md:top-[2.4rem] top-16 bg-white shadow-lg rounded-md duration-150 flex gap-4 flex-wrap">
             {categories[selected - 1].subcategories.map((subcat, index) => (
