@@ -2,7 +2,6 @@
 import ImagePost from "@components/ImagePost";
 import Sele from "@components/Select";
 import { FormEvent, Fragment, useEffect, useState } from "react";
-import { IoMdAdd } from "react-icons/io";
 import { FaTrash } from "react-icons/fa6";
 import { GoStarFill, GoStar } from "react-icons/go";
 import { ClipLoader } from "react-spinners";

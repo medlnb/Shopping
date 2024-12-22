@@ -1,6 +1,6 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
@@ -55,7 +55,7 @@ function PromotionSwiper({ products }: { products: Product[] }) {
             <div className="flex-1">
               <LoadImageClient
                 Url={product.image}
-                Css="h-full rounded-lg mx-auto"
+                Css="h-48 rounded-lg mx-auto object-contain"
               />
             </div>
           </div>

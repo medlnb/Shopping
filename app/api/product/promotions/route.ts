@@ -1,8 +1,7 @@
 import Product from "@models/product";
 import { connectToDatabase } from "@utils/database";
-import { NextRequest } from "next/server";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   try {
     await connectToDatabase();
 
