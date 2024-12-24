@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { options } from "../auth/[...nextauth]/options";
 import Member from "@models/member";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   try {
     await connectToDatabase();
     const session = await getServerSession(options);

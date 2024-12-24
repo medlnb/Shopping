@@ -4,7 +4,6 @@ import Images from "./Images";
 interface Product {
   _id: string;
   title: string;
-  description: string;
   variances: {
     _id: string;
     price: number;
@@ -14,14 +13,15 @@ interface Product {
     stock: number;
     info?: string;
   }[];
+  images: string[];
   brand: string;
   category: {
     aisle: string;
     subcategories: string;
     item?: string;
   };
+  description: string;
   ingedients: string[];
-  images: string[];
 }
 
 async function Page({
@@ -36,8 +36,8 @@ async function Page({
   const { product }: { product: Product } = await res.json();
 
   return (
-    <main className="py-10 max-w-[72rem] mx-auto p-1">
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-16">
+    <main>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-16 py-10 max-w-[72rem] mx-auto p-1">
         <div className="flex-1">
           <Images images={product.images} />
         </div>
@@ -67,6 +67,32 @@ async function Page({
             );
           })()}
           <Buy productId={product._id} variances={product.variances} />
+        </div>
+      </section>
+
+      <section className="bg-gray-100 py-8">
+        <div className="max-w-[72rem] mx-auto">
+          {product.description && (
+            <>
+              <h1 className="md:text-4xl text-2xl font-bold text-[#1c274c]">
+                Description:
+              </h1>
+              <p>{product.description}</p>
+            </>
+          )}
+
+          {product.ingedients && (
+            <>
+              <h1 className="text-xl font-bold text-[#314071] mt-4">
+                Ingedients:
+              </h1>
+              <p>
+                {product.ingedients.map((ingedient) => (
+                  <span>- {ingedient} </span>
+                ))}
+              </p>
+            </>
+          )}
         </div>
       </section>
     </main>
