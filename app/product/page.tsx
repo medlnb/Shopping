@@ -88,7 +88,7 @@ async function Page({
               </h1>
               <p>
                 {product.ingedients.map((ingedient) => (
-                  <span>- {ingedient} </span>
+                  <span key={ingedient}>- {ingedient} </span>
                 ))}
               </p>
             </>
