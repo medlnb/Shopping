@@ -4,6 +4,7 @@ import AuthProvider from "@components/AuthProvider";
 import "@styles/globals.css";
 import Header from "@components/Header/Header";
 import Footer from "@components/Footer";
+import { CartProvider } from "@contexts/CartContext";
 
 export const metadata: Metadata = {
   title: "Shopping",
@@ -17,11 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="p-2 md:pt-[7.3rem] pt-52">
+      <body className="md:pt-[7.9rem] pt-[13.5rem]">
         <Toaster richColors />
         <AuthProvider>
-          <Header />
-          {children}
+          <CartProvider>
+            <Header />
+            {children}
+          </CartProvider>
         </AuthProvider>
         <Footer />
       </body>

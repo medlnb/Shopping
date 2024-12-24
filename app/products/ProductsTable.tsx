@@ -20,7 +20,7 @@ interface Product {
 }
 
 async function ProductsTable({ queries }: { queries: QueriesProps }) {
-  const res = await fetch(`${process.env.URL}/api/product`, {
+  const res = await fetch(`${process.env.URL}/api/products`, {
     cache: "no-cache",
     method: "POST",
     headers: {
@@ -35,7 +35,7 @@ async function ProductsTable({ queries }: { queries: QueriesProps }) {
     await res.json();
 
   return (
-    <section>
+    <section className="w-full">
       <div className="py-1 flex justify-end">
         <Pagin
           page={Number(queries.p) || 1}
@@ -48,17 +48,17 @@ async function ProductsTable({ queries }: { queries: QueriesProps }) {
       {products.length ? (
         <div className="flex-1 pt-0.5 grid grid-cols-2 md:grid-cols-3 gap-1">
           {products.map((product) => (
-            <Link key={product._id} href={`/product/${product._id}`}>
+            <Link key={product._id} href={`/product?id=${product._id}`}>
               <section className="bg-white p-2 rounded-lg hover:shadow-md duration-150">
                 <LoadImage
                   Css="h-40 w-full object-cover mx-auto rounded-md"
                   Url={product.image}
                 />
               </section>
-              <h1 className="my-1 text-gray-700 font-semibold text-sm">
+              <h1 className="my-1 text-gray-700 font-semibold">
                 {product.title}
               </h1>
-              <h1 className="my-1 text-gray-700 font-semibold text-sm">
+              <h1 className="my-1 text-gray-700 font-semibold">
                 {product.price.toFixed(2)} <b>Dzd</b>
               </h1>
             </Link>

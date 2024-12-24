@@ -72,7 +72,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
-      const res = await fetch(`/api/product/${id}`);
+      const res = await fetch(`/api/products/${id}`);
       const data = await res.json();
       if (!res.ok) return toast.error(data.err);
       setLoading(false);
@@ -151,10 +151,10 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
   if (loading) return <Loader title="Getting your Product..." />;
 
   return (
-    <form className="p-2 max-w-[50rem] mx-auto" onSubmit={HandleSubmit}>
+    <form className="max-w-[73rem] mx-auto" onSubmit={HandleSubmit}>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
         <div>
-          <h3 className="text-gray-500 font-semibold mb-2">
+          <h3 className="text-gray-500 font-semibold mb-2 text-lg">
             Title <span className="text-sm text-gray-500">*</span>
           </h3>
           <input
@@ -167,7 +167,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
           />
         </div>
         <div>
-          <h3 className="text-gray-500 font-semibold mb-2">Brand</h3>
+          <h3 className="text-gray-500 font-semibold mb-2 text-lg">Brand</h3>
           <input
             value={input.brand}
             onChange={(e) =>
@@ -178,7 +178,9 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
           />
         </div>
         <div className="md:col-span-2">
-          <h3 className="text-gray-500 font-semibold mb-2">Describtion</h3>
+          <h3 className="text-gray-500 font-semibold mb-2 text-lg">
+            Describtion
+          </h3>
           <textarea
             value={input.description}
             onChange={(e) =>
@@ -193,7 +195,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
         </div>
       </section>
 
-      <h3 className="text-gray-500 font-semibold mb-2">
+      <h3 className="text-gray-500 font-semibold mb-2 text-lg">
         Catigory <span className="text-sm text-gray-500">*</span>
       </h3>
 
@@ -342,7 +344,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
         list={input.ingedients}
       />
 
-      <h3 className="text-gray-500 font-semibold mb-2">
+      <h3 className="text-gray-500 font-semibold mb-2 text-lg">
         {"Add the product's prices"}
         <span className="text-sm text-gray-500">*</span>
       </h3>
@@ -528,7 +530,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
           </div>
         </div>
       ))}
-      <h3 className="text-gray-500 font-semibold mb-2 mt-5">
+      <h3 className="text-gray-500 text-lg font-semibold mb-2 mt-5">
         Add Some of your {"product's"} images
         <span className="text-sm text-gray-500"> *</span>
       </h3>
@@ -575,7 +577,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
 
       <button
         type="submit"
-        className="bg-gray-600 text-white p-2 rounded-md w-full mt-4 hover:bg-gray-500 duration-150 flex items-center gap-2 justify-center"
+        className="bg-[#1c274c] hover:bg-[#2a3968]  text-white p-2 rounded-md w-full mt-4 duration-150 flex items-center gap-2 justify-center"
         disabled={loadingSubmit}
       >
         {id ? "Update" : "Post"}

@@ -15,21 +15,21 @@ async function Table({ page }: { page: number }) {
   const { count, products } = await res.json();
 
   return (
-    <div className="max-w-[50rem] mx-auto">
+    <div className="max-w-[73rem] mx-auto">
       <div className="flex justify-between items-center my-4">
         <h1 className="text-xl font-bold text-center">Manage Products</h1>
         <Pagin page={page} count={count} perpage={8} href="manageproducts" />
       </div>
-      <table className="bg-white shadow-md rounded-lg w-full">
+      <table className="bg-white shadow-md rounded-lg w-full text-sm md:text-base">
         <thead>
           <tr className="border-b">
-            <th className="p-4 text-sm font-semibold"></th>
-            <th className="p-4 text-sm font-semibold text-center">Product</th>
-            <th className="p-4 hidden md:table-cell text-sm font-semibold text-center">
+            <th className="p-4 font-semibold"></th>
+            <th className="p-4 font-semibold text-center">Product</th>
+            <th className="p-4 hidden md:table-cell font-semibold text-center">
               Brand
             </th>
-            <th className="p-4 text-sm font-semibold text-center">Stock</th>
-            <th className="p-4 text-sm font-semibold text-center">Actions</th>
+            <th className="p-4 font-semibold text-center">Stock</th>
+            <th className="p-4 font-semibold text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -53,18 +53,16 @@ async function Table({ page }: { page: number }) {
                   </div>
                 </td>
                 <td>
-                  <div className="flex items-center justify-center gap-2">
+                  <div className="flex items-center justify-evenly gap-2">
                     <LoadImage
                       Css="w-20 p-2 h-20 object-contain"
                       Url={product.image}
                     />
-                    <p className="text-sm">{product.title}</p>
+                    <p className="text-center">{product.title}</p>
                   </div>
                 </td>
-                <td className="hidden md:table-cell text-sm">
-                  {product.brand}
-                </td>
-                <td className="text-sm">{product.stock}</td>
+                <td className="hidden md:table-cell">{product.brand}</td>
+                <td>{product.stock}</td>
                 <td>
                   <Delete productId={product._id} />
                 </td>

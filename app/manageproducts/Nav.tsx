@@ -15,7 +15,7 @@ function Nav() {
 
   const pathname = usePathname();
   return (
-    <nav className="max-w-[50rem] mx-auto flex items-center gap-4 font-semibold text-xs text-gray-600 py-3 border-b ">
+    <nav className="max-w-[73rem] mx-auto flex items-center gap-4 md:text-base text-sm font-semibold text-gray-600 py-3 border-b">
       {navs.map((nav) => (
         <Link
           key={nav.link}

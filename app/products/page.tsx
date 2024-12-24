@@ -16,8 +16,8 @@ function Page({ searchParams }: { searchParams: QueriesProps }) {
     category: searchParams.category,
   };
   return (
-    <main className="bg-gray-100 py-2">
-      <div className="max-w-[50rem] mx-auto md:flex gap-3">
+    <main className="bg-gray-100 p-1">
+      <div className="max-w-[73rem] mx-auto md:flex gap-6">
         <div>
           <Filters queries={queries} />
         </div>

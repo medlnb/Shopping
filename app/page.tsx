@@ -3,15 +3,15 @@ import { Suspense } from "react";
 
 function Page() {
   const loading = (
-    <div className="flex flex-col md:grid  md:grid-cols-6  gap-4 gap-y-2">
+    <div className="flex flex-col md:grid  md:grid-cols-6  gap-4 gap-y-2 max-w-[73rem] mx-auto">
       <div
-        className={`row-span-2 col-span-4 h-72 w-full loading--background max-w-[50rem] mx-auto rounded-lg`}
+        className={`row-span-2 col-span-4 h-72 w-full loading--background max-w-[73rem] mx-auto rounded-lg`}
       />
       <div
-        className={`col-span-2 h-[8.7rem] w-full loading--background max-w-[50rem] mx-auto rounded-lg`}
+        className={`col-span-2 h-[8.7rem] w-full loading--background max-w-[73rem] mx-auto rounded-lg`}
       />
       <div
-        className={`col-span-2 h-[8.7rem] w-full loading--background max-w-[50rem] mx-auto rounded-lg`}
+        className={`col-span-2 h-[8.7rem] w-full loading--background max-w-[73rem] mx-auto rounded-lg`}
       />
     </div>
   );

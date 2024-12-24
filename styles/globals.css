@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.styles-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.styles-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -28,9 +38,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .loading--background {
-  background: linear-gradient(to right, #ffce6c, #171731);
-  background-size: 400% auto; /* Increased for smoother effect */
-  animation: gradientAnimation 3s ease infinite; /* Changed to ease for smoother transition */
+  background: linear-gradient(to right, #f3f4f6, #49494d);
+  background-size: 400% auto;
+  animation: gradientAnimation 3s ease infinite;
 }
 
 @keyframes gradientAnimation {
@@ -41,6 +51,6 @@ input[type="number"]::-webkit-outer-spin-button {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0% 50%; /* Loop back for a seamless animation */
+    background-position: 0% 50%;
   }
 }

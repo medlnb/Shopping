@@ -20,7 +20,7 @@ function ListManager({
   const [input, setInput] = useState("");
   return (
     <div className="flex-1 text-sm my-5">
-      <h3 className="text-gray-500 font-semibold mb-2">{title}</h3>
+      <h3 className="text-gray-500 font-semibold mb-2 text-lg">{title}</h3>
       <div className="flex items-center gap-2 my-2">
         <input
           value={input}

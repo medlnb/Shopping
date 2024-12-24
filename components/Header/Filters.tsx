@@ -37,7 +37,7 @@ function Filters() {
     >
       <div
         ref={containerRef}
-        className="max-w-[50rem] mx-auto flex items-center gap-4 flex-wrap font-semibold text-xs text-gray-600 relative"
+        className="max-w-[73rem] mx-auto flex items-center gap-2 md:gap-4 flex-wrap font-semibold text-sm md:text-base text-gray-600 relative"
       >
         <IoIosMore
           className={`md:hidden text-xl duration-150 ${

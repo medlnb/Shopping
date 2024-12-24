@@ -10,7 +10,7 @@ const MemberSchema = new Schema({
     required: true,
     default: false,
   },
-  email: {
+  phoneNumber: {
     type: String,
     required: true,
     unique: true,
@@ -24,7 +24,19 @@ const MemberSchema = new Schema({
   },
   verified: {
     type: Boolean,
-    default: false,
+    default: true,
+  },
+  cart: {
+    type: [
+      {
+        _id: { type: String, required: true },
+        varianceId: { type: String, required: true },
+        price: { type: Number, required: true },
+        quantity: { type: Number, required: true },
+      },
+    ],
+    required: true,
+    default: [],
   },
 });
 

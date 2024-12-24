@@ -1,13 +1,15 @@
 import Link from "next/link";
-import { CiSearch, CiUser, CiShoppingCart } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
 import { BsTelephone } from "react-icons/bs";
 import Filters from "./Filters";
+import User from "./User";
+import { Suspense } from "react";
 
 function Header() {
   return (
     <header className="fixed top-0 left-0 w-full bg-white z-20">
       <section className="border-b p-4">
-        <div className="max-w-[50rem] mx-auto">
+        <div className="max-w-[73rem] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3">
             <Link
               className="text-3xl font-bold text-start w-full md:w-auto"
@@ -29,25 +31,9 @@ function Header() {
                 </div>
               </div>
               <div className="h-6 w-[0.5px] bg-gray-400" />
-              <div className="flex items-center gap-2 cursor-pointer">
-                <CiUser size={20} />
-                <div>
-                  <p className="text-xs text-gray-400">Account</p>
-                  <p className="text-sm font-semibold">Log in</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <div className="relative">
-                  <CiShoppingCart size={20} />
-                  <p className="absolute -top-1.5 -right-1.5 bg-blue-500 text-white rounded-full w-4 h-4 flex justify-center items-center text-xs font-semibold">
-                    0
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400">Cart</p>
-                  <p className="text-sm font-semibold">0 $</p>
-                </div>
-              </div>
+              <Suspense fallback={<p>Loading</p>}>
+                <User />
+              </Suspense>
             </div>
           </div>
         </div>

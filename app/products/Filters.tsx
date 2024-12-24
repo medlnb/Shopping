@@ -43,7 +43,7 @@ function Filters({ queries }: { queries: QueriesProps }) {
   };
 
   return (
-    <aside className="sticky top-32 w-full md:w-48 pt-2">
+    <aside className="sticky top-32 w-full md:w-72 pt-2">
       <section
         className={`bg-white shadow-md ${
           isPending ? "rounded-b-md" : "rounded-md"
@@ -58,9 +58,9 @@ function Filters({ queries }: { queries: QueriesProps }) {
           }}
         />
         <div className="flex justify-between items-center p-4 py-2">
-          <p className="text-xs text-gray-600">Filters:</p>
+          <p className="text-gray-600">Filters:</p>
           <button
-            className="text-xs text-blue-700 disabled:text-blue-400"
+            className="text-sm text-blue-700 disabled:text-blue-400"
             onClick={() => startTransition(() => replace("/products"))}
             disabled={isPending}
           >
@@ -76,7 +76,7 @@ function Filters({ queries }: { queries: QueriesProps }) {
           isLoading={isPending}
         >
           {categories.map((category) => (
-            <div key={category.aisle} className="my-1 flex items-center gap-1">
+            <div key={category.aisle} className="my-1 flex items-center gap-2">
               <input
                 type="checkbox"
                 id={category.aisle}
@@ -92,7 +92,7 @@ function Filters({ queries }: { queries: QueriesProps }) {
               />
               <label
                 htmlFor={category.aisle}
-                className="text-xs font-medium text-gray-500 hover:text-blue-700 duration-200 cursor-pointer"
+                className="text-sm font-medium text-gray-500 hover:text-blue-700 duration-200 cursor-pointer"
               >
                 {category.aisle}
               </label>
@@ -104,14 +104,14 @@ function Filters({ queries }: { queries: QueriesProps }) {
           activated={!!queries.category}
           isLoading={isPending}
         >
-          <div className="px-2 mb-1">
+          <div className="px-3 mb-1">
             <Slider
               disabled={isPending}
               sx={{
-                "--Slider-trackSize": "0.5px",
-                "--Slider-thumbSize": "0.8rem",
+                "--Slider-trackSize": "1px",
+                "--Slider-thumbSize": "1rem",
                 "& .MuiSlider-markLabel": {
-                  fontSize: "0.7rem",
+                  fontSize: "1rem",
                 },
               }}
               step={100}
@@ -137,7 +137,7 @@ function Filters({ queries }: { queries: QueriesProps }) {
               ]}
             />
           </div>
-          <div className="flex justify-between items-center gap-0.5 text-xs text-gray-700">
+          <div className="flex justify-between items-center gap-0.5 text-gray-700 mt-4 flex-wrap">
             <div className="flex items-center justify-between border border-gray-400 rounded-[4px] px-1">
               <p className="border-r border-gray-400 p-1 px-0.5">Dzd</p>
               <p className="px-0.5">{selectedPrice.from}</p>
@@ -155,7 +155,7 @@ function Filters({ queries }: { queries: QueriesProps }) {
               })
             }
             disabled={isPending}
-            className="w-full bg-blue-700 hover:bg-blue-600 disabled:bg-blue-400 text-white text-xs py-1 mt-2 rounded-md relative"
+            className="w-full bg-blue-700 hover:bg-blue-600 disabled:bg-blue-400 text-white py-1 mt-2 rounded-md relative"
           >
             Filter
           </button>
@@ -178,7 +178,7 @@ const Filter = ({
   children: ReactNode;
   isLoading: boolean;
 }) => {
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
 
   return (
     <section className={isLoading ? "opacity-70 pointer-events-none" : ""}>
@@ -188,11 +188,9 @@ const Filter = ({
         } ${activated ? "border border-gray-300" : ""}`}
         onClick={() => setToggle(!toggle)}
       >
-        <p className="text-xs text-gray-800">{title}</p>
+        <p className="text-gray-800">{title}</p>
         <IoIosArrowDown
-          className={`text-xs text-blue-700 ${
-            toggle ? "rotate-180" : ""
-          } duration-200`}
+          className={`text-blue-700 ${toggle ? "rotate-180" : ""} duration-200`}
         ></IoIosArrowDown>
       </div>
       {toggle && (
