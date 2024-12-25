@@ -37,7 +37,7 @@ async function Page({
 
   return (
     <main>
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-16 py-10 max-w-[72rem] mx-auto p-1">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-16 p-2 py-10 max-w-[72rem] mx-auto">
         <div className="flex-1">
           <Images images={product.images} />
         </div>
@@ -70,7 +70,7 @@ async function Page({
         </div>
       </section>
 
-      <section className="bg-gray-100 py-8">
+      <section className="bg-gray-100 p-2 py-8">
         <div className="max-w-[72rem] mx-auto">
           {product.description && (
             <>

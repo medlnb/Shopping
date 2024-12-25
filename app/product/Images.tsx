@@ -10,12 +10,12 @@ function Images({ images }: { images: string[] }) {
         Url={selectedImage}
         Css="p-8 h-96 w-full object-contain bg-gray-100 rounded-lg"
       />
-      <div className="flex gap-2 mt-2 overflow-auto styles-scrollbar pb-2">
+      <div className="flex gap-2 mt-2 overflow-auto styles-scrollbar py-2">
         {images.map((img) => (
           <div key={img} onClick={() => setSelectedImage(img)}>
             <LoadImageClient
               Url={img}
-              Css={`md:h-20 md:min-w-24 h-12 min-w-16 rounded-md object-contain cursor-pointer ${
+              Css={`md:h-20 md:min-w-24 h-16 min-w-16 rounded-md object-contain cursor-pointer ${
                 img === selectedImage
                   ? "border-2 border-blue-500"
                   : "hover:border-blue-200"

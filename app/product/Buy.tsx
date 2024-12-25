@@ -81,7 +81,7 @@ function Buy({
 
   return (
     <div>
-      <div className="h-48 overflow-y-auto overflow-x-visible styles-scrollbar pr-4">
+      <div className="md:max-h-56 overflow-y-auto overflow-x-visible styles-scrollbar pr-4 mt-2">
         {variances.map((variance) => (
           <div
             key={variance._id}
