@@ -1,4 +1,3 @@
-import { NextRequest } from "next/server";
 import { connectToDatabase } from "@utils/database";
 import { getServerSession } from "next-auth";
 import { options } from "../auth/[...nextauth]/options";
@@ -7,7 +6,7 @@ import "@models/product";
 import Product from "@models/product";
 import Order from "@models/order";
 
-export const POST = async (req: NextRequest) => {
+export const POST = async () => {
   try {
     await connectToDatabase();
     const session = await getServerSession(options);
