@@ -17,7 +17,7 @@ async function Table({ page }: { page: number }) {
   return (
     <div className="max-w-[73rem] mx-auto">
       <div className="flex justify-between items-center my-4">
-        <h1 className="text-xl font-bold text-center">Manage Products</h1>
+        <h1 className="text-2xl font-bold text-center">Manage Products</h1>
         <Pagin page={page} count={count} perpage={8} href="manageproducts" />
       </div>
       <table className="bg-white shadow-md rounded-lg w-full text-sm md:text-base">

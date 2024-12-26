@@ -2,6 +2,8 @@
 import { CartContext } from "@contexts/CartContext";
 import { useContext, useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
+import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 
 interface Variance {
   _id: string;
@@ -34,13 +36,14 @@ function Buy({
         quantity:
           cart.find(
             (item) =>
-              item._id === productId && item.varianceId === variances[0]._id
+              item.product._id === productId &&
+              item.varianceId === variances[0]._id
           )?.quantity ?? 0,
       });
   }, [cart]);
 
   const addToCart = async () => {
-    if (!setCart) return;
+    if (!setCart || !buy.quantity) return;
     setLoading(true);
     const res = await fetch(`/api/cart`, {
       method: "POST",
@@ -48,7 +51,7 @@ function Buy({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        _id: productId,
+        product: productId,
         price: buy.variance.price,
         varianceId: buy.variance._id,
         quantity: buy.quantity,
@@ -58,18 +61,30 @@ function Buy({
     if (!res.ok) return;
 
     setCart((prev) => {
-      if (!prev) return [];
+      if (!prev) return undefined;
 
       const updatedCart = [...prev];
       const existingItemIndex = updatedCart.findIndex(
-        (item) => item._id === productId && item.varianceId === buy.variance._id
+        (item) =>
+          item.product._id === productId && item.varianceId === buy.variance._id
       );
 
       if (existingItemIndex !== -1)
         updatedCart[existingItemIndex].quantity = buy.quantity;
       else
         updatedCart.push({
-          _id: productId,
+          _id: uuidv4(),
+          product: {
+            _id: productId,
+            title: "",
+            images: [],
+            variances: variances.map((variance) => ({
+              _id: variance._id,
+              quantity: variance.quantity,
+              unit: variance.unit,
+              info: variance.info,
+            })),
+          },
           price: buy.variance.price,
           varianceId: buy.variance._id,
           quantity: buy.quantity,
@@ -77,6 +92,7 @@ function Buy({
 
       return updatedCart;
     });
+    toast.success("Item added to cart");
   };
 
   return (
@@ -94,7 +110,8 @@ function Buy({
               if (!variance.stock) return;
               const item = cart?.find(
                 (item) =>
-                  item._id === productId && item.varianceId === variance._id
+                  item.product._id === productId &&
+                  item.varianceId === variance._id
               );
               if (item) setBuy({ variance, quantity: item.quantity });
               else setBuy({ variance, quantity: 0 });

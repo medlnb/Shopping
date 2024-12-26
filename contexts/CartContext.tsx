@@ -9,6 +9,17 @@ import {
 
 interface Cart {
   _id: string;
+  product: {
+    _id: string;
+    title: string;
+    images: string[];
+    variances: {
+      _id: string;
+      quantity: number;
+      unit: string;
+      info?: string;
+    }[];
+  };
   price: number;
   varianceId: string;
   quantity: number;
@@ -23,7 +34,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<Cart[]>();
   useEffect(() => {
     const getCart = async () => {
-      const res = await fetch(`/api/cart`);
+      const res = await fetch(`/api/cart`, {
+        cache: "no-cache",
+      });
       if (!res.ok) return;
       const { cart }: { cart: Cart[] } = await res.json();
       setCart(cart);

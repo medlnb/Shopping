@@ -29,7 +29,11 @@ const MemberSchema = new Schema({
   cart: {
     type: [
       {
-        _id: { type: String, required: true },
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
         varianceId: { type: String, required: true },
         price: { type: Number, required: true },
         quantity: { type: Number, required: true },
