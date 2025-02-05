@@ -60,11 +60,8 @@ export const POST = async (req: NextRequest) => {
         item.product.toString() === product && item.varianceId === varianceId
     );
 
-    if (existingItemIndex !== -1) {
-      cart[existingItemIndex].quantity = quantity;
-    } else {
-      cart.push({ product, price, varianceId, quantity });
-    }
+    if (existingItemIndex !== -1) cart[existingItemIndex].quantity = quantity;
+    else cart.push({ product, price, varianceId, quantity });
 
     user.cart = cart;
     await user.save();

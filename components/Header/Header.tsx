@@ -8,7 +8,7 @@ import { Suspense } from "react";
 function Header() {
   return (
     <header className="fixed top-0 left-0 w-full bg-white z-20">
-      <section className="border-b p-4">
+      <section className="border-b border-gray-100 p-4">
         <div className="max-w-[73rem] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3">
             <Link
@@ -23,13 +23,16 @@ function Header() {
             </div>
 
             <div className="flex items-center justify-center gap-4 w-full md:w-auto">
-              <div className="flex items-center gap-2 cursor-pointer">
+              <Link
+                href="/contact"
+                className="flex items-center gap-2 cursor-pointer"
+              >
                 <BsTelephone size={20} />
                 <div>
                   <p className="text-xs text-gray-400">Support</p>
                   <p className="text-sm font-semibold">+213 549 773 117</p>
                 </div>
-              </div>
+              </Link>
               <div className="h-6 w-[0.5px] bg-gray-400" />
               <Suspense fallback={<p>Loading</p>}>
                 <User />

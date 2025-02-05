@@ -6,7 +6,7 @@ import { FaTrash } from "react-icons/fa6";
 import { GoStarFill, GoStar } from "react-icons/go";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
-import Categories from "@data/categories.json";
+import Categories from "@data/categories";
 import Select from "@mui/joy/Select";
 import Option, { optionClasses } from "@mui/joy/Option";
 import Chip from "@mui/joy/Chip";

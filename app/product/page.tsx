@@ -66,7 +66,12 @@ async function Page({
               </b>
             );
           })()}
-          <Buy productId={product._id} variances={product.variances} />
+          <Buy
+            productId={product._id}
+            variances={product.variances}
+            mainImage={product.images[0]}
+            title={product.title}
+          />
         </div>
       </section>
 

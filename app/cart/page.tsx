@@ -85,12 +85,12 @@ function Page() {
   };
 
   return (
-    <main className="bg-gray-100 py-6">
+    <main className="bg-gray-100 py-2 md:py-0">
       <div className="mx-auto max-w-[72rem] p-2">
-        <section className="bg-white flex-1 shadow-md rounded-lg ml-auto pb-4 mb-4 md:mb-0">
-          <h1 className="p-4 md:p-6 border-b text-lg text-[#2e385a] font-semibold">
-            My Cart
-          </h1>
+        <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
+          My Cart
+        </h1>
+        <section className="bg-white flex-1 shadow-md rounded-lg ml-auto pb-2">
           <table className="w-full text-xs md:text-base">
             <thead>
               <tr className="border-b">
@@ -191,12 +191,13 @@ function Page() {
             </tbody>
           </table>
         </section>
-        <div className="mt-4 md:flex block gap-4">
-          <section className="bg-white flex-1 shadow-md rounded-lg ml-auto pb-4 mb-4 md:mb-0">
-            <h1 className="p-4 md:p-6 border-b text-lg text-[#2e385a] font-semibold">
+        <div className="h-0.5 w-full rounded-full bg-gray-200 mt-8" />
+        <section className="md:flex block gap-4">
+          <section className="h-full flex-1 mb-4 md:mb-0">
+            <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
               My Orders
             </h1>
-            <table className="w-full text-xs md:text-base">
+            <table className="shadow-md rounded-lg pb-2 bg-white w-full text-xs md:text-base">
               <thead>
                 <tr className="border-b">
                   <th className="p-4 font-semibold text-center">Product</th>
@@ -241,11 +242,11 @@ function Page() {
                 )}
                 {orders?.map((order) => (
                   <tr className="text-center border-t relative" key={order._id}>
-                    <td>
+                    <td className="p-2">
                       <b>{order.product.title}</b>
                     </td>
                     <td>
-                      <div>
+                      <div className="text-sm">
                         <p>
                           {order.variance.quantity} {order.variance.unit}
                         </p>
@@ -259,7 +260,7 @@ function Page() {
                     </td>
                     <td>
                       <p
-                        className={`${
+                        className={`text-sm ${
                           order.stat === "pending"
                             ? "text-yellow-600"
                             : order.stat === "canceled"
@@ -275,12 +276,12 @@ function Page() {
               </tbody>
             </table>
           </section>
-          <section className="bg-white w-full md:w-96 shadow-md rounded-lg ml-auto ">
-            <h1 className="p-4 md:p-6 border-b text-lg text-[#2e385a] font-semibold">
+          <section className="w-full md:w-96">
+            <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
               Order Summary
             </h1>
-            <div>
-              <div className="p-6 border-b">
+            <div className="bg-white shadow-md rounded-lg text-xs md:text-base">
+              <div className="p-4 border-b">
                 <p className="flex justify-between">
                   <span>Subtotal</span>
                   <span>
@@ -303,7 +304,7 @@ function Page() {
                   </span>
                 </p>
               </div>
-              <div className="p-6 border-b">
+              <div className="p-4 border-b">
                 <p className="flex justify-between">
                   <span>Total</span>
                   <span>
@@ -320,7 +321,7 @@ function Page() {
                   </span>
                 </p>
               </div>
-              <div className="p-6">
+              <div className="p-4">
                 <button
                   className="w-full bg-[#1c274c] hover:bg-[#36467a] duration-200 text-white p-2 rounded-lg flex gap-2 justify-center items-center"
                   onClick={HandleCheckout}
@@ -334,7 +335,7 @@ function Page() {
               </div>
             </div>
           </section>
-        </div>
+        </section>
       </div>
     </main>
   );

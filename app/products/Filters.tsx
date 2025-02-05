@@ -1,7 +1,7 @@
 "use client";
 import { ReactNode, useState, useTransition } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import categories from "@data/categories.json";
+import categories from "@data/categories";
 import { useRouter } from "next/navigation";
 import { Slider } from "@mui/joy";
 import { BarLoader } from "react-spinners";

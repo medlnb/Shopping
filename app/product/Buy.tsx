@@ -16,9 +16,13 @@ interface Variance {
 }
 
 function Buy({
+  title,
+  mainImage,
   productId,
   variances,
 }: {
+  title: string;
+  mainImage: string;
   productId: string;
   variances: Variance[];
 }) {
@@ -76,8 +80,8 @@ function Buy({
           _id: uuidv4(),
           product: {
             _id: productId,
-            title: "",
-            images: [],
+            title,
+            images: [mainImage],
             variances: variances.map((variance) => ({
               _id: variance._id,
               quantity: variance.quantity,
