@@ -48,29 +48,29 @@ function Signup() {
     <main className="max-w-[30rem] mx-auto bg-white p-4 md:p-10 rounded-lg">
       <form onSubmit={handleSubmit}>
         <h2 className="text-xl text-center font-bold">Create an Account</h2>
-        <h3 className="text-gray-400 text-center font-semibold ">
+        <h3 className="text-gray-4 text-center font-semibold ">
           Please enter your details
         </h3>
-        <h4 className="pl-1 text-sm mt-4 text-gray-700">Say your name</h4>
+        <h4 className="pl-1 text-sm mt-4 text-gray-7">Say your name</h4>
         <input
-          className={`p-3 border duration-200  bg-gray-100 rounded-md text-black w-full focus:outline-none text-sm ${
+          className={`p-3 border duration-2  bg-gray-1 rounded-md text-black w-full focus:outline-none text-sm ${
             touched.name && errors.name ? "border-red-400" : "border-[#979aa8]"
           }`}
           id="name"
           {...getFieldProps("name")}
         />
         <p
-          className={`text-xs text-red-400 ${
+          className={`text-xs text-red-4 ${
             touched.name && errors.name ? "visible" : "invisible"
           }`}
         >
           {errors.name} !
         </p>
-        <h4 className="pl-1 text-sm text-gray-700">Phone Number</h4>
+        <h4 className="pl-1 text-sm text-gray-7">Phone Number</h4>
         <div
-          className={`p-3 border duration-200 bg-gray-100 rounded-md text-black w-full text-sm flex items-center ${
+          className={`p-3 border duration-2 bg-gray-1 rounded-md text-black w-full text-sm flex items-center ${
             touched.phoneNumber && errors.phoneNumber
-              ? "border-red-400"
+              ? "border-red-4"
               : "border-[#979aa8]"
           }`}
         >
@@ -84,22 +84,22 @@ function Signup() {
             id="phoneNumber"
             {...getFieldProps("phoneNumber")}
             type="number"
-            className="focus:outline-none bg-gray-100 flex-1"
+            className="focus:outline-none bg-gray-1 flex-1"
           />
         </div>
 
         <p
-          className={`text-xs text-red-400 ${
+          className={`text-xs text-red-4 ${
             touched.phoneNumber && errors.phoneNumber ? "visible" : "invisible"
           }`}
         >
           {errors.phoneNumber} !
         </p>
-        <h4 className="pl-1 text-sm text-gray-700">Password</h4>
+        <h4 className="pl-1 text-sm text-gray-7">Password</h4>
         <input
-          className={`p-3 border duration-200  bg-gray-100 rounded-md text-black w-full focus:outline-none text-sm ${
+          className={`p-3 border duration-200  bg-gray-1 rounded-md text-black w-full focus:outline-none text-sm ${
             touched.password && errors.password
-              ? "border-red-400"
+              ? "border-red-4"
               : "border-[#979aa8]"
           }`}
           type="password"
@@ -107,7 +107,7 @@ function Signup() {
           {...getFieldProps("password")}
         />
         <p
-          className={`text-xs text-red-400  ${
+          className={`text-xs text-red-4  ${
             touched.password && errors.password ? "visible" : "invisible"
           }`}
         >
@@ -115,12 +115,12 @@ function Signup() {
           {errors.password} !
         </p>
 
-        <h4 className="pl-1 text-sm text-gray-700">Re-type Password</h4>
+        <h4 className="pl-1 text-sm text-gray-7">Re-type Password</h4>
 
         <input
-          className={`p-3 border duration-200  bg-gray-100 rounded-md text-black w-full focus:outline-none text-sm ${
+          className={`p-3 border duration-200  bg-gray-1 rounded-md text-black w-full focus:outline-none text-sm ${
             touched.confirmPassword && errors.confirmPassword
-              ? "border-red-400"
+              ? "border-red-4"
               : "border-[#979aa8]"
           }`}
           type="password"
@@ -128,7 +128,7 @@ function Signup() {
           {...getFieldProps("confirmPassword")}
         />
         <p
-          className={`text-xs text-red-400  ${
+          className={`text-xs text-red-4  ${
             touched.confirmPassword && errors.confirmPassword
               ? "visible"
               : "invisible"
@@ -145,7 +145,7 @@ function Signup() {
           }
           className={`p-3 flex items-center justify-center hover:bg-[#324585] duration-150  gap-2 rounded-md w-full mt-2 text-white ${
             isSubmitting || !(Object.keys(touched).length === 4 && isValid)
-              ? "bg-gray-400"
+              ? "bg-gray-4"
               : "bg-[#1c274c]"
           }`}
         >
@@ -160,14 +160,14 @@ function Signup() {
         <div className="w-full bg-gray-400 h-0.5 my-4" />
       </div>
       <button
-        className="p-3 rounded-md w-full bg-gray-300 text-gray-700 border border-gray-200 flex items-center justify-center gap-2 text-sm cursor-not-allowed"
+        className="p-3 rounded-md w-full bg-gray-3 text-gray-7 border border-gray-2 flex items-center justify-center gap-2 text-sm cursor-not-allowed"
         onClick={() => signIn("google", { callbackUrl: "/" })}
         disabled={true}
       >
         <FaGoogle />
         Sign up with google
       </button>
-      <div className="text-sm text-gray-700">
+      <div className="text-sm text-gray-7">
         already have an account?!{" "}
         <Link href="/login" className="font-semibold underline">
           Log in

@@ -107,8 +107,8 @@ function Buy({
             key={variance._id}
             className={`border cursor-pointer duration-150 rounded-md p-1 px-2 mt-2 relative ${
               buy.variance._id === variance._id
-                ? "bg-blue-100  border-blue-600"
-                : "hover:bg-gray-200 hover:border-gray-600 border-gray-400 bg-gray-100"
+                ? "bg-blue-1  border-blue-6"
+                : "hover:bg-gray-2 hover:border-gray-6 border-gray-4 bg-gray-1"
             }`}
             onClick={() => {
               if (!variance.stock) return;
@@ -123,22 +123,22 @@ function Buy({
           >
             <p
               className={`absolute -top-2 -right-2 rounded-full p-0.5 text-white flex items-center justify-center text-sm px-2 ${
-                variance.stock ? "bg-blue-600" : "bg-red-500"
+                variance.stock ? "bg-blue" : "bg-red"
               }`}
             >
               {variance.stock ? variance.stock + " left" : "Out of stock"}
             </p>
-            <p className="text-lg font-semibold text-gray-600">
+            <p className="text-lg font-semibold text-gray-6">
               {variance.quantity} {variance.unit} -
               <b className="text-[#1c274c]"> {variance.price} Dzd</b>
             </p>
-            <p className="text-gray-500">{variance.info}</p>
+            <p className="text-gray-5">{variance.info}</p>
           </div>
         ))}
       </div>
       <div className="flex mt-2">
         <button
-          className="border border-gray-300 p-3 rounded-l-md px-4 hover:bg-gray-200 duration-150"
+          className="border border-gray-3 p-3 rounded-l-md px-4 hover:bg-gray-2 duration-150"
           onClick={() => {
             if (buy.quantity === 1) return;
             setBuy((prev) => ({ ...prev, quantity: prev.quantity - 1 }));
@@ -146,11 +146,11 @@ function Buy({
         >
           -
         </button>
-        <p className="border border-gray-300 p-3 w-16 text-center">
+        <p className="border border-gray-3 p-3 w-16 text-center">
           {buy.quantity}
         </p>
         <button
-          className="border border-gray-300 p-3  rounded-r-md px-4 hover:bg-gray-200 duration-150"
+          className="border border-gray-3 p-3  rounded-r-md px-4 hover:bg-gray-2 duration-150"
           onClick={() => {
             if (buy.quantity >= buy.variance.stock) return;
             setBuy((prev) => ({ ...prev, quantity: prev.quantity + 1 }));

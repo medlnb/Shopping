@@ -6,6 +6,7 @@ declare module "next-auth" {
     name: string;
     phoneNumber: string;
     image: string;
+    isAdmin?: boolean;
   }
 
   interface Session {
@@ -13,6 +14,7 @@ declare module "next-auth" {
       name: string;
       phoneNumber: string;
       image?: string;
+      isAdmin?: boolean;
     } & DefaultSession["user"];
   }
 }
@@ -22,5 +24,6 @@ declare module "next-auth/jwt" {
     name: string;
     phoneNumber: string;
     image?: string;
+    isAdmin?: boolean;
   }
 }

@@ -109,9 +109,9 @@ function Login() {
           disabled={
             isSubmitting || !(Object.keys(touched).length === 2 && isValid)
           }
-          className={`p-3 flex items-center justify-center hover:bg-[#324585] duration-150  gap-2 rounded-md w-full mt-2 text-sm text-white ${
+          className={`p-3 flex items-center justify-center hover:bg-[#324585] cursor-pointer duration-150  gap-2 rounded-md w-full mt-2 text-sm text-white ${
             isSubmitting || !(Object.keys(touched).length === 2 && isValid)
-              ? "bg-gray-400"
+              ? "bg-gray-4"
               : "bg-[#1c274c]"
           }`}
         >
@@ -125,7 +125,7 @@ function Login() {
         <div className="w-full bg-gray-400 h-0.5 my-4" />
       </div>
       <button
-        className="p-3 rounded-md w-full bg-gray-300 text-gray-700 border border-gray-200 flex items-center justify-center gap-2 text-sm cursor-not-allowed"
+        className="p-3 rounded-md w-full bg-gray-3 text-gray-7 border border-gray-2 flex items-center justify-center gap-2 text-sm cursor-not-allowed"
         onClick={() => signIn("google", { callbackUrl: "/" })}
         disabled={true}
       >

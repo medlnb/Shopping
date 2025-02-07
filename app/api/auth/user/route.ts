@@ -1,0 +1,59 @@
+import Member from "@models/member";
+import { connectToDatabase } from "@utils/database";
+import { NextRequest } from "next/server";
+import { getServerSession } from "next-auth";
+import { options } from "../[...nextauth]/options";
+
+export const GET = async () => {
+  try {
+    await connectToDatabase();
+    const session = await getServerSession(options);
+
+    const user = await Member.findOne({
+      phoneNumber: session?.user.phoneNumber,
+    }).select("name phoneNumber address");
+
+    if (!user)
+      return new Response(JSON.stringify({ err: "No User found" }), {
+        status: 401,
+      });
+
+    return new Response(JSON.stringify({ user }), {
+      status: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    return new Response(JSON.stringify({ err }), {
+      status: 500,
+    });
+  }
+};
+
+export const PATCH = async (req: NextRequest) => {
+  try {
+    await connectToDatabase();
+    const session = await getServerSession(options);
+    const user = await Member.findOne({
+      phoneNumber: session?.user.phoneNumber,
+    }).select("name phoneNumber address");
+    if (!user || !session)
+      return new Response(JSON.stringify({ err: "No User found" }), {
+        status: 401,
+      });
+
+    const { name, phoneNumber, address } = await req.json();
+    user.name = name;
+    user.phoneNumber = phoneNumber;
+    user.address = address;
+    await user.save();
+
+    return new Response(JSON.stringify({ user }), {
+      status: 200,
+    });
+  } catch (err) {
+    console.log(err);
+    return new Response(JSON.stringify({ err }), {
+      status: 500,
+    });
+  }
+};

@@ -28,6 +28,7 @@ export const options: NextAuthOptions = {
             name: user.name,
             phoneNumber: user.phoneNumber,
             image: user.image,
+            isAdmin: user.admin,
           };
         else throw new Error("Wrong password");
       },
@@ -35,14 +36,22 @@ export const options: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.phoneNumber = user.phoneNumber;
+    async jwt({ token, trigger, user, session }) {
+      if (trigger === "update") {
+        token.name = session.name;
+        token.phoneNumber = session.phoneNumber;
+      }
+      if (user) {
+        token.phoneNumber = user.phoneNumber;
+        token.isAdmin = user.isAdmin;
+      }
       return token;
     },
     async session({ session, token }) {
       session.user = {
         ...session.user,
         phoneNumber: token.phoneNumber,
+        isAdmin: token.isAdmin,
       };
       return session;
     },

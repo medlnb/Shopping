@@ -61,7 +61,7 @@ async function Page({
             const maxPrice = Math.max(...prices);
             const minPrice = Math.min(...prices);
             return (
-              <b className="text-xl font-bold mt-8 text-gray-800">
+              <b className="text-xl font-bold mt-8 text-gray-8">
                 Prices: {minPrice} Dzd - {maxPrice} Dzd
               </b>
             );

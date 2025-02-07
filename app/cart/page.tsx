@@ -52,7 +52,6 @@ interface Order {
 
 function Page() {
   const [loading, setLoading] = useState(false);
-  const [orders, setOrders] = useState<Order[]>();
   const { cart, setCart } = useContext(CartContext);
   const toPriceForm = (price?: number) =>
     price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? 0;
@@ -61,8 +60,6 @@ function Page() {
     const getOrders = async () => {
       const res = await fetch("/api/order");
       if (!res.ok) return;
-      const { orders } = await res.json();
-      setOrders(orders);
     };
     getOrders();
   }, [cart]);
@@ -192,149 +189,60 @@ function Page() {
           </table>
         </section>
         <div className="h-0.5 w-full rounded-full bg-gray-200 mt-8" />
-        <section className="md:flex block gap-4">
-          <section className="h-full flex-1 mb-4 md:mb-0">
-            <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
-              My Orders
-            </h1>
-            <table className="shadow-md rounded-lg pb-2 bg-white w-full text-xs md:text-base">
-              <thead>
-                <tr className="border-b">
-                  <th className="p-4 font-semibold text-center">Product</th>
-                  <th className="p-4 font-semibold hidden md:table-cell">
-                    variance
-                  </th>
-                  <th className="p-4 font-semibold text-center">price</th>
-                  <th className="p-4 font-semibold text-center">stat</th>
-                </tr>
-              </thead>
-              <tbody>
-                {!orders && (
-                  <tr className="text-center border-t relative p-6">
-                    <td>
-                      <div className="h-4 w-20 md:w-36 rounded-md mx-auto loading--background my-6" />
-                    </td>
-                    <td>
-                      <div className="h-4 w-20 md:w-36 rounded-md mx-auto loading--background" />
-                    </td>
-                    <td className="hidden md:table-cell">
-                      <div className="h-4 w-32 rounded-md mx-auto loading--background" />
-                    </td>
-                    <td>
-                      <div className="h-4 w-14 md:w-24 rounded-md mx-auto loading--background" />
-                    </td>
-                  </tr>
-                )}
-                {orders?.length === 0 && (
-                  <tr className="text-center relative">
-                    <td colSpan={5} className=" p-6">
-                      <span>
-                        Your no orders bro, maybe check our{" "}
-                        <Link
-                          href="/products"
-                          className="underline font-semibold"
-                        >
-                          products
-                        </Link>
-                      </span>
-                    </td>
-                  </tr>
-                )}
-                {orders?.map((order) => (
-                  <tr className="text-center border-t relative" key={order._id}>
-                    <td className="p-2">
-                      <b>{order.product.title}</b>
-                    </td>
-                    <td>
-                      <div className="text-sm">
-                        <p>
-                          {order.variance.quantity} {order.variance.unit}
-                        </p>
-                        <p className="text-gray-500">{order.variance.info}</p>
-                      </div>
-                    </td>
-                    <td className="hidden md:table-cell">
-                      <p>
-                        {order.quantity} x <b>{toPriceForm(order.price)} Dzd</b>
-                      </p>
-                    </td>
-                    <td>
-                      <p
-                        className={`text-sm ${
-                          order.stat === "pending"
-                            ? "text-yellow-600"
-                            : order.stat === "canceled"
-                            ? "text-red-600"
-                            : ""
-                        }`}
-                      >
-                        {order.stat}
-                      </p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
-          <section className="w-full md:w-96">
-            <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
-              Order Summary
-            </h1>
-            <div className="bg-white shadow-md rounded-lg text-xs md:text-base">
-              <div className="p-4 border-b">
-                <p className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>
-                    <b>
-                      {toPriceForm(
-                        cart?.reduce(
-                          (acc, product) =>
-                            acc + product.price * product.quantity,
-                          0
-                        )
-                      )}{" "}
-                    </b>
-                    Dzd
-                  </span>
-                </p>
-                <p className="flex justify-between">
-                  <span>Shipping</span>
-                  <span>
-                    <b>Free</b>
-                  </span>
-                </p>
-              </div>
-              <div className="p-4 border-b">
-                <p className="flex justify-between">
-                  <span>Total</span>
-                  <span>
-                    <b>
-                      {toPriceForm(
-                        cart?.reduce(
-                          (acc, product) =>
-                            acc + product.price * product.quantity,
-                          0
-                        )
-                      )}{" "}
-                    </b>
-                    Dzd
-                  </span>
-                </p>
-              </div>
-              <div className="p-4">
-                <button
-                  className="w-full bg-[#1c274c] hover:bg-[#36467a] duration-200 text-white p-2 rounded-lg flex gap-2 justify-center items-center"
-                  onClick={HandleCheckout}
-                >
-                  {loading ? (
-                    <MoonLoader size={19} color="white " />
-                  ) : (
-                    "Checkout"
-                  )}
-                </button>
-              </div>
+        <section className="ml-auto w-full md:w-96">
+          <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
+            Order Summary
+          </h1>
+          <div className="bg-white shadow-md rounded-lg text-xs md:text-base">
+            <div className="p-4 border-b">
+              <p className="flex justify-between">
+                <span>Subtotal</span>
+                <span>
+                  <b>
+                    {toPriceForm(
+                      cart?.reduce(
+                        (acc, product) =>
+                          acc + product.price * product.quantity,
+                        0
+                      )
+                    )}{" "}
+                  </b>
+                  Dzd
+                </span>
+              </p>
+              <p className="flex justify-between">
+                <span>Shipping</span>
+                <span>
+                  <b>Free</b>
+                </span>
+              </p>
             </div>
-          </section>
+            <div className="p-4 border-b">
+              <p className="flex justify-between">
+                <span>Total</span>
+                <span>
+                  <b>
+                    {toPriceForm(
+                      cart?.reduce(
+                        (acc, product) =>
+                          acc + product.price * product.quantity,
+                        0
+                      )
+                    )}{" "}
+                  </b>
+                  Dzd
+                </span>
+              </p>
+            </div>
+            <div className="p-4">
+              <button
+                className="w-full bg-[#1c274c] hover:bg-[#36467a] duration-200 text-white p-2 rounded-lg flex gap-2 justify-center items-center"
+                onClick={HandleCheckout}
+              >
+                {loading ? <MoonLoader size={19} color="white " /> : "Checkout"}
+              </button>
+            </div>
+          </div>
         </section>
       </div>
     </main>

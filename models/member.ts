@@ -22,6 +22,19 @@ const MemberSchema = new Schema({
   password: {
     type: String,
   },
+  address: {
+    type: {
+      state: {
+        type: Number,
+        required: true,
+      },
+      city: {
+        type: Number,
+        required: true,
+      },
+      homeAddress: { type: String, required: true },
+    },
+  },
   verified: {
     type: Boolean,
     default: true,
