@@ -31,25 +31,6 @@ interface Cart {
   quantity: number;
 }
 
-interface Order {
-  _id: string;
-  costumer: string;
-  variance: {
-    _id: string;
-    quantity: number;
-    unit: string;
-    info?: string;
-  };
-  quantity: number;
-  product: {
-    title: string;
-    _id: string;
-  };
-  price: number;
-  stat: "pending" | "completed" | "canceled";
-  createdAt: Date;
-}
-
 function Page() {
   const [loading, setLoading] = useState(false);
   const { cart, setCart } = useContext(CartContext);

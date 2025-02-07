@@ -22,7 +22,7 @@ async function NewArrivals() {
     <section className="max-w-[73rem] mx-auto my-8">
       <div className="flex justify-between items-center">
         <div>
-          <p className="text-sm text-[#2c3659]">This Week's</p>
+          <p className="text-sm text-[#2c3659]">{"This Week's"}</p>
           <b className="text-2xl text-[#1c274c]">New Arrivals</b>
         </div>
         <button className="bg-gray-100 px-4 p-2 rounded-md hover:bg-gray-200 transition-all duration-300 ">
