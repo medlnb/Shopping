@@ -65,14 +65,14 @@ export const POST = async (req: NextRequest) => {
       });
 
     const {
-      id,
+      // id,
       title,
       description,
-      brand,
+      // brand,
       category,
-      images,
+      // images,
       variances,
-      ingedients,
+      // ingedients,
     } = await req.json();
 
     const newProduct = await client.createProduct({

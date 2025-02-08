@@ -1,7 +1,5 @@
 import EmptyState from "@components/EmptyState";
-import LoadImage from "@components/LoadImage";
 import Pagin from "@components/Pagin";
-import Image from "next/image";
 import Link from "next/link";
 
 interface QueriesProps {

@@ -30,6 +30,7 @@ export const POST = async (req: NextRequest) => {
     console.log(
       "Something happened while trying to process the request to the webhook"
     );
+    console.log(error);
     return new Response(
       JSON.stringify({
         message:
