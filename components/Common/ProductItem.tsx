@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import LoadImage from "@components/LoadImage";
 import starIcon from "@public/icons/icon-star.svg";
 
 interface Product {

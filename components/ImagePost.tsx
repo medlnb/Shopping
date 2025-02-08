@@ -2,7 +2,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { LuImagePlus, LuImageMinus } from "react-icons/lu";
 import { MoonLoader } from "react-spinners";
-import LoadImageClient from "./LoadImageClient";
 import { GoStarFill, GoStar } from "react-icons/go";
 
 function ImagePost({

@@ -3,7 +3,6 @@ import HeroCarousel from "./HeroCarousel";
 import Image from "next/image";
 import heroBg from "@public/hero/hero-bg.png";
 import Link from "next/link";
-import LoadImage from "@components/LoadImage";
 
 interface Product {
   _id: string;

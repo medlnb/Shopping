@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css/pagination";
 import "swiper/css";
-import LoadImageClient from "@components/LoadImageClient";
 import Link from "next/link";
 import Image from "next/image";
 

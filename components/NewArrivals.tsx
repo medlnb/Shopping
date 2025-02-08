@@ -1,5 +1,4 @@
 import Link from "next/link";
-import LoadImage from "./LoadImage";
 
 interface Product {
   _id: string;
