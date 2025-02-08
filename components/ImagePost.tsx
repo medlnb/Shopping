@@ -117,7 +117,7 @@ function ImagePost({
               />
             ) : (
               <img
-                src={`/api/image/${image.id}`}
+                src={`https://shopping-hamma.vercel.app/api/image/${image.id}`}
                 className="h-full w-full object-cover"
               />
             )

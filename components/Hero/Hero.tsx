@@ -66,7 +66,7 @@ const Hero = async () => {
                 </div>
 
                 <Image
-                  src={`${process.env.URL}/api/image/${product.image}`}
+                  src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
                   alt={product.tilte}
                   width={160}
                   height={128}

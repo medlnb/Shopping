@@ -61,7 +61,7 @@ const HeroCarousal = ({ products }: { products: Product[] }) => {
             </div>
 
             <Image
-              src={`/api/image/${product.image}`}
+              src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
               alt={product.tilte}
               height={360}
               width={360}

@@ -36,7 +36,7 @@ async function NewArrivals() {
           >
             <Link href={`/product/${product._id}`}>
               <img
-                src={`${process.env.URL}/api/image/${product.image}`}
+                src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
                 alt={product.tilte}
                 className="h-40 w-full object-cover rounded-lg"
               />

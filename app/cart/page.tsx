@@ -132,7 +132,7 @@ function Page() {
                       className="flex items-center justify-center gap-0.5 md:gap-2"
                     >
                       <img
-                        src={`/api/image/${product.product.images[0]}`}
+                        src={`https://shopping-hamma.vercel.app/api/image/${product.product.images[0]}`}
                         alt={product.product.title}
                         className="w-12 h-12 md:w-20 md:h-20 p-0.5 md:p-2 object-contain"
                       />

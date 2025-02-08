@@ -17,7 +17,7 @@ const ProductItem = ({ item }: { item: Product }) => {
     <Link href={`product?id=${item._id}`} className="group">
       <div className="relative overflow-hidden flex items-center justify-center rounded-lg min-h-[270px] mb-4">
         <Image
-          src={`${process.env.URL}/api/image/${item.image}`}
+          src={`https://shopping-hamma.vercel.app/api/image/${item.image}`}
           alt={item.tilte}
           width={256}
           height={256}

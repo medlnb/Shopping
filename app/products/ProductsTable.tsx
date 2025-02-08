@@ -50,7 +50,7 @@ async function ProductsTable({ queries }: { queries: QueriesProps }) {
             <Link key={product._id} href={`/product?id=${product._id}`}>
               <section className="bg-white p-2 rounded-lg hover:shadow-md duration-150 ">
                 <img
-                  src={`${process.env.URL}/api/image/${product.image}`}
+                  src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
                   alt={product.title}
                   className="h-40 w-full object-contain rounded-md mx-auto"
                 />

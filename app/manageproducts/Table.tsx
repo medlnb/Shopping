@@ -55,7 +55,7 @@ async function Table({ page }: { page: number }) {
                 <td>
                   <div className="flex items-center justify-evenly gap-2">
                     <Image
-                      src={`${process.env.URL}/api/image/${product.image}`}
+                      src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
                       alt={product.title}
                       width={80}
                       height={80}
