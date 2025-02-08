@@ -30,6 +30,10 @@ const productSchema = new Schema(
           type: Number,
           default: 0,
         },
+        priceId: {
+          type: String,
+          required: true,
+        },
         info: {
           type: String,
         },

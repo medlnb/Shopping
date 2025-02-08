@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css";
 import LoadImageClient from "@components/LoadImageClient";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Product {
   _id: string;
@@ -60,9 +61,12 @@ const HeroCarousal = ({ products }: { products: Product[] }) => {
               </Link>
             </div>
 
-            <LoadImageClient
-              Url={product.image}
-              Css="h-90 w-90 object-contain rounded-lg mx-auto "
+            <Image
+              src={`/api/image/${product.image}`}
+              alt={product.tilte}
+              height={360}
+              width={360}
+              className="object-contain rounded-lg mx-auto"
             />
           </div>
         </SwiperSlide>

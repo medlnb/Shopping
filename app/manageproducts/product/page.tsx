@@ -459,7 +459,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
         <button
           type="button"
           onClick={HandleAddVariance}
-          className="col-start-3 bg-gray-600 text-white p-1 mt-1 rounded-md w-full hover:bg-gray-500 duration-150"
+          className="col-start-3 bg-gray-6 text-white p-1 mt-1 rounded-md w-full hover:bg-gray-5 duration-150"
         >
           Add
         </button>

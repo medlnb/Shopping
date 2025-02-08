@@ -1,13 +1,16 @@
 "use client";
 import AlgerianCities from "@data/AlgerianCities";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { ClipLoader } from "react-spinners";
+import { LuImagePlus } from "react-icons/lu";
+import { ClipLoader, MoonLoader } from "react-spinners";
 import { toast } from "sonner";
 
 interface User {
   name: string;
   phoneNumber: string;
+  image: string;
   address: {
     state: number;
     city: number;
@@ -19,6 +22,7 @@ function Page() {
   const { update } = useSession();
   const [user, setUser] = useState<User>();
   const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [loadingSubmitImage, setLoadingSubmitImage] = useState(false);
   useEffect(() => {
     const fetchUserInfo = async () => {
       const res = await fetch("/api/auth/user");
@@ -59,19 +63,85 @@ function Page() {
     setLoadingSubmit(false);
   };
 
+  const convertToBase64 = (
+    file: File
+  ): Promise<string | ArrayBuffer | null> => {
+    if (!file) return Promise.reject("No file provided");
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const HandleChangeImage = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    // setLoadingSubmitImage(true);
+    // const file = event.target.files?.[0];
+    // if (!file) {
+    //   setLoadingSubmitImage(false);
+    //   return toast.error("No file selected");
+    // }
+    // const UploadedImage = (await convertToBase64(file)) as string;
+    // if (user?.image?.includes("https://dummyimage.com")) return true;
+    // const response = await fetch(`/api/image${image ? `/${image.id}` : ""}`, {
+    //   method: image ? "PATCH" : "POST",
+    //   body: JSON.stringify({ image: UploadedImage }),
+    // });
+    // setLoadingSubmitImage(false);
+    // if (response.ok) {
+    //   const { imageId } = await response.json();
+    //   return HandleIsDone(UploadedImage, imageId);
+    // }
+    // return toast.error("Failed to upload image");
+  };
   return (
     <form onSubmit={HandleSubmit}>
-      <div
-        className={`shadow-1 rounded-xl p-4 sm:p-8.5 relative ${
-          user ? "bg-white" : "bg-gray-1"
-        }`}
-      >
+      <div className="shadow-1 rounded-xl p-4 sm:p-8.5 relative ">
+        {user ? (
+          <div className="mb-6 h-40 w-40 rounded-full mx-auto flex items-center justify-center bg-gray-4">
+            <label htmlFor={"image-upload"} className="cursor-pointer ">
+              {loadingSubmitImage ? (
+                <MoonLoader size={50} color="blue" />
+              ) : (
+                <div className="relative">
+                  <Image
+                    src={user?.image}
+                    alt={user?.name}
+                    height={160}
+                    width={160}
+                    className="rounded-full mx-auto "
+                  />
+                  <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 bg-gray-1 opacity-95 blur-md  w-full h-full rounded-full" />
+                  <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2">
+                    <LuImagePlus className="text-4xl" />
+                  </div>
+                </div>
+              )}
+            </label>
+            <input
+              className="h-full w-full hidden"
+              type="file"
+              name={"image-upload"}
+              id={"image-upload"}
+              accept=".jpeg, .png, .jpg"
+              onChange={HandleChangeImage}
+            />
+          </div>
+        ) : (
+          <div className="w-40 h-40 rounded-full mx-auto mb-6 loading--background" />
+        )}
         {!user && (
           <div className="absolute top-5 right-5">
             <ClipLoader size={20} />
           </div>
         )}
-
         <div className="w-full mb-5">
           <label htmlFor="name" className="block mb-2.5">
             Full Name <span className="text-red">*</span>
@@ -90,7 +160,6 @@ function Page() {
             className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
           />
         </div>
-
         <label htmlFor="name" className="block mb-2.5">
           Phone Number <span className="text-red">*</span>
         </label>
@@ -114,7 +183,6 @@ function Page() {
             }
           />
         </div>
-
         <div className="mb-5">
           <label htmlFor="state" className="block mb-2.5">
             State <span className="text-red">*</span>
@@ -210,7 +278,6 @@ function Page() {
             </span>
           </div>
         </div>
-
         <div className="w-full my-4">
           <label htmlFor="Homeaddress" className="block mb-2.5">
             Home address <span className="text-red">*</span>
@@ -231,7 +298,6 @@ function Page() {
             className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20 h-30"
           />
         </div>
-
         <button
           type="submit"
           className="w-40 inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark"

@@ -21,6 +21,7 @@ const Hero = async () => {
   });
   if (!res.ok) return <p className="text-red-700">Error Fetching Data...</p>;
   const { products }: { products: Product[] } = await res.json();
+  console.log(`${process.env.URL}/api/image/${products[0]._id}`);
   return (
     <>
       <div className="xl:max-w-[757px] w-full">
@@ -65,9 +66,12 @@ const Hero = async () => {
                   </div>
                 </div>
 
-                <LoadImage
-                  Url={product.image}
-                  Css="h-32 w-40 object-contain rounded-lg mx-auto "
+                <Image
+                  src={`${process.env.URL}/api/image/${product.image}`}
+                  alt={product.tilte}
+                  width={160}
+                  height={128}
+                  className="object-contain rounded-lg mx-auto"
                 />
               </div>
             </div>

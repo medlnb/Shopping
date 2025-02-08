@@ -1,5 +1,4 @@
 import Link from "next/link";
-import LoadImage from "./LoadImage";
 import PromotionSwiper from "./PromotionSwiper";
 import Image from "next/image";
 import img1 from "@public/icons/icon-01.svg";
@@ -79,10 +78,10 @@ async function Promotions() {
               </div>
             </div>
             <div className="flex-1">
-              <LoadImage
+              {/* <LoadImage
                 Url={product.image}
                 Css="h-42 object-contain rounded-lg mx-auto"
-              />
+              /> */}
             </div>
           </section>
         ))}

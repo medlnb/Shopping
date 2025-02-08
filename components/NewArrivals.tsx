@@ -36,9 +36,10 @@ async function NewArrivals() {
             className="bg-white rounded-lg shadow-md p-4 max-w-[15rem] w-full"
           >
             <Link href={`/product/${product._id}`}>
-              <LoadImage
-                Url={product.image}
-                Css="w-full h-40 object-cover rounded-lg"
+              <img
+                src={`${process.env.URL}/api/image/${product.image}`}
+                alt={product.tilte}
+                className="h-40 w-full object-cover rounded-lg"
               />
               <p className="text-[#1c274c] text-lg mt-2">{product.tilte}</p>
               <p className="text-[#1c274c] text-lg mt-2">{product.price}</p>

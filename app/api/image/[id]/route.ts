@@ -1,19 +1,34 @@
 import { connectToDatabase } from "@utils/database";
 import { NextRequest } from "next/server";
 import Image from "@models/image";
+import { NextResponse } from "next/server";
 
 export const GET = async (
   req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
   try {
-    connectToDatabase();
+    await connectToDatabase();
     const imageId = params.id;
     const image = await Image.findById(imageId);
-    return new Response(JSON.stringify({ ...image._doc }), { status: 201 });
+
+    if (!image) {
+      return new NextResponse("Image not found", { status: 404 });
+    }
+
+    const base64Data = image.image.split(",")[1];
+    const imgBuffer = Buffer.from(base64Data, "base64");
+
+    return new NextResponse(imgBuffer, {
+      status: 200,
+      headers: {
+        "Content-Type": "image/png",
+        "Content-Length": imgBuffer.length.toString(),
+      },
+    });
   } catch (err) {
-    console.log(err);
-    return new Response(JSON.stringify({ err }), { status: 500 });
+    console.error(err);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
 
@@ -44,7 +59,6 @@ export const DELETE = async (
 ) => {
   try {
     await connectToDatabase();
-    console.log(params);
     const imageId = params.id;
 
     const imageDb = await Image.findByIdAndDelete(imageId);

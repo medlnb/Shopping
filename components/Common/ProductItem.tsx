@@ -17,7 +17,13 @@ const ProductItem = ({ item }: { item: Product }) => {
   return (
     <Link href={`product?id=${item._id}`} className="group">
       <div className="relative overflow-hidden flex items-center justify-center rounded-lg min-h-[270px] mb-4">
-        <LoadImage Url={item.image} Css="w-64 h-64 object-contain" />
+        <Image
+          src={`${process.env.URL}/api/image/${item.image}`}
+          alt={item.tilte}
+          width={256}
+          height={256}
+          className="object-contain"
+        />
       </div>
 
       <div

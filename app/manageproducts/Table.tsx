@@ -1,9 +1,9 @@
-import LoadImage from "@components/LoadImage";
 import { cookies } from "next/headers";
 import Delete from "./Delete";
 import Pagin from "@components/Pagin";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Link from "next/link";
+import Image from "next/image";
 
 async function Table({ page }: { page: number }) {
   const res = await fetch(`${process.env.URL}/api/admin/product?p=${page}`, {
@@ -54,9 +54,12 @@ async function Table({ page }: { page: number }) {
                 </td>
                 <td>
                   <div className="flex items-center justify-evenly gap-2">
-                    <LoadImage
-                      Css="w-20 p-2 h-20 object-contain"
-                      Url={product.image}
+                    <Image
+                      src={`${process.env.URL}/api/image/${product.image}`}
+                      alt={product.title}
+                      width={80}
+                      height={80}
+                      className="p-2 object-contain rounded-lg mx-auto"
                     />
                     <p className="text-center">{product.title}</p>
                   </div>

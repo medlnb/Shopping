@@ -41,10 +41,7 @@ function Page() {
               </p>
             </div>
 
-            {/* <LoadImageClient
-              Url={product.image}
-              Css="h-90 w-90 object-contain rounded-lg mx-auto "
-            /> */}
+            {/* {loading image} */}
           </div>
         </div>
       </div>
@@ -70,10 +67,7 @@ function Page() {
                   </div>
                 </div>
 
-                {/* <LoadImage
-                Url={product.image}
-                Css="h-32 w-40 object-contain rounded-lg mx-auto "
-              /> */}
+                {/* {loading image} */}
               </div>
             </div>
           ))}

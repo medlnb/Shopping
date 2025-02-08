@@ -1,5 +1,4 @@
 "use client";
-import LoadImageClient from "@components/LoadImageClient";
 import { CartContext } from "@contexts/CartContext";
 import Link from "next/link";
 import {
@@ -132,9 +131,10 @@ function Page() {
                       href={`/product?id=${product.product._id}`}
                       className="flex items-center justify-center gap-0.5 md:gap-2"
                     >
-                      <LoadImageClient
-                        Css="w-12 h-12 md:w-20 md:h-20 p-0.5 md:p-2 object-contain"
-                        Url={product.product.images[0]}
+                      <img
+                        src={`/api/image/${product.product.images[0]}`}
+                        alt={product.product.title}
+                        className="w-12 h-12 md:w-20 md:h-20 p-0.5 md:p-2 object-contain"
                       />
                       <p className="text-center">{product.product.title}</p>
                     </Link>

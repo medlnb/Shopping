@@ -11,7 +11,7 @@ export const GET = async () => {
 
     const user = await Member.findOne({
       phoneNumber: session?.user.phoneNumber,
-    }).select("name phoneNumber address");
+    }).select("name phoneNumber address image");
 
     if (!user)
       return new Response(JSON.stringify({ err: "No User found" }), {

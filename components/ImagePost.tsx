@@ -117,9 +117,9 @@ function ImagePost({
                 className="h-full w-full object-cover"
               />
             ) : (
-              <LoadImageClient
-                Css="h-full w-full object-cover"
-                Url={image.id}
+              <img
+                src={`/api/image/${image.id}`}
+                className="h-full w-full object-cover"
               />
             )
           ) : (
