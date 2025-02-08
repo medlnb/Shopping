@@ -1,5 +1,4 @@
 import { verifySignature } from "@chargily/chargily-pay";
-import Course from "@models/course";
 import Member from "@models/member";
 import { Schema } from "mongoose";
 import { headers } from "next/headers";
@@ -56,18 +55,18 @@ export const POST = async (req: NextRequest) => {
     );
     SelectedCourse.deadLine = deadLine;
 
-    const course = await Course.findById(courseId).select("students");
+    // const course = await Course.findById(courseId).select("students");
 
-    const SelectedCourseInCourse = course.students.find(
-      (course: { studetnID: Schema.Types.ObjectId }) =>
-        course.studetnID.toString() === userId.toString()
-    );
+    // const SelectedCourseInCourse = course.students.find(
+    //   (course: { studetnID: Schema.Types.ObjectId }) =>
+    //     course.studetnID.toString() === userId.toString()
+    // );
 
-    if (SelectedCourseInCourse) SelectedCourseInCourse.deadLine = deadLine;
-    else course.students.push({ studetnID: userId, deadLine });
+    // if (SelectedCourseInCourse) SelectedCourseInCourse.deadLine = deadLine;
+    // else course.students.push({ studetnID: userId, deadLine });
 
-    await user.save();
-    await course.save();
+    // await user.save();
+    // await course.save();
   }
   return new Response(
     JSON.stringify({ message: "Webhook processed successfully" }),
