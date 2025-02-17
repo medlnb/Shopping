@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { CiSearch } from "react-icons/ci";
 import { BsTelephone } from "react-icons/bs";
 import Filters from "./Filters";
 import User from "./User";
+import Search from "./Search";
 
 function Header() {
   return (
@@ -16,10 +16,7 @@ function Header() {
             >
               Shopping
             </Link>
-            <div className="flex justtify-center items-center gap-8 border rounded-md p-1 px-4 bg-gray-100 cursor-pointer hover:bg-gray-200 duration-150 w-full md:w-auto">
-              <p className="text-gray-400 flex-1">i am shopping for...</p>
-              <CiSearch className="text-gray-600" />
-            </div>
+            <Search />
 
             <div className="flex items-center justify-center gap-4 w-full md:w-auto">
               <Link

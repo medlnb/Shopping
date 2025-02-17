@@ -1,4 +1,3 @@
-"use client";
 import empty from "@public/undraw_empty.svg";
 
 function EmptyState({ label }: { label: string }) {
