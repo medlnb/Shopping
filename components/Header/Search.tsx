@@ -18,7 +18,7 @@ interface Product {
 }
 
 function Search() {
-  const [dialog, setDialog] = useState(true);
+  const [dialog, setDialog] = useState(false);
   const [data, setData] = useState<Product[] | undefined>([]);
   const [query, setQuery] = useState("");
 
