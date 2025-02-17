@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, Fragment } from "react";
+import { useState, useEffect, useRef } from "react";
 import categories from "@data/categories";
 import { CiHeart } from "react-icons/ci";
 import { IoIosMore } from "react-icons/io";
