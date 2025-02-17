@@ -1,9 +1,8 @@
 "use client";
 import AlgerianCities from "@data/AlgerianCities";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { LuImagePlus } from "react-icons/lu";
+import { FaRegEdit } from "react-icons/fa";
 import { ClipLoader, MoonLoader } from "react-spinners";
 import { toast } from "sonner";
 
@@ -43,7 +42,6 @@ function Page() {
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoadingSubmit(true);
-
     const res = await fetch("/api/auth/user", {
       method: "PATCH",
       headers: {
@@ -57,40 +55,68 @@ function Page() {
       setLoadingSubmit(false);
       return;
     }
-    update({ name: user?.name, phoneNumber: user?.phoneNumber });
+    update({
+      name: user?.name,
+      phoneNumber: user?.phoneNumber,
+      image: user?.image,
+    });
 
     toast.success("User data updated successfully");
     setLoadingSubmit(false);
   };
 
-  // const convertToBase64 = (
-  //   file: File
-  // ): Promise<string | ArrayBuffer | null> => {
-  //   if (!file) return Promise.reject("No file provided");
-  //   return new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
-  //     fileReader.onload = () => {
-  //       resolve(fileReader.result);
-  //     };
-  //     fileReader.onerror = (error) => {
-  //       reject(error);
-  //     };
-  //   });
-  // };
+  const convertToBase64 = (
+    file: File
+  ): Promise<string | ArrayBuffer | null> => {
+    if (!file) return Promise.reject("No file provided");
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   const HandleChangeImage = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(event);
     setLoadingSubmitImage(true);
-    // const file = event.target.files?.[0];
-    // if (!file) {
-    //   setLoadingSubmitImage(false);
-    //   return toast.error("No file selected");
-    // }
-    // const UploadedImage = (await convertToBase64(file)) as string;
-    // if (user?.image?.includes("https://dummyimage.com")) return true;
+    const file = event.target.files?.[0];
+    if (!file) {
+      setLoadingSubmitImage(false);
+      return toast.error("No file selected");
+    }
+    const UploadedImage = (await convertToBase64(file)) as string;
+    if (true) {
+      // user?.image?.includes("https://dummyimage.com")
+      const res = await fetch(`/api/image`, {
+        method: "POST",
+        body: JSON.stringify({ image: UploadedImage }),
+      });
+      const { imageId } = await res.json();
+      await fetch("/api/auth/user", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
+        }),
+      });
+      setUser((prev) => ({
+        ...prev!,
+        image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
+      }));
+      update({
+        image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
+      });
+
+      setLoadingSubmitImage(false);
+    }
     // const response = await fetch(`/api/image${image ? `/${image.id}` : ""}`, {
     //   method: image ? "PATCH" : "POST",
     //   body: JSON.stringify({ image: UploadedImage }),
@@ -98,10 +124,11 @@ function Page() {
     // setLoadingSubmitImage(false);
     // if (response.ok) {
     //   const { imageId } = await response.json();
-    //   return HandleIsDone(UploadedImage, imageId);
+    //   // return HandleIsDone(UploadedImage, imageId);
     // }
     // return toast.error("Failed to upload image");
   };
+
   return (
     <form onSubmit={HandleSubmit}>
       <div className="shadow-1 rounded-xl p-4 sm:p-8.5 relative ">
@@ -112,16 +139,14 @@ function Page() {
                 <MoonLoader size={50} color="blue" />
               ) : (
                 <div className="relative">
-                  <Image
-                    src={user?.image}
-                    alt={user?.name}
-                    height={160}
-                    width={160}
-                    className="rounded-full mx-auto "
+                  <img
+                    src={user.image}
+                    alt={user.name}
+                    className="h-40 w-40 rounded-full mx-auto object-contain"
                   />
-                  <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 bg-gray-1 opacity-95 blur-md  w-full h-full rounded-full" />
-                  <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2">
-                    <LuImagePlus className="text-4xl" />
+                  <div className="absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 bg-gray-1 hover:opacity-50 opacity-0 duration-150 w-full h-full rounded-full" />
+                  <div className="absolute right-0 bottom-0">
+                    <FaRegEdit className="text-4xl text-gray-7" />
                   </div>
                 </div>
               )}

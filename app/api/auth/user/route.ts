@@ -41,10 +41,12 @@ export const PATCH = async (req: NextRequest) => {
         status: 401,
       });
 
-    const { name, phoneNumber, address } = await req.json();
-    user.name = name;
-    user.phoneNumber = phoneNumber;
-    user.address = address;
+    const { name, phoneNumber, address, image } = await req.json();
+    if (name) user.name = name;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (address) user.address = address;
+    if (image) user.image = image;
+
     await user.save();
 
     return new Response(JSON.stringify({ user }), {

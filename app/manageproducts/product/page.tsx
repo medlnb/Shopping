@@ -20,17 +20,18 @@ import Typography from "@mui/joy/Typography";
 import { Check } from "@mui/icons-material";
 import ListManager from "@components/ListManager";
 import Loader from "@components/Loader";
+import { Switch } from "@mui/material";
 
 interface Product {
   title: string;
   description: string;
   variances: {
     price: number;
-    newPrice: number;
+    newPrice?: number;
     quantity: number;
     unit: string;
-    stock: number;
-    info: string;
+    isOutOfStock: boolean;
+    info?: string;
   }[];
   category: {
     aisle: string;
@@ -64,7 +65,6 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
     price: 0,
     quantity: 0,
     unit: "L",
-    stock: 0,
     newPrice: 0,
     info: "",
   });
@@ -76,7 +76,6 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
       const data = await res.json();
       if (!res.ok) return toast.error(data.err);
       setLoading(false);
-
       setInput({
         ...data.product,
         images: data.product.images.map((img: string) => ({
@@ -136,13 +135,22 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
 
     setInput((prev) => ({
       ...prev!,
-      variances: [...prev!.variances, variances],
+      variances: [
+        ...prev!.variances,
+        {
+          price: variances.price,
+          newPrice: variances.newPrice ?? undefined,
+          quantity: variances.quantity,
+          unit: variances.unit,
+          isOutOfStock: false,
+          info: variances.info ?? undefined,
+        },
+      ],
     }));
     setVariances((prev) => ({
       quantity: 0,
       price: 0,
       unit: prev.unit,
-      stock: 0,
       info: "",
       newPrice: 0,
     }));
@@ -366,50 +374,35 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
           />
         </div>
         <div>
-          <h3 className="text-gray-500 font-semibold mb-1">New Price</h3>
+          <h3 className="text-gray-500 font-semibold mb-1 whitespace-nowrap">
+            New Price{" "}
+            <b>
+              {(() => {
+                if (!variances.price || !variances.newPrice) return "";
+                const t = (1 - variances.newPrice / variances.price) * -100;
+                const persontage = "( " + t.toFixed(0) + "% )";
+                return persontage;
+              })()}
+            </b>
+          </h3>
           <input
             value={variances.newPrice === 0 ? "" : variances.newPrice}
             onChange={(e) =>
               setVariances((prev) => ({
                 ...prev,
-                newPrice: Number(e.target.value) || 0,
+                newPrice: Number(e.target.value),
               }))
             }
+            type="number"
+            style={{
+              WebkitAppearance: "none",
+              MozAppearance: "textfield",
+            }}
             className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md"
             placeholder="100.00 Dzd"
           />
         </div>
-        <div>
-          <h3 className="text-gray-500 font-semibold mb-1">Discount %</h3>
-          {(() => {
-            const t = (1 - variances.newPrice / variances.price) * -100;
-            const persontage =
-              !variances.price || !variances.newPrice
-                ? "/"
-                : t.toFixed(0) + "%";
-            return (
-              <p className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md text-center">
-                {persontage}
-              </p>
-            );
-          })()}
-        </div>
-        <div>
-          <h3 className="text-gray-500 font-semibold mb-1">
-            Stock<span className="text-sm text-gray-500">*</span>
-          </h3>
-          <input
-            value={variances.stock === 0 ? "" : variances.stock}
-            onChange={(e) =>
-              setVariances((prev) => ({
-                ...prev,
-                stock: Number(e.target.value) || 0,
-              }))
-            }
-            className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md"
-            placeholder="100"
-          />
-        </div>
+
         <div>
           <h3 className="text-gray-500 font-semibold mb-1">
             Quantity <span className="text-sm text-gray-500">*</span>
@@ -436,6 +429,9 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
             >
               <option value="L">L</option>
               <option value="Kg">Kg</option>
+              <option value="Pirce">Pirce</option>
+              <option value="Caps">Caps</option>
+              <option value="Wipes">Wipes</option>
             </select>
           </div>
         </div>
@@ -508,26 +504,38 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
               size={23}
               className="p-1 cursor-pointer hover:scale-110 duration-150"
             />
+            <Switch
+              checked={!varn.isOutOfStock}
+              onChange={(e) =>
+                setInput((prev) => ({
+                  ...prev,
+                  variances: prev.variances.map((sub, i) =>
+                    index === i
+                      ? { ...sub, isOutOfStock: !e.target.checked }
+                      : sub
+                  ),
+                }))
+              }
+              size="small"
+            />
           </div>
-          <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1 text-center">
+          <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 p-1 text-center">
             {varn.price} Dzd
           </p>
-          <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1 text-center">
-            {varn.newPrice ? varn.newPrice + " Dzd" : "/"}
-          </p>
-          <p className="overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1 text-center">
-            {varn.stock}
-          </p>
-
-          <div className="overflow-auto hidden-scrollbar flex items-center justify-center gap-1 border border-black rounded-md md:px-2 px-1">
+          {!!varn.newPrice && (
+            <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 p-1 text-center">
+              {varn.newPrice}
+            </p>
+          )}
+          <div className="overflow-auto hidden-scrollbar flex items-center justify-center gap-1 border border-black rounded-md md:px-2 p-1">
             <p>{varn.quantity}</p>
             <p> {varn.unit}</p>
           </div>
-          <div className="col-span-3 flex">
-            <p className="flex-1 overflow-auto hidden-scrollbar focus:outline-none border border-black rounded-md md:px-2 px-1">
+          {!!varn.info?.length && (
+            <p className="col-span-4 overflow-auto hidden-scrollbar border border-black rounded-md md:px-2 p-1 ">
               {varn.info}
             </p>
-          </div>
+          )}
         </div>
       ))}
       <h3 className="text-gray-500 text-lg font-semibold mb-2 mt-5">

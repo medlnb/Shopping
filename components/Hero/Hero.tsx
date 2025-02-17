@@ -20,7 +20,7 @@ const Hero = async () => {
   });
   if (!res.ok) return <p className="text-red-700">Error Fetching Data...</p>;
   const { products }: { products: Product[] } = await res.json();
-  console.log(`${process.env.URL}/api/image/${products[0]._id}`);
+
   return (
     <>
       <div className="xl:max-w-[757px] w-full">

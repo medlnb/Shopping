@@ -1,5 +1,6 @@
 "use client";
 import { CartContext } from "@contexts/CartContext";
+import { useSession } from "next-auth/react";
 import { useContext, useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import { toast } from "sonner";
@@ -11,9 +12,13 @@ interface Variance {
   newPrice?: number;
   quantity: number;
   unit: string;
-  stock: number;
+  isOutOfStock: boolean;
   info?: string;
 }
+
+const selectVariance = (variances: Variance[]) => {
+  return variances.find((variance) => !variance.isOutOfStock);
+};
 
 function Buy({
   title,
@@ -27,42 +32,46 @@ function Buy({
   variances: Variance[];
 }) {
   const { cart, setCart } = useContext(CartContext);
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [buy, setBuy] = useState({
-    variance: variances[0],
+    variance: selectVariance(variances),
     quantity: 0,
   });
 
   useEffect(() => {
-    if (cart && buy.variance._id === variances[0]._id)
+    if (cart && buy.variance?._id === selectVariance(variances)?._id)
       setBuy({
-        variance: variances[0],
+        variance: selectVariance(variances),
         quantity:
           cart.find(
             (item) =>
               item.product._id === productId &&
-              item.varianceId === variances[0]._id
+              item.varianceId === selectVariance(variances)?._id
           )?.quantity ?? 0,
       });
   }, [cart]);
 
   const addToCart = async () => {
-    if (!setCart || !buy.quantity) return;
-    setLoading(true);
-    const res = await fetch(`/api/cart`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        product: productId,
-        price: buy.variance.price,
-        varianceId: buy.variance._id,
-        quantity: buy.quantity,
-      }),
-    });
-    setLoading(false);
-    if (!res.ok) return;
+    if (!setCart || !buy.quantity || !buy.variance) return;
+
+    if (session?.user) {
+      setLoading(false);
+      const res = await fetch(`/api/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product: productId,
+          price: buy.variance.price,
+          varianceId: buy.variance._id,
+          quantity: buy.quantity,
+        }),
+      });
+      setLoading(false);
+      if (!res.ok) return;
+    }
 
     setCart((prev) => {
       if (!prev) return undefined;
@@ -70,7 +79,8 @@ function Buy({
       const updatedCart = [...prev];
       const existingItemIndex = updatedCart.findIndex(
         (item) =>
-          item.product._id === productId && item.varianceId === buy.variance._id
+          item.product._id === productId &&
+          item.varianceId === buy.variance!._id
       );
 
       if (existingItemIndex !== -1)
@@ -89,11 +99,12 @@ function Buy({
               info: variance.info,
             })),
           },
-          price: buy.variance.price,
-          varianceId: buy.variance._id,
+          price: buy.variance!.price,
+          varianceId: buy.variance!._id,
           quantity: buy.quantity,
         });
-
+      if (!session?.user)
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
     });
     toast.success("Item added to cart");
@@ -105,13 +116,21 @@ function Buy({
         {variances.map((variance) => (
           <div
             key={variance._id}
-            className={`border cursor-pointer duration-150 rounded-md p-1 px-2 mt-2 relative ${
-              buy.variance._id === variance._id
-                ? "bg-blue-1  border-blue-6"
-                : "hover:bg-gray-2 hover:border-gray-6 border-gray-4 bg-gray-1"
-            }`}
+            className={`border  duration-150 rounded-md p-1 px-2 mt-2 relative 
+              ${variance.isOutOfStock ? "opacity-50" : ""}
+              ${
+                (buy.variance?._id ?? "") === variance._id
+                  ? "bg-blue-1  border-blue-6"
+                  : "border-gray-4 bg-gray-1"
+              }
+              ${
+                variance.isOutOfStock
+                  ? "cursor-not-allowed"
+                  : "cursor-pointer hover:bg-gray-2 hover:border-gray-6   "
+              }
+              `}
             onClick={() => {
-              if (!variance.stock) return;
+              if (variance.isOutOfStock) return;
               const item = cart?.find(
                 (item) =>
                   item.product._id === productId &&
@@ -121,13 +140,13 @@ function Buy({
               else setBuy({ variance, quantity: 0 });
             }}
           >
-            <p
-              className={`absolute -top-2 -right-2 rounded-full p-0.5 text-white flex items-center justify-center text-sm px-2 ${
-                variance.stock ? "bg-blue" : "bg-red"
-              }`}
-            >
-              {variance.stock ? variance.stock + " left" : "Out of stock"}
-            </p>
+            {variance.isOutOfStock && (
+              <p
+                className={`absolute -top-2 -right-2 rounded-full p-0.5 text-white flex items-center justify-center text-sm px-2 bg-red`}
+              >
+                Out of stock
+              </p>
+            )}
             <p className="text-lg font-semibold text-gray-6">
               {variance.quantity} {variance.unit} -
               <b className="text-[#1c274c]"> {variance.price} Dzd</b>
@@ -151,10 +170,9 @@ function Buy({
         </p>
         <button
           className="border border-gray-3 p-3  rounded-r-md px-4 hover:bg-gray-2 duration-150"
-          onClick={() => {
-            if (buy.quantity >= buy.variance.stock) return;
-            setBuy((prev) => ({ ...prev, quantity: prev.quantity + 1 }));
-          }}
+          onClick={() =>
+            setBuy((prev) => ({ ...prev, quantity: prev.quantity + 1 }))
+          }
         >
           +
         </button>

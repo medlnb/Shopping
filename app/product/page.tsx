@@ -10,7 +10,7 @@ interface Product {
     newPrice?: number;
     quantity: number;
     unit: string;
-    stock: number;
+    isOutOfStock: boolean;
     info?: string;
   }[];
   images: string[];

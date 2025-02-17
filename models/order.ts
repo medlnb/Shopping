@@ -5,7 +5,26 @@ const OrderSchema = new Schema(
     costumer: {
       type: Schema.Types.ObjectId,
       ref: "Member",
+    },
+    address: {
+      type: {
+        state: {
+          type: Number,
+          required: true,
+        },
+        city: {
+          type: Number,
+          required: true,
+        },
+        homeAddress: { type: String },
+      },
       required: true,
+    },
+    name: {
+      type: String,
+    },
+    phoneNumber: {
+      type: String,
     },
     product: {
       type: Schema.Types.ObjectId,

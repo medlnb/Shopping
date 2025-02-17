@@ -15,5 +15,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/myacc/:path*", "/cart"],
+  matcher: ["/myacc/:path*"],
 };

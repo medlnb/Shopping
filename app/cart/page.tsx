@@ -1,66 +1,16 @@
 "use client";
 import { CartContext } from "@contexts/CartContext";
 import Link from "next/link";
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { FiTrash } from "react-icons/fi";
+import { useContext } from "react";
 import { MoonLoader } from "react-spinners";
-import { toast } from "sonner";
+import OrderSummary from "./OrderSummary";
+import Delete from "./Delete";
 
-interface Cart {
-  _id: string;
-  product: {
-    _id: string;
-    title: string;
-    images: string[];
-    variances: {
-      _id: string;
-      quantity: number;
-      unit: string;
-      info?: string;
-    }[];
-  };
-  price: number;
-  varianceId: string;
-  quantity: number;
-}
+const toPriceForm = (price?: number) =>
+  price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? "0";
 
 function Page() {
-  const [loading, setLoading] = useState(false);
   const { cart, setCart } = useContext(CartContext);
-  const toPriceForm = (price?: number) =>
-    price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? 0;
-
-  useEffect(() => {
-    const getOrders = async () => {
-      const res = await fetch("/api/order");
-      if (!res.ok) return;
-    };
-    getOrders();
-  }, [cart]);
-
-  const HandleCheckout = async () => {
-    if (!setCart || !cart) return;
-    if (!cart.length) return toast.error("Your cart is empty");
-
-    setLoading(true);
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-    });
-    setLoading(false);
-    if (!res.ok) return;
-    const { notEnough } = await res.json();
-    if (notEnough.length) toast.error("Some products are out of stock");
-    setCart((prev) =>
-      prev!.filter((product) => notEnough.includes(product._id))
-    );
-  };
-
   return (
     <main className="bg-gray-100 py-2 md:py-0">
       <div className="mx-auto max-w-[72rem] p-2">
@@ -170,108 +120,10 @@ function Page() {
           </table>
         </section>
         <div className="h-0.5 w-full rounded-full bg-gray-200 mt-8" />
-        <section className="ml-auto w-full md:w-96">
-          <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
-            Order Summary
-          </h1>
-          <div className="bg-white shadow-md rounded-lg text-xs md:text-base">
-            <div className="p-4 border-b">
-              <p className="flex justify-between">
-                <span>Subtotal</span>
-                <span>
-                  <b>
-                    {toPriceForm(
-                      cart?.reduce(
-                        (acc, product) =>
-                          acc + product.price * product.quantity,
-                        0
-                      )
-                    )}{" "}
-                  </b>
-                  Dzd
-                </span>
-              </p>
-              <p className="flex justify-between">
-                <span>Shipping</span>
-                <span>
-                  <b>Free</b>
-                </span>
-              </p>
-            </div>
-            <div className="p-4 border-b">
-              <p className="flex justify-between">
-                <span>Total</span>
-                <span>
-                  <b>
-                    {toPriceForm(
-                      cart?.reduce(
-                        (acc, product) =>
-                          acc + product.price * product.quantity,
-                        0
-                      )
-                    )}{" "}
-                  </b>
-                  Dzd
-                </span>
-              </p>
-            </div>
-            <div className="p-4">
-              <button
-                className="w-full bg-[#1c274c] hover:bg-[#36467a] duration-200 text-white p-2 rounded-lg flex gap-2 justify-center items-center"
-                onClick={HandleCheckout}
-              >
-                {loading ? <MoonLoader size={19} color="white " /> : "Checkout"}
-              </button>
-            </div>
-          </div>
-        </section>
+        <OrderSummary />
       </div>
     </main>
   );
 }
 
 export default Page;
-
-const Delete = ({
-  setCart,
-  productId,
-  varianceId,
-}: {
-  setCart: Dispatch<SetStateAction<Cart[] | undefined>> | undefined;
-  productId: string;
-  varianceId: string;
-}) => {
-  const [loading, setLoading] = useState(false);
-  const removeProduct = async () => {
-    if (!setCart) return;
-    setLoading(true);
-    const res = await fetch(`/api/cart`, {
-      method: "DELETE",
-      body: JSON.stringify({ productId, varianceId }),
-    });
-    setLoading(false);
-    if (!res.ok) return;
-    setCart((prev) =>
-      prev!.filter(
-        (product) =>
-          !(
-            product.product._id === productId &&
-            product.varianceId === varianceId
-          )
-      )
-    );
-  };
-
-  return (
-    <div className="flex justify-center">
-      {loading ? (
-        <MoonLoader size={15} color="black" />
-      ) : (
-        <FiTrash
-          className="border mx-auto cursor-pointer p-0.5 md:p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 duration-150 text-lg md:text-3xl"
-          onClick={removeProduct}
-        />
-      )}
-    </div>
-  );
-};

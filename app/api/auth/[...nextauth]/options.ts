@@ -38,12 +38,14 @@ export const options: NextAuthOptions = {
   callbacks: {
     async jwt({ token, trigger, user, session }) {
       if (trigger === "update") {
-        token.name = session.name;
-        token.phoneNumber = session.phoneNumber;
+        if (session.name) token.name = session.name;
+        if (session.phoneNumber) token.phoneNumber = session.phoneNumber;
+        if (session.image) token.image = session.image;
       }
       if (user) {
         token.phoneNumber = user.phoneNumber;
         token.isAdmin = user.isAdmin;
+        token.image = user.image;
       }
       return token;
     },
@@ -52,6 +54,7 @@ export const options: NextAuthOptions = {
         ...session.user,
         phoneNumber: token.phoneNumber,
         isAdmin: token.isAdmin,
+        image: token.image,
       };
       return session;
     },

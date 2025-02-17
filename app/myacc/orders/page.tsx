@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { ClipLoader } from "react-spinners";
 import Pagin from "@components/Pagin";
+import ExportToExcel from "./ExportToExcel";
 
 const toPriceForm = (price?: number) =>
   price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? 0;
@@ -26,20 +27,22 @@ interface Details {
     city: number;
     homeAddress: string;
   };
-  loading?: boolean;
+  loading?: string;
 }
 
 interface Order {
   _id: string;
-  costumer: {
+  costumer?: {
     name: string;
     phoneNumber: string;
     image: string;
-    address: {
-      state: number;
-      city: number;
-      homeAddress: string;
-    };
+  };
+  name: string;
+  phoneNumber: string;
+  address: {
+    state: number;
+    city: number;
+    homeAddress: string;
   };
   variance: {
     _id: string;
@@ -59,6 +62,7 @@ interface Order {
 
 function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
   const { data: session } = useSession();
+
   const [orders, setOrders] = useState<Order[]>();
   const [count, setCount] = useState(0);
   const [details, setDetails] = useState<Details>();
@@ -78,7 +82,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
     stat: "pending" | "completed" | "canceled"
   ) => {
     if (!details) return;
-    setDetails((prev) => ({ ...prev!, loading: true }));
+    setDetails((prev) => ({ ...prev!, loading: stat }));
     const res = await fetch(`/api/order`, {
       method: "PATCH",
       headers: {
@@ -95,7 +99,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
     toast.success("Order status updated successfully");
     setDetails(undefined);
   };
-  console.log(orders);
+
   return (
     <section className="h-full flex-1 pb-10 relative">
       <table className="rounded-lg pb-2 bg-white w-full text-xs md:text-base">
@@ -144,7 +148,13 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
               onClick={() => {
                 if (session?.user.isAdmin)
                   setDetails({
-                    ...order.costumer,
+                    name: order.costumer?.name ?? order.name,
+                    phoneNumber:
+                      order.costumer?.phoneNumber ?? order.phoneNumber,
+                    image:
+                      order.costumer?.image ??
+                      `https://dummyimage.com/100x100/000/fff&text=${order.name[0].toUpperCase()}`,
+                    address: order.address,
                     orderId: order._id,
                     status: order.stat,
                   });
@@ -168,29 +178,30 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
                 </p>
               </td>
               <td>
-                <p
-                  className={`text-sm ${
+                <span
+                  className={`text-sm p-1 px-3 rounded-md mx-auto text-white font-semibold ${
                     order.stat === "pending"
-                      ? "text-yellow-600"
+                      ? "bg-yellow"
                       : order.stat === "canceled"
-                      ? "text-red-600"
-                      : ""
+                      ? "bg-red "
+                      : "bg-green"
                   }`}
                 >
                   {order.stat}
-                </p>
+                </span>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="absolute right-6 bottom-2">
+      <div className="absolute right-6 bottom-2 flex items-center gap-2">
         <Pagin
           page={Number(p ?? 1)}
           count={count}
           perpage={6}
           href="myacc/orders"
         />
+        {session?.user?.isAdmin && <ExportToExcel fileName="my-orders" />}
       </div>
       <Dialog open={!!details} onClose={() => setDetails(undefined)}>
         <DialogTitle>Customer</DialogTitle>
@@ -198,7 +209,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
           <img
             src={details?.image}
             alt={details?.name}
-            className="w-20 h-20 rounded-full mx-auto mb-4"
+            className="w-20 h-20 rounded-full object-contain mx-auto mb-4"
           />
 
           <div className="w-full">
@@ -252,7 +263,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
                 onClick={() => HandleChangeState(status)}
                 disabled={details?.status === status || !session?.user.isAdmin}
               >
-                {details?.loading && status === details?.status ? (
+                {details?.loading === status ? (
                   <ClipLoader size={23} color="white" />
                 ) : (
                   status

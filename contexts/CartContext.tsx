@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "sonner";
 
 interface Cart {
   _id: string;
@@ -37,8 +38,19 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await fetch(`/api/cart`, {
         cache: "no-cache",
       });
-      if (!res.ok) return;
-      const { cart }: { cart: Cart[] } = await res.json();
+      if (!res.ok) {
+        if (res.status === 401) {
+          const cart = localStorage.getItem("cart");
+          setCart(cart ? JSON.parse(cart) : []);
+        }
+        return;
+      }
+      const { cart, changed }: { cart: Cart[]; changed: boolean } =
+        await res.json();
+      if (changed)
+        toast.warning(
+          "Some items were removed from your cart, because they are out of stock"
+        );
       setCart(cart);
     };
     getCart();

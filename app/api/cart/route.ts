@@ -5,6 +5,25 @@ import { options } from "../auth/[...nextauth]/options";
 import Member from "@models/member";
 import "@models/product";
 
+interface Cart {
+  _id: string;
+  product: {
+    _id: string;
+    title: string;
+    images: string[];
+    variances: {
+      _id: string;
+      quantity: number;
+      unit: string;
+      isOutOfStock: boolean;
+      info?: string;
+    }[];
+  };
+  price: number;
+  varianceId: string;
+  quantity: number;
+}
+
 export const GET = async () => {
   try {
     await connectToDatabase();
@@ -22,12 +41,25 @@ export const GET = async () => {
 
     if (!user)
       return new Response(JSON.stringify({ message: "User not found" }), {
-        status: 404,
+        status: 401,
       });
-
-    return new Response(JSON.stringify({ cart: user.cart }), {
-      status: 201,
-    });
+    const originCartLength = user.cart.length;
+    user.cart = user.cart.filter(
+      (item: Cart) =>
+        !item.product.variances.find(
+          (v) => v._id.toString() === item.varianceId.toString()
+        )?.isOutOfStock
+    );
+    await user.save();
+    return new Response(
+      JSON.stringify({
+        cart: user.cart,
+        changed: originCartLength !== user.cart.length,
+      }),
+      {
+        status: 201,
+      }
+    );
   } catch (err) {
     console.log(err);
     return new Response(JSON.stringify(err), { status: 501 });

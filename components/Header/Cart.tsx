@@ -13,22 +13,28 @@ function Cart() {
     <Link href="/cart" className="flex items-center gap-2 cursor-pointer">
       <div className="relative">
         <CiShoppingCart size={20} />
-        <p className="absolute -top-1.5 -right-1.5 bg-blue-500 text-white rounded-full w-4 h-4 flex justify-center items-center text-xs font-semibold">
-          {cart?.length}
-        </p>
+        {cart && (
+          <p className="absolute -top-1.5 -right-1.5 bg-blue-dark text-white rounded-full w-4 h-4 flex justify-center items-center text-xs font-semibold">
+            {cart.length}
+          </p>
+        )}
       </div>
       <div>
         <p className="text-xs text-gray-400">Cart</p>
-        <p className="text-sm font-semibold">
-          {toPriceForm(
-            cart?.reduce(
-              (acc: number, cur: { price: number; quantity: number }) =>
-                acc + cur.price * cur.quantity,
-              0
-            )
-          )}{" "}
-          Dzd
-        </p>
+        {cart ? (
+          <p className="text-sm font-semibold">
+            {toPriceForm(
+              cart.reduce(
+                (acc: number, cur: { price: number; quantity: number }) =>
+                  acc + cur.price * cur.quantity,
+                0
+              )
+            )}{" "}
+            Dzd
+          </p>
+        ) : (
+          <div className="w-18 h-3 loading--background rounded-lg" />
+        )}
       </div>
     </Link>
   );

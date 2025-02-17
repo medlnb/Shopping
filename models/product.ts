@@ -26,13 +26,9 @@ const productSchema = new Schema(
           type: String,
           required: true,
         },
-        stock: {
-          type: Number,
-          default: 0,
-        },
-        priceId: {
-          type: String,
-          required: true,
+        isOutOfStock: {
+          type: Boolean,
+          default: false,
         },
         info: {
           type: String,

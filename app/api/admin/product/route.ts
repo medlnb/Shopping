@@ -1,4 +1,3 @@
-import { ChargilyClient } from "@chargily/chargily-pay";
 import Member from "@models/member";
 import Product from "@models/product";
 import { connectToDatabase } from "@utils/database";
@@ -45,10 +44,6 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   try {
-    const client = new ChargilyClient({
-      api_key: process.env.CHARGILY_SECRET_KEY!,
-      mode: "test",
-    });
     await connectToDatabase();
     const session = await getServerSession();
     if (!session || !session.user)
@@ -65,75 +60,36 @@ export const POST = async (req: NextRequest) => {
       });
 
     const {
-      // id,
+      id,
       title,
       description,
-      // brand,
+      brand,
       category,
-      // images,
+      images,
       variances,
-      // ingedients,
+      ingedients,
     } = await req.json();
 
-    const newProduct = await client.createProduct({
-      name: title,
-      description: description,
-      // images: ["https://example.com/image.png"],
-      // metadata: {
-      //   category: "Electronics",
-      // },default: 0,
-    });
-
-    interface Variances {
-      price: number;
-      newPrice: number;
-      quantity: number;
-      unit: string;
-      stock: number;
-      info: string;
-      priceId?: string;
-    }
-
-    const variancesWithPrices: Variances[] = await Promise.all(
-      variances.map(async (v: Variances) => {
-        const newPrice = await client.createPrice({
-          amount: v.newPrice ?? v.price,
-          currency: "dzd",
-          product_id: newProduct.id,
-          metadata: {
-            ...v,
-          },
-        });
-
-        return {
-          ...v,
-          priceId: newPrice.id,
-        };
-      })
-    );
-
-    console.log(variancesWithPrices);
-
-    // if (id)
-    //   await Product.findByIdAndUpdate(id, {
-    //     title,
-    //     description,
-    //     ingedients,
-    //     brand,
-    //     category,
-    //     images,
-    //     variances,
-    //   });
-    // else
-    //   await Product.create({
-    //     title,
-    //     ingedients,
-    //     description,
-    //     brand,
-    //     category,
-    //     images,
-    //     variances,
-    //   });
+    if (id)
+      await Product.findByIdAndUpdate(id, {
+        title,
+        description,
+        ingedients,
+        brand,
+        category,
+        images,
+        variances,
+      });
+    else
+      await Product.create({
+        title,
+        ingedients,
+        description,
+        brand,
+        category,
+        images,
+        variances,
+      });
 
     return new Response(
       JSON.stringify({

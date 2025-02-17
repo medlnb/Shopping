@@ -12,6 +12,7 @@ export const GET = async (req: NextRequest) => {
     const url = new URL(req.url);
     const params = new URLSearchParams(url.searchParams);
     const p = Number(params.get("p") ?? 1);
+    const limit = Number(params.get("limit") ?? 6);
 
     const session = await getServerSession(options);
     if (!session)
@@ -28,7 +29,6 @@ export const GET = async (req: NextRequest) => {
         status: 404,
       });
     const query = user.admin ? {} : { costumer: user._id.toString() };
-    const limit = 6;
     const count = await Order.countDocuments(query);
 
     const orders = await Order.find(query)

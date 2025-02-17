@@ -3,7 +3,6 @@ import { CiSearch } from "react-icons/ci";
 import { BsTelephone } from "react-icons/bs";
 import Filters from "./Filters";
 import User from "./User";
-import { Suspense } from "react";
 
 function Header() {
   return (
@@ -34,9 +33,8 @@ function Header() {
                 </div>
               </Link>
               <div className="h-6 w-[0.5px] bg-gray-400" />
-              <Suspense fallback={<p>Loading</p>}>
-                <User />
-              </Suspense>
+
+              <User />
             </div>
           </div>
         </div>
