@@ -28,7 +28,6 @@ async function Table({ page }: { page: number }) {
             <th className="p-4 hidden md:table-cell font-semibold text-center">
               Brand
             </th>
-            <th className="p-4 font-semibold text-center">Stock</th>
             <th className="p-4 font-semibold text-center">Actions</th>
           </tr>
         </thead>
@@ -43,7 +42,23 @@ async function Table({ page }: { page: number }) {
             }) => (
               <tr key={product._id} className="text-center border-t relative">
                 <td>
-                  <div className="flex justify-center">
+                  <Image
+                    src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
+                    alt={product.title}
+                    width={80}
+                    height={80}
+                    className="p-2 ml-4 md:ml-10 object-contain rounded-lg"
+                  />
+                </td>
+                <td>
+                  <div className="flex items-center justify-evenly gap-2">
+                    <p className="text-center">{product.title}</p>
+                  </div>
+                </td>
+                <td className="hidden md:table-cell">{product.brand}</td>
+                <td>
+                  <div className="flex justify-center items-center gap-3">
+                    <Delete productId={product._id} />
                     <Link href={`/manageproducts/product?id=${product._id}`}>
                       <AiTwotoneEdit
                         className="border p-1 rounded-full cursor-pointer hover:bg-gray-200 duration-150"
@@ -51,23 +66,6 @@ async function Table({ page }: { page: number }) {
                       />
                     </Link>
                   </div>
-                </td>
-                <td>
-                  <div className="flex items-center justify-evenly gap-2">
-                    <Image
-                      src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
-                      alt={product.title}
-                      width={80}
-                      height={80}
-                      className="p-2 object-contain rounded-lg mx-auto"
-                    />
-                    <p className="text-center">{product.title}</p>
-                  </div>
-                </td>
-                <td className="hidden md:table-cell">{product.brand}</td>
-                <td>{product.stock}</td>
-                <td>
-                  <Delete productId={product._id} />
                 </td>
               </tr>
             )

@@ -29,6 +29,12 @@ export const POST = async (req: NextRequest) => {
       image: defaultImage,
     });
 
+    if (!newUser) {
+      return new Response(JSON.stringify({ err: "Could not create user" }), {
+        status: 500,
+      });
+    }
+
     return new Response(JSON.stringify({ userId: newUser._id }), {
       status: 200,
     });

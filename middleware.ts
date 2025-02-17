@@ -10,10 +10,21 @@ const authMiddleware = withAuth({
   },
 });
 
+const adminMiddleware = withAuth({
+  callbacks: {
+    authorized: ({ token }) => !!token?.isAdmin,
+  },
+  pages: {
+    signIn: "/",
+  },
+});
+
 export default function middleware(req: NextRequest) {
+  if (req.nextUrl.pathname.includes("/manageproducts"))
+    return (adminMiddleware as any)(req);
   return (authMiddleware as any)(req);
 }
 
 export const config = {
-  matcher: ["/myacc/:path*"],
+  matcher: ["/myacc/:path*", "/manageproducts/:path*"],
 };
