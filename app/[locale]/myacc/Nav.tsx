@@ -1,5 +1,6 @@
 "use client";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -9,20 +10,21 @@ import { RxDashboard } from "react-icons/rx";
 import { TbShoppingCartCheck } from "react-icons/tb";
 
 function Nav() {
+  const t = useTranslations("myacc");
   const pathname = usePathname();
   const navs = [
     {
-      title: "Dashboard",
+      title: t("dashboard"),
       icon: <RxDashboard />,
       link: "/myacc",
     },
     {
-      title: "Orders",
+      title: t("orders"),
       icon: <TbShoppingCartCheck />,
       link: "/myacc/orders",
     },
     {
-      title: "Account Details",
+      title: t("accountDetails"),
       icon: <LuUser />,
       link: "/myacc/accdetails",
     },
@@ -49,7 +51,7 @@ function Nav() {
         className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white `}
       >
         <CiLogout />
-        Logout
+        {t("logout")}
       </button>
     </nav>
   );

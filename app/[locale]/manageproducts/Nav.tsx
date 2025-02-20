@@ -1,14 +1,16 @@
 "use client";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
 function Nav() {
+  const t = useTranslations("manageProducts");
   const searchParams = useSearchParams();
   const productId = searchParams.get("id");
   const navs = [
-    { label: "My Products", link: "/manageproducts" },
+    { label: t("myProducts"), link: "/manageproducts" },
     {
-      label: "Add Product",
+      label: t("addProduct"),
       link: "/manageproducts/product",
     },
   ];

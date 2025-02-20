@@ -1,6 +1,7 @@
 "use client";
 import { CartContext } from "@contexts/CartContext";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useContext, useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import { toast } from "sonner";
@@ -31,6 +32,7 @@ function Buy({
   productId: string;
   variances: Variance[];
 }) {
+  const t = useTranslations("product");
   const { cart, setCart } = useContext(CartContext);
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
@@ -107,7 +109,7 @@ function Buy({
         localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
     });
-    toast.success("Item added to cart");
+    toast.success(t("addedSucces"));
   };
 
   return (
@@ -144,7 +146,7 @@ function Buy({
               <p
                 className={`absolute -top-2 -right-2 rounded-full p-0.5 text-white flex items-center justify-center text-sm px-2 bg-red`}
               >
-                Out of stock
+                {t("outOfStock")}
               </p>
             )}
             <div className="text-lg font-semibold text-gray-6 flex justify-between">

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Buy from "./Buy";
 import Images from "./Images";
 
@@ -33,6 +34,7 @@ async function Page({
     cache: "no-cache",
   });
   if (!res.ok) return <p className="text-red-600">Error fetching Product...</p>;
+  const t = await getTranslations("product");
   const { product }: { product: Product } = await res.json();
 
   return (
@@ -62,7 +64,7 @@ async function Page({
             const minPrice = Math.min(...prices);
             return (
               <b className="text-xl font-bold mt-8 text-gray-8">
-                Prices: {minPrice} Dzd - {maxPrice} Dzd
+                {t("prices")}: {minPrice} Dzd - {maxPrice} Dzd
               </b>
             );
           })()}
@@ -80,22 +82,22 @@ async function Page({
           {product.description && (
             <>
               <h1 className="md:text-4xl text-2xl font-bold text-[#1c274c]">
-                Description:
+                {t("description")}:
               </h1>
-              <p>{product.description}</p>
+              <p className="ml-2">{product.description}</p>
             </>
           )}
 
           {product.ingedients && (
             <>
               <h1 className="text-xl font-bold text-[#314071] mt-4">
-                Ingedients:
+                {t("ingredients")}:
               </h1>
-              <p>
+              <div className="ml-2">
                 {product.ingedients.map((ingedient) => (
-                  <span key={ingedient}>- {ingedient} </span>
+                  <p key={ingedient}>• {ingedient} </p>
                 ))}
-              </p>
+              </div>
             </>
           )}
         </div>

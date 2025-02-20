@@ -1,11 +1,13 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import categories from "@data/categories";
-import { CiHeart } from "react-icons/ci";
+// import { CiHeart } from "react-icons/ci";
 import { IoIosMore } from "react-icons/io";
 import Link from "next/link";
+import { useLocale } from "next-intl";
 
 function Filters() {
+  const locale = useLocale();
   const [showMore, setShowMore] = useState(false);
   const [StickyMenu, setStickyMenu] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,7 +27,7 @@ function Filters() {
     >
       <div
         ref={containerRef}
-        className="max-w-[73rem] mx-auto flex items-center gap-2 md:gap-4 flex-wrap font-semibold text-sm md:text-base text-gray-600 relative"
+        className="max-w-[73rem] mx-auto flex items-center gap-2 md:gap-4 flex-wrap font-semibold text-sm text-gray-600 relative"
       >
         <IoIosMore
           className={`md:hidden text-xl duration-150 ${
@@ -33,18 +35,18 @@ function Filters() {
           }`}
           onClick={() => setShowMore((prev) => !prev)}
         />
-        <CiHeart size={15} />
-        {categories.slice(0, 4).map((cat) => (
+        {/* <CiHeart size={15} /> */}
+        {categories.slice(0, locale === "en" ? 4 : 3).map((cat) => (
           <Link
             href={`/products?category=${cat.aisle}`}
             key={cat.aisle}
             className="cursor-pointer relative underlined"
           >
-            {cat.aisle}
+            {locale === "en" ? cat.aisle : cat.aislefr}
           </Link>
         ))}
 
-        {categories.slice(4).map((cat) => (
+        {categories.slice(locale === "en" ? 4 : 3).map((cat) => (
           <Link
             href={`/products?category=${cat.aisle}`}
             key={cat.aisle}
@@ -52,7 +54,7 @@ function Filters() {
               showMore ? "" : "hidden"
             } md:block cursor-pointer relative underlined `}
           >
-            {cat.aisle}
+            {locale === "en" ? cat.aisle : cat.aislefr}
           </Link>
         ))}
       </div>

@@ -4,6 +4,7 @@ import Pagin from "@components/Pagin";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Link from "next/link";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 async function Table({ page }: { page: number }) {
   const res = await fetch(`${process.env.URL}/api/admin/product?p=${page}`, {
@@ -12,23 +13,26 @@ async function Table({ page }: { page: number }) {
     },
   });
   if (!res.ok) return <p className="text-red-500"> Error fetching data</p>;
+  const t = await getTranslations("manageProducts");
   const { count, products } = await res.json();
 
   return (
     <div className="max-w-[73rem] mx-auto">
       <div className="flex justify-between items-center my-4">
-        <h1 className="text-2xl font-bold text-center">Manage Products</h1>
+        <h1 className="text-2xl font-bold text-center">
+          {t("manageProducts")}
+        </h1>
         <Pagin page={page} count={count} perpage={8} href="manageproducts" />
       </div>
       <table className="bg-white shadow-md rounded-lg w-full text-sm md:text-base">
         <thead>
           <tr className="border-b">
             <th className="p-4 font-semibold"></th>
-            <th className="p-4 font-semibold text-center">Product</th>
+            <th className="p-4 font-semibold text-center">{t("product")}</th>
             <th className="p-4 hidden md:table-cell font-semibold text-center">
-              Brand
+              {t("brand")}
             </th>
-            <th className="p-4 font-semibold text-center">Actions</th>
+            <th className="p-4 font-semibold text-center">{t("actions")}</th>
           </tr>
         </thead>
         <tbody>

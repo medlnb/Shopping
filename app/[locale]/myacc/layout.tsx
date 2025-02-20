@@ -6,7 +6,6 @@ import Nav from "./Nav";
 
 const Layout = ({ children }: { children: React.ReactElement }) => {
   const { data: session } = useSession();
-  // console.log(session?.user.image);
   return (
     <main className="bg-gray-100">
       <section className="overflow-hidden py-20 bg-gray-2">

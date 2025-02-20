@@ -11,6 +11,7 @@ import tools from "../public/Catigories/tools.png";
 const data = [
   {
     aisle: "Makeup",
+    aislefr: "Maquillage",
     img: makeup,
     subcategories: [
       {
@@ -47,6 +48,7 @@ const data = [
   },
   {
     aisle: "Skincare",
+    aislefr: "Soins de la peau",
     img: skincare,
     subcategories: [
       {
@@ -81,6 +83,7 @@ const data = [
   },
   {
     aisle: "Hair Care",
+    aislefr: "Soins capillaires",
     img: haircare,
     subcategories: [
       {
@@ -107,6 +110,7 @@ const data = [
   },
   {
     aisle: "Body Care",
+    aislefr: "Soins du corps",
     img: bodycare,
     subcategories: [
       {
@@ -133,6 +137,7 @@ const data = [
   },
   {
     aisle: "Fragrances",
+    aislefr: "Parfums",
     img: fragrances,
     subcategories: [
       {
@@ -155,6 +160,7 @@ const data = [
   },
   {
     aisle: "Nail Care",
+    aislefr: "Soins des ongles",
     img: nailcare,
     subcategories: [
       {
@@ -173,6 +179,7 @@ const data = [
   },
   {
     aisle: "Men's Grooming",
+    aislefr: "Soins pour hommes",
     img: MensGrooming,
     subcategories: [
       {
@@ -191,6 +198,7 @@ const data = [
   },
   {
     aisle: "Baby and Kids",
+    aislefr: "Bébé et Enfants",
     img: BabyandKids,
     subcategories: [
       {
@@ -213,6 +221,7 @@ const data = [
   },
   {
     aisle: "Beauty Accessories",
+    aislefr: "Accessoires de beauté",
     img: tools,
     subcategories: [
       {

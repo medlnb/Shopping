@@ -1,17 +1,20 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function LangSwitch() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { replace } = useRouter();
   const lang = pathname.startsWith("/en") ? "en" : "fr";
 
   const HandleSwitch = (lang: "en" | "fr") => {
+    const queryString = searchParams.toString();
     const newPath =
       lang === "en"
         ? pathname.replace("/fr", "/en")
         : pathname.replace("/en", "/fr");
-    replace(newPath);
+    const newUrl = queryString ? `${newPath}?${queryString}` : newPath;
+    replace(newUrl);
   };
 
   const langs = [

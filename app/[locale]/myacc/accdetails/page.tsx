@@ -1,6 +1,7 @@
 "use client";
 import AlgerianCities from "@data/AlgerianCities";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
@@ -19,10 +20,12 @@ interface User {
 }
 
 function Page() {
+  const t = useTranslations("myacc");
   const { update } = useSession();
   const [user, setUser] = useState<User>();
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [loadingSubmitImage, setLoadingSubmitImage] = useState(false);
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       const res = await fetch("/api/auth/user");
@@ -62,14 +65,14 @@ function Page() {
       image: user?.image,
     });
 
-    toast.success("User data updated successfully");
+    toast.success(t("UpdateSuccess"));
     setLoadingSubmit(false);
   };
 
   const convertToBase64 = (
     file: File
   ): Promise<string | ArrayBuffer | null> => {
-    if (!file) return Promise.reject("No file provided");
+    if (!file) return Promise.reject(t("noImage"));
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
@@ -89,45 +92,33 @@ function Page() {
     const file = event.target.files?.[0];
     if (!file) {
       setLoadingSubmitImage(false);
-      return toast.error("No file selected");
+      return toast.error(t("noImage"));
     }
     const UploadedImage = (await convertToBase64(file)) as string;
-    if (true) {
-      // user?.image?.includes("https://dummyimage.com")
-      const res = await fetch(`/api/image`, {
-        method: "POST",
-        body: JSON.stringify({ image: UploadedImage }),
-      });
-      const { imageId } = await res.json();
-      await fetch("/api/auth/user", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
-        }),
-      });
-      setUser((prev) => ({
-        ...prev!,
-        image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
-      }));
-      update({
-        image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
-      });
 
-      setLoadingSubmitImage(false);
-    }
-    // const response = await fetch(`/api/image${image ? `/${image.id}` : ""}`, {
-    //   method: image ? "PATCH" : "POST",
-    //   body: JSON.stringify({ image: UploadedImage }),
-    // });
-    // setLoadingSubmitImage(false);
-    // if (response.ok) {
-    //   const { imageId } = await response.json();
-    //   // return HandleIsDone(UploadedImage, imageId);
-    // }
-    // return toast.error("Failed to upload image");
+    const res = await fetch(`/api/image`, {
+      method: "POST",
+      body: JSON.stringify({ image: UploadedImage }),
+    });
+    const { imageId } = await res.json();
+    await fetch("/api/auth/user", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
+      }),
+    });
+    setUser((prev) => ({
+      ...prev!,
+      image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
+    }));
+    update({
+      image: `https://shopping-hamma.vercel.app/api/image/${imageId}`,
+    });
+
+    setLoadingSubmitImage(false);
   };
 
   return (
@@ -173,7 +164,7 @@ function Page() {
         )}
         <div className="w-full mb-5">
           <label htmlFor="name" className="block mb-2.5">
-            Full Name <span className="text-red">*</span>
+            {t("name")} <span className="text-red">*</span>
           </label>
 
           <input
@@ -190,7 +181,7 @@ function Page() {
           />
         </div>
         <label htmlFor="name" className="block mb-2.5">
-          Phone Number <span className="text-red">*</span>
+          {t("phoneNumber")} <span className="text-red">*</span>
         </label>
         <div
           className={`mb-5 flex items-center rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 `}
@@ -216,7 +207,7 @@ function Page() {
         </div>
         <div className="mb-5">
           <label htmlFor="state" className="block mb-2.5">
-            State <span className="text-red">*</span>
+            {t("state")} <span className="text-red">*</span>
           </label>
 
           <div className="relative">
@@ -263,7 +254,7 @@ function Page() {
           </div>
 
           <label htmlFor="city" className="block mb-2.5 mt-5">
-            City <span className="text-red">*</span>
+            {t("city")} <span className="text-red">*</span>
           </label>
           <div className="relative">
             <select
@@ -311,7 +302,7 @@ function Page() {
         </div>
         <div className="w-full my-4">
           <label htmlFor="Homeaddress" className="block mb-2.5">
-            Home address <span className="text-red">*</span>
+            {t("homeAddress")} <span className="text-red">*</span>
           </label>
 
           <textarea
@@ -337,15 +328,12 @@ function Page() {
           {loadingSubmit ? (
             <ClipLoader size={23} className="mx-auto" color="white" />
           ) : (
-            "Save Changes"
+            t("save")
           )}
         </button>
       </div>
 
-      <p className="text-custom-sm mt-5 mb-9">
-        This will be how your name will be displayed in the account section and
-        in reviews
-      </p>
+      <p className="text-custom-sm mt-5 px-4 mb-9">{t("desc")}</p>
     </form>
   );
 }

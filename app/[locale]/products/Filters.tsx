@@ -5,6 +5,7 @@ import categories from "@data/categories";
 import { useRouter } from "next/navigation";
 import { Slider } from "@mui/joy";
 import { BarLoader } from "react-spinners";
+import { useLocale, useTranslations } from "next-intl";
 
 interface QueriesProps {
   p?: string;
@@ -14,6 +15,9 @@ interface QueriesProps {
 }
 
 function Filters({ queries }: { queries: QueriesProps }) {
+  const t = useTranslations("products");
+  const locale = useLocale();
+
   const { replace } = useRouter();
   const [isPending, startTransition] = useTransition();
   const [selectedPrice, setSelectedPrice] = useState({
@@ -58,13 +62,13 @@ function Filters({ queries }: { queries: QueriesProps }) {
           }}
         />
         <div className="flex justify-between items-center p-4 py-2">
-          <p className="text-gray-600">Filters:</p>
+          <p className="text-gray-600">{t("filters")}:</p>
           <button
             className="text-sm text-blue-700 disabled:text-blue-400"
             onClick={() => startTransition(() => replace("/products"))}
             disabled={isPending}
           >
-            Clear All
+            {t("clear")}
           </button>
         </div>
       </section>
@@ -94,13 +98,13 @@ function Filters({ queries }: { queries: QueriesProps }) {
                 htmlFor={category.aisle}
                 className="text-sm font-medium text-gray-500 hover:text-blue-700 duration-200 cursor-pointer"
               >
-                {category.aisle}
+                {locale === "en" ? category.aisle : category.aislefr}
               </label>
             </div>
           ))}
         </Filter>
         <Filter
-          title="Price"
+          title={t("price")}
           activated={!!queries.category}
           isLoading={isPending}
         >
@@ -157,7 +161,7 @@ function Filters({ queries }: { queries: QueriesProps }) {
             disabled={isPending}
             className="w-full bg-blue-700 hover:bg-blue-600 disabled:bg-blue-400 text-white py-1 mt-2 rounded-md relative"
           >
-            Filter
+            {t("filter")}
           </button>
         </Filter>
       </div>

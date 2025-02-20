@@ -5,6 +5,7 @@ import User from "./User";
 import Search from "./Search";
 import LangSwitch from "./LangSwitch";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
 async function Header() {
   const t = await getTranslations("Header");
@@ -17,7 +18,9 @@ async function Header() {
               <Link className="text-3xl font-bold text-start w-full" href="/">
                 Shopping
               </Link>
-              <LangSwitch />
+              <Suspense>
+                <LangSwitch />
+              </Suspense>
             </div>
             <Search />
             <div className="flex items-center justify-center gap-4 w-full md:w-auto">

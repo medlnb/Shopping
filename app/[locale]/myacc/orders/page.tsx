@@ -13,6 +13,7 @@ import { ClipLoader } from "react-spinners";
 import Pagin from "@components/Pagin";
 import ExportToExcel from "./ExportToExcel";
 import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 
 const toPriceForm = (price?: number) =>
   price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? 0;
@@ -62,11 +63,14 @@ interface Order {
 }
 
 function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
+  const t = useTranslations("myacc");
+  const locale = useLocale();
   const { data: session } = useSession();
 
   const [orders, setOrders] = useState<Order[]>();
   const [count, setCount] = useState(0);
   const [details, setDetails] = useState<Details>();
+
   useEffect(() => {
     const getOrders = async () => {
       setOrders(undefined);
@@ -97,7 +101,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
         order._id === details.orderId ? { ...order, stat } : order
       )
     );
-    toast.success("Order status updated successfully");
+    toast.success(t("orderSuccess"));
     setDetails(undefined);
   };
 
@@ -106,10 +110,12 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
       <table className="rounded-lg pb-2 bg-white w-full text-xs md:text-base">
         <thead>
           <tr className="border-b">
-            <th className="p-4 font-semibold text-center">Product</th>
-            <th className="p-4 font-semibold hidden md:table-cell">Variance</th>
-            <th className="p-4 font-semibold text-center">Price</th>
-            <th className="p-4 font-semibold text-center">Status</th>
+            <th className="p-4 font-semibold text-center">{t("product")}</th>
+            <th className="p-4 font-semibold hidden md:table-cell">
+              {t("variance")}
+            </th>
+            <th className="p-4 font-semibold text-center">{t("price")}</th>
+            <th className="p-4 font-semibold text-center">{t("status")}</th>
           </tr>
         </thead>
         <tbody>
@@ -133,7 +139,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
             <tr className="text-center relative">
               <td colSpan={5} className=" p-6">
                 <span>
-                  You have no orders bro, maybe check our{" "}
+                  {t("emptyState")}
                   <Link href="/products" className="underline font-semibold">
                     products
                   </Link>
@@ -188,7 +194,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
                       : "bg-green"
                   }`}
                 >
-                  {order.stat}
+                  {t(order.stat)}
                 </span>
               </td>
             </tr>
@@ -205,7 +211,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
         {session?.user?.isAdmin && <ExportToExcel fileName="my-orders" />}
       </div>
       <Dialog open={!!details} onClose={() => setDetails(undefined)}>
-        <DialogTitle>Customer</DialogTitle>
+        <DialogTitle>{t("title")}</DialogTitle>
         <div className="p-5 w-[30rem] max-w-full">
           <Image
             height={100}
@@ -269,7 +275,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
                 {details?.loading === status ? (
                   <ClipLoader size={23} color="white" />
                 ) : (
-                  status
+                  t(status)
                 )}
               </button>
             ))}

@@ -21,6 +21,7 @@ import { Check } from "@mui/icons-material";
 import ListManager from "@components/ListManager";
 import Loader from "@components/Loader";
 import { Switch } from "@mui/material";
+import { useLocale, useTranslations } from "next-intl";
 
 interface Product {
   title: string;
@@ -57,6 +58,8 @@ const defaultInput = {
 };
 
 function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
+  const t = useTranslations("manageProducts");
+  const locale = useLocale();
   const [input, setInput] = useState<Product>(defaultInput);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [loading, setLoading] = useState(!!id);
@@ -98,7 +101,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
       !input.category.subcategories ||
       !input.variances.length
     )
-      return toast.error("Please fill all the required fields *");
+      return toast.error(t("fillAllFields"));
 
     setLoadingSubmit(true);
 
@@ -131,7 +134,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
           sub.info === variances.info
       )
     )
-      return toast.warning("This variance already exists");
+      return toast.warning(t("alreadyAdded"));
 
     setInput((prev) => ({
       ...prev!,
@@ -156,14 +159,14 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
     }));
   };
 
-  if (loading) return <Loader title="Getting your Product..." />;
+  if (loading) return <Loader title={t("loadingTitle")} />;
 
   return (
     <form className="max-w-[73rem] mx-auto" onSubmit={HandleSubmit}>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
         <div>
           <h3 className="text-gray-500 font-semibold mb-2 text-lg">
-            Title <span className="text-sm text-gray-500">*</span>
+            {t("title")} <span className="text-sm text-gray-500">*</span>
           </h3>
           <input
             value={input.title}
@@ -171,23 +174,25 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
               setInput((prev) => ({ ...prev!, title: e.target.value }))
             }
             className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md"
-            placeholder="Title..."
+            placeholder={t("titlePlaceholder")}
           />
         </div>
         <div>
-          <h3 className="text-gray-500 font-semibold mb-2 text-lg">Brand</h3>
+          <h3 className="text-gray-500 font-semibold mb-2 text-lg">
+            {t("brand")}
+          </h3>
           <input
             value={input.brand}
             onChange={(e) =>
               setInput((prev) => ({ ...prev!, brand: e.target.value }))
             }
             className="border bg-gray-100  border-gray-300 focus:outline-none w-full p-2 rounded-md"
-            placeholder="Brand..."
+            placeholder={t("brandPlaceholder")}
           />
         </div>
         <div className="md:col-span-2">
           <h3 className="text-gray-500 font-semibold mb-2 text-lg">
-            Describtion
+            {t("describtion")}
           </h3>
           <textarea
             value={input.description}
@@ -198,20 +203,20 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
               }))
             }
             className="border bg-gray-100 text-sm  border-gray-300 focus:outline-none w-full p-2 rounded-md h-36"
-            placeholder="Description..."
+            placeholder={t("describtionPlaceholder")}
           />
         </div>
       </section>
 
       <h3 className="text-gray-500 font-semibold mb-2 text-lg">
-        Catigory <span className="text-sm text-gray-500">*</span>
+        {t("catigory")} <span className="text-sm text-gray-500">*</span>
       </h3>
 
       <Sele
         borderColor="border-green-600"
         selectedBorderColor="border-gray-500"
         labelslist={Categories.map((cat) => ({
-          label: cat.aisle,
+          label: locale === "en" ? cat.aisle : cat.aislefr,
           key: cat.aisle,
         }))}
         onChangeHere={(item) =>
@@ -336,7 +341,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
       </Select>
 
       <ListManager
-        title="Ingredients"
+        title={t("ingredients")}
         HandlingAdd={(item) =>
           setInput((prev) => ({
             ...prev!,
@@ -353,13 +358,13 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
       />
 
       <h3 className="text-gray-500 font-semibold mb-2 text-lg">
-        {"Add the product's prices"}
+        {t("addPrice")}
         <span className="text-sm text-gray-500">*</span>
       </h3>
       <div className="grid grid-cols-3 md:gap-1 gap-0.5 gap-y-2 items-center mb-4">
         <div>
           <h3 className="text-gray-500 font-semibold mb-1">
-            Price <span className="text-sm text-gray-500">*</span>
+            {t("price")} <span className="text-sm text-gray-500">*</span>
           </h3>
           <input
             value={variances.price === 0 ? "" : variances.price}
@@ -375,7 +380,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
         </div>
         <div>
           <h3 className="text-gray-500 font-semibold mb-1 whitespace-nowrap">
-            New Price{" "}
+            {t("newPrice")}
             <b>
               {(() => {
                 if (!variances.price || !variances.newPrice) return "";
@@ -405,7 +410,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
 
         <div>
           <h3 className="text-gray-500 font-semibold mb-1">
-            Quantity <span className="text-sm text-gray-500">*</span>
+            {t("quantity")} <span className="text-sm text-gray-500">*</span>
           </h3>
           <div className="flex justify-between border bg-gray-100 border-gray-300 rounded-md p-2">
             <input
@@ -427,17 +432,17 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
               }
               className="focus:outline-none bg-transparent w-8"
             >
-              <option value="L">L</option>
-              <option value="Kg">Kg</option>
-              <option value="Pirce">Pirce</option>
-              <option value="Caps">Caps</option>
-              <option value="Wipes">Wipes</option>
+              <option value="L">{t("L")}</option>
+              <option value="Kg">{t("Kg")}</option>
+              <option value="Pirce">{t("Pirce")}</option>
+              <option value="Caps">{t("Caps")}</option>
+              <option value="Wipes">{t("Wipes")}</option>
             </select>
           </div>
         </div>
         <div className="col-span-3">
           <h3 className="text-gray-500 font-semibold mb-1">
-            Extra Information
+            {t("extraInformation")}
           </h3>
           <input
             value={variances.info}
@@ -457,7 +462,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
           onClick={HandleAddVariance}
           className="col-start-3 bg-gray-6 text-white p-1 mt-1 rounded-md w-full hover:bg-gray-5 duration-150"
         >
-          Add
+          {t("addVariance")}
         </button>
       </div>
 
@@ -539,7 +544,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
         </div>
       ))}
       <h3 className="text-gray-500 text-lg font-semibold mb-2 mt-5">
-        Add Some of your {"product's"} images
+        {t("imagesTitle")}
         <span className="text-sm text-gray-500"> *</span>
       </h3>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -588,7 +593,7 @@ function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
         className="bg-[#1c274c] hover:bg-[#2a3968]  text-white p-2 rounded-md w-full mt-4 duration-150 flex items-center gap-2 justify-center"
         disabled={loadingSubmit}
       >
-        {id ? "Update" : "Post"}
+        {id ? t("update") : t("post")}
         {loadingSubmit && <ClipLoader color="white" size={20} />}
       </button>
     </form>
