@@ -64,7 +64,6 @@ interface Order {
 
 function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
   const t = useTranslations("myacc");
-  const locale = useLocale();
   const { data: session } = useSession();
 
   const [orders, setOrders] = useState<Order[]>();
