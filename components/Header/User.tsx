@@ -4,10 +4,11 @@ import { CiUser } from "react-icons/ci";
 import Cart from "./Cart";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 function User() {
+  const t = useTranslations("Header");
   const { data: session } = useSession();
-
   return (
     <>
       <Link
@@ -37,9 +38,9 @@ function User() {
               <CiUser className="text-gray-400" size={20} />
             )}
             <div>
-              <p className="text-xs text-gray-400">Account</p>
+              <p className="text-xs text-gray-400">{t("account")}</p>
               <div className="text-sm font-semibold">
-                {session?.user ? session.user.name!.split(" ")[0] : "Log in"}
+                {session?.user ? session.user.name!.split(" ")[0] : t("login")}
               </div>
             </div>
           </>

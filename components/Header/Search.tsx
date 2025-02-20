@@ -6,6 +6,8 @@ import { debounce } from "lodash";
 import EmptyState from "@components/EmptyState";
 import { ImCancelCircle } from "react-icons/im";
 import Link from "next/link";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface Product {
   _id: number;
@@ -20,6 +22,7 @@ interface Product {
 }
 
 function Search() {
+  const t = useTranslations("Header");
   const inputRef = useRef<HTMLInputElement>(null);
   const [dialog, setDialog] = useState(false);
   const [data, setData] = useState<Product[] | undefined>([]);
@@ -46,6 +49,7 @@ function Search() {
       debouncedFetch.cancel();
     };
   }, [query]);
+
   return (
     <>
       <Dialog
@@ -60,7 +64,7 @@ function Search() {
               ref={inputRef}
               type="text"
               className="border border-gray-5 rounded-md focus:outline-none p-2 px-4 bg-gray-1 w-full"
-              placeholder="search for products..."
+              placeholder={t("searchPlaceholder")}
               onChange={(e) => setQuery(e.target.value)}
             />
             {!!query.length && (
@@ -85,7 +89,9 @@ function Search() {
                     className="flex mb-1 gap-2 p-1"
                     key={product._id}
                   >
-                    <img
+                    <Image
+                      height={100}
+                      width={100}
                       src={"/api/image/" + product.image}
                       alt={product.title}
                       className="w-16 h-16 rounded-md object-contain"
@@ -103,10 +109,10 @@ function Search() {
                 ))}
               </div>
             ) : query.length ? (
-              <EmptyState label="No products found" />
+              <EmptyState label={t("emptyState")} />
             ) : (
               <p className="text-center font-bold text-gray-7 text-lg pt-8">
-                Whats are you looking for my friend?
+                {t("searchDescription")}
               </p>
             )
           ) : (
@@ -137,7 +143,7 @@ function Search() {
           }, 200);
         }}
       >
-        <p className="text-gray-400 flex-1">i am shopping for...</p>
+        <p className="text-gray-400 flex-1">{t("seachTitle")}</p>
         <CiSearch className="text-gray-600" />
       </div>
     </>

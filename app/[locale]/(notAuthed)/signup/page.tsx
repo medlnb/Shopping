@@ -6,8 +6,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 function Signup() {
+  const t = useTranslations("notAuthed");
   const { replace } = useRouter();
 
   const {
@@ -48,11 +51,11 @@ function Signup() {
   return (
     <main className="max-w-[30rem] mx-auto bg-white p-4 md:p-10 rounded-lg">
       <form onSubmit={handleSubmit}>
-        <h2 className="text-xl text-center font-bold">Create an Account</h2>
+        <h2 className="text-xl text-center font-bold">{t("signUpTitle")}</h2>
         <h3 className="text-gray-4 text-center font-semibold ">
-          Please enter your details
+          {t("signUpSubtitle")}
         </h3>
-        <h4 className="pl-1 text-sm mt-4 text-gray-7">Say your name</h4>
+        <h4 className="pl-1 text-sm mt-4 text-gray-7">{t("name")}</h4>
         <input
           className={`p-3 border duration-2  bg-gray-1 rounded-md text-black w-full focus:outline-none text-sm ${
             touched.name && errors.name ? "border-red-400" : "border-[#979aa8]"
@@ -67,7 +70,7 @@ function Signup() {
         >
           {errors.name} !
         </p>
-        <h4 className="pl-1 text-sm text-gray-7">Phone Number</h4>
+        <h4 className="pl-1 text-sm text-gray-7">{t("phoneNumber")}</h4>
         <div
           className={`p-3 border duration-2 bg-gray-1 rounded-md text-black w-full text-sm flex items-center ${
             touched.phoneNumber && errors.phoneNumber
@@ -75,7 +78,9 @@ function Signup() {
               : "border-[#979aa8]"
           }`}
         >
-          <img
+          <Image
+            height={20}
+            width={20}
             src="https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg"
             alt="Algeria Flag"
             className="w-6 h-4 mr-2"
@@ -96,7 +101,7 @@ function Signup() {
         >
           {errors.phoneNumber} !
         </p>
-        <h4 className="pl-1 text-sm text-gray-7">Password</h4>
+        <h4 className="pl-1 text-sm text-gray-7">{t("password")}</h4>
         <input
           className={`p-3 border duration-200  bg-gray-1 rounded-md text-black w-full focus:outline-none text-sm ${
             touched.password && errors.password
@@ -112,11 +117,10 @@ function Signup() {
             touched.password && errors.password ? "visible" : "invisible"
           }`}
         >
-          Required
           {errors.password} !
         </p>
 
-        <h4 className="pl-1 text-sm text-gray-7">Re-type Password</h4>
+        <h4 className="pl-1 text-sm text-gray-7">{t("confirmPassword")}</h4>
 
         <input
           className={`p-3 border duration-200  bg-gray-1 rounded-md text-black w-full focus:outline-none text-sm ${
@@ -135,7 +139,6 @@ function Signup() {
               : "invisible"
           }`}
         >
-          Required
           {errors.confirmPassword} !
         </p>
 
@@ -150,13 +153,13 @@ function Signup() {
               : "bg-[#1c274c]"
           }`}
         >
-          {isSubmitting ? <MoonLoader size={15} color="#fff" /> : "Sign up"}
+          {isSubmitting ? <MoonLoader size={15} color="#fff" /> : t("signUp")}
         </button>
       </form>
 
       <div className="relative flex justify-center">
         <p className="bg-primary-1 px-1 absolute top-1/2 -translate-y-1/2 pb-1">
-          or
+          {t("or")}
         </p>
         <div className="w-full bg-gray-400 h-0.5 my-4" />
       </div>
@@ -166,12 +169,12 @@ function Signup() {
         disabled={true}
       >
         <FaGoogle />
-        Sign up with google
+        {t("loginWithGoogle")}
       </button>
       <div className="text-sm text-gray-7">
-        already have an account?!{" "}
+        {t("alreadyHaveAccount")}{" "}
         <Link href="/login" className="font-semibold underline">
-          Log in
+          {t("login")}
         </Link>
       </div>
     </main>

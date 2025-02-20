@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface Product {
@@ -35,7 +36,9 @@ async function NewArrivals() {
             className="bg-white rounded-lg shadow-md p-4 max-w-[15rem] w-full"
           >
             <Link href={`/product/${product._id}`}>
-              <img
+              <Image
+                height={400}
+                width={400}
                 src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
                 alt={product.tilte}
                 className="h-40 w-full object-cover rounded-lg"

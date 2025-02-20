@@ -116,7 +116,7 @@ function Buy({
         {variances.map((variance) => (
           <div
             key={variance._id}
-            className={`border  duration-150 rounded-md p-1 px-2 mt-2 relative 
+            className={`border duration-150 rounded-md p-1 px-3 mt-2 relative 
               ${variance.isOutOfStock ? "opacity-50" : ""}
               ${
                 (buy.variance?._id ?? "") === variance._id
@@ -147,10 +147,24 @@ function Buy({
                 Out of stock
               </p>
             )}
-            <p className="text-lg font-semibold text-gray-6">
-              {variance.quantity} {variance.unit} -
-              <b className="text-[#1c274c]"> {variance.price} Dzd</b>
-            </p>
+            <div className="text-lg font-semibold text-gray-6 flex justify-between">
+              <p>
+                {variance.quantity} {variance.unit}
+              </p>
+              <span className="text-[#1c274c]">
+                {variance.newPrice ? (
+                  <span>
+                    <span className="text-red-light-2 mr-1 line-through">
+                      {variance.price}
+                    </span>
+                    <span className="text-xl">{variance.newPrice}</span>
+                  </span>
+                ) : (
+                  variance.price
+                )}{" "}
+                Dzd
+              </span>
+            </div>
             <p className="text-gray-5">{variance.info}</p>
           </div>
         ))}

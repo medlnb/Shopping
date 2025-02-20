@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { LuImagePlus, LuImageMinus } from "react-icons/lu";
 import { MoonLoader } from "react-spinners";
 import { GoStarFill, GoStar } from "react-icons/go";
+import Image from "next/image";
 
 function ImagePost({
   title,
@@ -110,13 +111,18 @@ function ImagePost({
             <MoonLoader size={50} />
           ) : image?.id ? (
             image.image ? (
-              <img
+              <Image
+                height={400}
+                width={400}
                 src={image.image}
                 alt="Uploaded"
                 className="h-full w-full object-cover"
               />
             ) : (
-              <img
+              <Image
+                height={400}
+                width={400}
+                alt="Uploaded"
                 src={`https://shopping-hamma.vercel.app/api/image/${image.id}`}
                 className="h-full w-full object-cover"
               />

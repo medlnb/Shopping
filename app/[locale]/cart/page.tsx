@@ -5,29 +5,38 @@ import { useContext } from "react";
 import { MoonLoader } from "react-spinners";
 import OrderSummary from "./OrderSummary";
 import Delete from "./Delete";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const toPriceForm = (price?: number) =>
   price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? "0";
 
 function Page() {
+  const t = useTranslations("cart");
   const { cart, setCart } = useContext(CartContext);
   return (
     <main className="bg-gray-100 py-2 md:py-0">
       <div className="mx-auto max-w-[72rem] p-2">
         <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
-          My Cart
+          {t("title")}
         </h1>
         <section className="bg-white flex-1 shadow-md rounded-lg ml-auto pb-2">
           <table className="w-full text-xs md:text-base">
             <thead>
               <tr className="border-b">
                 <th></th>
-                <th className="p-4 font-semibold text-center">Product</th>
-                <th className="p-4 font-semibold hidden md:table-cell">
-                  price
+                <th className="p-4 font-semibold text-center">
+                  {t("product")}
                 </th>
-                <th className="p-4 font-semibold text-center">variance</th>
-                <th className="p-4 font-semibold text-center">Subtotal</th>
+                <th className="p-4 font-semibold hidden md:table-cell">
+                  {t("price")}
+                </th>
+                <th className="p-4 font-semibold text-center">
+                  {t("variance")}
+                </th>
+                <th className="p-4 font-semibold text-center">
+                  {t("subTotal")}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -56,12 +65,12 @@ function Page() {
                 <tr className="text-center border-t relative">
                   <td colSpan={5} className=" p-6">
                     <span>
-                      Your cart is empty, maybe check our{" "}
+                      {t("emptyCart")}
                       <Link
                         href="/products"
                         className="underline font-semibold"
                       >
-                        products
+                        {t("products")}
                       </Link>
                     </span>
                   </td>
@@ -81,7 +90,9 @@ function Page() {
                       href={`/product?id=${product.product._id}`}
                       className="flex items-center justify-center gap-0.5 md:gap-2"
                     >
-                      <img
+                      <Image
+                        height={50}
+                        width={50}
                         src={`https://shopping-hamma.vercel.app/api/image/${product.product.images[0]}`}
                         alt={product.product.title}
                         className="w-12 h-12 md:w-20 md:h-20 p-0.5 md:p-2 object-contain"

@@ -1,6 +1,8 @@
 import { CartContext } from "@contexts/CartContext";
 import AlgerianCities from "@data/AlgerianCities";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import { toast } from "sonner";
@@ -19,20 +21,36 @@ const toPriceForm = (price?: number) =>
   price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? "0";
 
 function OrderSummary() {
+  const t = useTranslations("cart");
   const { cart, setCart } = useContext(CartContext);
   const total = toPriceForm(
     cart?.reduce((acc, product) => acc + product.price * product.quantity, 0)
   );
 
   const [user, setUser] = useState<User>();
+  const [formErrors, setFormErrors] = useState({
+    name: false,
+    phoneNumber: false,
+    homeAddress: false,
+  });
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
 
   const HandleConfirmOrder = async () => {
     if (!setCart) return;
     if (total === "0") return toast.error("Your cart is empty");
-    if (!user?.name || !user?.phoneNumber || !user?.address.homeAddress)
-      return toast.error("Please fill all the fields");
+    if (!user?.name) {
+      setFormErrors((prev) => ({ ...prev, name: true }));
+      return toast.error(t("fillAllFields"));
+    }
+    if (!user?.phoneNumber) {
+      setFormErrors((prev) => ({ ...prev, phoneNumber: true }));
+      return toast.error(t("fillAllFields"));
+    }
+    if (!user?.address.homeAddress) {
+      setFormErrors((prev) => ({ ...prev, homeAddress: true }));
+      return toast.error(t("fillAllFields"));
+    }
     setLoading(true);
     const res = await fetch("/api/checkout", {
       method: "POST",
@@ -50,8 +68,8 @@ function OrderSummary() {
     setLoading(false);
     if (!res.ok) return;
     const { missingItems } = await res.json();
-    toast.success("Order Confirmed");
-    if (missingItems) toast.error("Some items are out of stock");
+    toast.success(t("orderConfirmed"));
+    if (missingItems) toast.error(t("itemsWarning"));
     setCart([]);
     if (!session?.user) localStorage.removeItem("cart");
   };
@@ -86,7 +104,7 @@ function OrderSummary() {
   return (
     <section className="ml-auto w-full">
       <h1 className="p-4 border-b text-lg text-[#2e385a] font-semibold">
-        Order Summary
+        {t("orderSummary")}
       </h1>
       <div className="bg-white shadow-md rounded-lg text-xs md:text-base flex md:items-center flex-col md:flex-row">
         <div className="p-4 flex-1">
@@ -94,21 +112,29 @@ function OrderSummary() {
             type="text"
             name="name"
             id="name"
-            placeholder="Full Name"
+            placeholder={t("name")}
             value={user?.name ?? ""}
             disabled={!user || session?.user}
-            onChange={(e) =>
-              setUser((prev) => ({ ...prev!, name: e.target.value }))
-            }
-            className={`mb-5 rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20
-              ${!user || session?.user ? "bg-gray-3" : ""}`}
+            onChange={(e) => {
+              if (!e.target.value)
+                setFormErrors((prev) => ({ ...prev, name: true }));
+              else setFormErrors((prev) => ({ ...prev, name: false }));
+              setUser((prev) => ({ ...prev!, name: e.target.value }));
+            }}
+            className={`mb-5 focus:outline-none rounded-md border bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 duration-200  
+              ${!user || session?.user ? "bg-gray-3" : ""}
+              ${formErrors.name ? "border-red-light" : "border-gray-3"}
+              `}
           />
-
           <div
-            className={`mb-5 p-4 flex items-center rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 
-              ${!user || session?.user ? "bg-gray-3" : ""}`}
+            className={`mb-5 p-4 flex items-center rounded-md border bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 
+              ${!user || session?.user ? "bg-gray-3" : ""}
+               ${formErrors.phoneNumber ? "border-red-light" : "border-gray-3"}
+              `}
           >
-            <img
+            <Image
+              height={20}
+              width={20}
               src="https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg"
               alt="Algeria Flag"
               className="w-6 h-4 mr-2"
@@ -120,9 +146,12 @@ function OrderSummary() {
               className="focus:outline-none bg-transparent flex-1"
               value={user?.phoneNumber ? Number(user?.phoneNumber) : ""}
               disabled={!user || session?.user}
-              onChange={(e) =>
-                setUser((prev) => ({ ...prev!, phoneNumber: e.target.value }))
-              }
+              onChange={(e) => {
+                if (!e.target.value)
+                  setFormErrors((prev) => ({ ...prev, phoneNumber: true }));
+                else setFormErrors((prev) => ({ ...prev, phoneNumber: false }));
+                setUser((prev) => ({ ...prev!, phoneNumber: e.target.value }));
+              }}
             />
           </div>
 
@@ -141,7 +170,7 @@ function OrderSummary() {
                   },
                 }))
               }
-              className="w-full bg-gray-1 rounded-md border border-gray-3 text-dark-4 py-3 pl-5 pr-9 duration-200 appearance-none outline-none focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+              className={`w-full bg-gray-1 rounded-md border border-gray-3 text-dark-4 py-3 pl-5 pr-9 duration-200 appearance-none outline-none`}
             >
               {AlgerianCities.map((state) => (
                 <option key={state[0].wilaya_id} value={state[0].wilaya_id}>
@@ -219,13 +248,22 @@ function OrderSummary() {
             placeholder="City 1850 logts, apt 19"
             value={user?.address?.homeAddress ?? ""}
             disabled={!user}
-            onChange={(e) =>
+            onChange={(e) => {
+              if (!e.target.value)
+                setFormErrors((prev) => ({ ...prev, homeAddress: true }));
+              else setFormErrors((prev) => ({ ...prev, homeAddress: false }));
               setUser((prev) => ({
                 ...prev!,
-                address: { ...prev!.address, homeAddress: e.target.value },
-              }))
-            }
-            className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20 h-30"
+                address: {
+                  ...prev!.address,
+                  homeAddress: e.target.value,
+                },
+              }));
+            }}
+            className={`rounded-md border bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 h-30 
+               ${
+                 formErrors.homeAddress ? "border-red-light" : "border-gray-3"
+               }`}
           />
         </div>
         <div className="h-50 bg-gray-5 w-0.5 mr-4 hidden md:block" />
@@ -239,15 +277,15 @@ function OrderSummary() {
               </span>
             </p>
             <p className="flex justify-between">
-              <span>Shipping</span>
+              <span>{t("shipping")}</span>
               <span>
-                <b>Free</b>
+                <b>{t("free")}</b>
               </span>
             </p>
           </div>
           <div className="p-4 border-b">
             <p className="flex justify-between">
-              <span>Total</span>
+              <span>{t("total")}</span>
               <span>
                 <b>{total} </b> {" Dzd"}
               </span>
@@ -261,7 +299,7 @@ function OrderSummary() {
               {loading ? (
                 <MoonLoader size={19} color="white " />
               ) : (
-                "Confirm Order"
+                t("confirmOrder")
               )}
             </button>
           </div>

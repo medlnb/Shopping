@@ -1,6 +1,7 @@
 "use client";
 import AlgerianCities from "@data/AlgerianCities";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { ClipLoader, MoonLoader } from "react-spinners";
@@ -139,7 +140,9 @@ function Page() {
                 <MoonLoader size={50} color="blue" />
               ) : (
                 <div className="relative">
-                  <img
+                  <Image
+                    height={400}
+                    width={400}
                     src={user.image}
                     alt={user.name}
                     className="h-40 w-40 rounded-full mx-auto object-contain"
@@ -192,7 +195,9 @@ function Page() {
         <div
           className={`mb-5 flex items-center rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 `}
         >
-          <img
+          <Image
+            height={20}
+            width={20}
             src="https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg"
             alt="Algeria Flag"
             className="w-6 h-4 mr-2"

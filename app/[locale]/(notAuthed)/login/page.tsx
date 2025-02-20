@@ -6,8 +6,11 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 function Login() {
+  const t = useTranslations("notAuthed");
   const { push, refresh } = useRouter();
   const {
     errors,
@@ -47,14 +50,12 @@ function Login() {
   return (
     <main className="max-w-[30rem] mx-auto bg-white p-4 md:p-10 rounded-lg">
       <form onSubmit={handleSubmit}>
-        <h2 className="text-xl text-center font-bold">
-          Sign In to Your Account
-        </h2>
+        <h2 className="text-xl text-center font-bold">{t("logInTitle")}</h2>
         <h3 className="text-gray-400 text-center text-sm font-semibold ">
-          Please enter your details
+          {t("logInSubtitle")}
         </h3>
 
-        <h4 className="pl-1 text-sm text-gray-700">Phone Number</h4>
+        <h4 className="pl-1 text-sm text-gray-700">{t("phoneNumber")}</h4>
         <div
           className={`p-3 border duration-200 bg-gray-100 rounded-md text-black w-full text-sm flex items-center ${
             touched.phoneNumber && errors.phoneNumber
@@ -62,7 +63,9 @@ function Login() {
               : "border-[#979aa8]"
           }`}
         >
-          <img
+          <Image
+            height={20}
+            width={20}
             src="https://upload.wikimedia.org/wikipedia/commons/7/77/Flag_of_Algeria.svg"
             alt="Algeria Flag"
             className="w-6 h-4 mr-2"
@@ -83,7 +86,7 @@ function Login() {
           {errors.phoneNumber} !
         </p>
 
-        <h4 className="pl-1 text-sm text-gray-700">Password</h4>
+        <h4 className="pl-1 text-sm text-gray-700">{t("password")}</h4>
 
         <input
           className={`p-3 border duration-200  bg-gray-100 rounded-md text-black w-full focus:outline-none text-sm ${
@@ -92,7 +95,7 @@ function Login() {
               : "border-[#979aa8]"
           }`}
           type="password"
-          placeholder="Entre your password"
+          placeholder={t("passwordPlaceHolder")}
           id="password"
           {...getFieldProps("password")}
         />
@@ -115,12 +118,12 @@ function Login() {
               : "bg-[#1c274c]"
           }`}
         >
-          {isSubmitting ? <MoonLoader size={15} color="#fff" /> : "Log in"}
+          {isSubmitting ? <MoonLoader size={15} color="#fff" /> : t("login")}
         </button>
       </form>
       <div className="relative flex justify-center">
         <p className="bg-primary-1 px-1 absolute top-1/2 -translate-y-1/2 pb-1">
-          or
+          {t("or")}
         </p>
         <div className="w-full bg-gray-400 h-0.5 my-4" />
       </div>
@@ -130,12 +133,12 @@ function Login() {
         disabled={true}
       >
         <FaGoogle />
-        Log in with google
+        {t("logInWithGoogle")}
       </button>
       <div className="text-sm text-gray-700">
-        {"don't have an account?! "}
+        {t("dontHaveAccount")}
         <Link href="/signup" className="font-semibold underline">
-          Sign up
+          {t("signUp")}
         </Link>
       </div>
     </main>

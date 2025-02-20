@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { ClipLoader } from "react-spinners";
 import Pagin from "@components/Pagin";
 import ExportToExcel from "./ExportToExcel";
+import Image from "next/image";
 
 const toPriceForm = (price?: number) =>
   price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? 0;
@@ -206,9 +207,11 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
       <Dialog open={!!details} onClose={() => setDetails(undefined)}>
         <DialogTitle>Customer</DialogTitle>
         <div className="p-5 w-[30rem] max-w-full">
-          <img
-            src={details?.image}
-            alt={details?.name}
+          <Image
+            height={100}
+            width={100}
+            src={details?.image ?? ""}
+            alt={details?.name ?? ""}
             className="w-20 h-20 rounded-full object-contain mx-auto mb-4"
           />
 

@@ -1,10 +1,12 @@
 "use client";
 import { CartContext } from "@contexts/CartContext";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useContext } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 
 function Cart() {
+  const t = useTranslations("Header");
   const { cart } = useContext(CartContext);
   const toPriceForm = (price?: number) => {
     return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? 0;
@@ -20,7 +22,7 @@ function Cart() {
         )}
       </div>
       <div>
-        <p className="text-xs text-gray-400">Cart</p>
+        <p className="text-xs text-gray-400">{t("cart")}</p>
         {cart ? (
           <p className="text-sm font-semibold">
             {toPriceForm(

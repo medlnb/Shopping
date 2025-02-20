@@ -1,3 +1,7 @@
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -6,8 +10,8 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "localhost",
       "shopping-hamma.vercel.app",
-    ], // Add external domains here
+    ],
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

@@ -1,5 +1,6 @@
 import EmptyState from "@components/EmptyState";
 import Pagin from "@components/Pagin";
+import Image from "next/image";
 import Link from "next/link";
 
 interface QueriesProps {
@@ -49,7 +50,9 @@ async function ProductsTable({ queries }: { queries: QueriesProps }) {
           {products.map((product) => (
             <Link key={product._id} href={`/product?id=${product._id}`}>
               <section className="bg-white p-2 rounded-lg hover:shadow-md duration-150 ">
-                <img
+                <Image
+                  height={400}
+                  width={400}
                   src={`https://shopping-hamma.vercel.app/api/image/${product.image}`}
                   alt={product.title}
                   className="h-40 w-full object-contain rounded-md mx-auto"
