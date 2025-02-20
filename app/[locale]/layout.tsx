@@ -6,7 +6,7 @@ import Header from "@components/Header/Header";
 import Footer from "@components/Footer";
 import { NextIntlClientProvider } from "next-intl";
 import { CartProvider } from "@contexts/CartContext";
-import { getLocale, getMessages } from "next-intl/server";
+import { getMessages } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Shopping",
