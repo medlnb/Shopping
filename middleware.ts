@@ -4,8 +4,8 @@ import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
 const locales = ["en", "fr"];
-const authPrivatePages = ["/myacc"]; // Base route for authenticated users
-const adminPrivatePages = ["/manageproducts"]; // Base route for admins
+const authPrivatePages = ["/myacc"];
+const adminPrivatePages = ["/manageproducts"];
 
 const handleI18nRouting = createMiddleware(routing);
 

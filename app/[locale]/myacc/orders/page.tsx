@@ -13,7 +13,7 @@ import { ClipLoader } from "react-spinners";
 import Pagin from "@components/Pagin";
 import ExportToExcel from "./ExportToExcel";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 const toPriceForm = (price?: number) =>
   price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") ?? 0;
@@ -65,7 +65,6 @@ interface Order {
 function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
   const t = useTranslations("myacc");
   const { data: session } = useSession();
-
   const [orders, setOrders] = useState<Order[]>();
   const [count, setCount] = useState(0);
   const [details, setDetails] = useState<Details>();
