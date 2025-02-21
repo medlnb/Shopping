@@ -184,7 +184,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
               </td>
               <td>
                 <span
-                  className={`text-sm p-1 px-3 rounded-md mx-auto text-white font-semibold ${
+                  className={`text-sm p-1 px-3 rounded-md whitespace-nowrap mx-auto text-white font-semibold ${
                     order.stat === "pending"
                       ? "bg-yellow"
                       : order.stat === "canceled"
@@ -262,7 +262,7 @@ function Page({ searchParams: { p } }: { searchParams: { p?: string } }) {
             ).map((status) => (
               <button
                 key={status}
-                className={`flex items-center justify-center flex-1 rounded-lg p-2 mx-1 ${
+                className={`flex items-center justify-center flex-1 whitespace-nowrap rounded-lg p-2 mx-1 ${
                   status === details?.status
                     ? "bg-blue text-white"
                     : "bg-gray-2 hover:bg-gray-5 duration-150"

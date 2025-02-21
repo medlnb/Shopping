@@ -66,7 +66,7 @@ function Buy({
         },
         body: JSON.stringify({
           product: productId,
-          price: buy.variance.price,
+          price: buy.variance.newPrice ?? buy.variance.price,
           varianceId: buy.variance._id,
           quantity: buy.quantity,
         }),
@@ -101,7 +101,7 @@ function Buy({
               info: variance.info,
             })),
           },
-          price: buy.variance!.price,
+          price: buy.variance!.newPrice ?? buy.variance!.price,
           varianceId: buy.variance!._id,
           quantity: buy.quantity,
         });
