@@ -1,7 +1,6 @@
 import React from "react";
 import AddReview from "./AddReview";
 import { FaStar } from "react-icons/fa6";
-import { CiStar } from "react-icons/ci";
 
 interface Review {
   _id: string;
