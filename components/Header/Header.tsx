@@ -11,7 +11,7 @@ async function Header() {
   const t = await getTranslations("Header");
   return (
     <header className="fixed top-0 left-0 w-full bg-white z-20">
-      <section className="border-b border-gray-100 p-4">
+      <section className="border-b border-gray-5 p-4">
         <div className="max-w-[73rem] mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3">
             <div className="flex justify-between items-center w-full md:w-auto gap-10">
@@ -30,7 +30,7 @@ async function Header() {
               >
                 <BsTelephone size={20} />
                 <div>
-                  <p className="text-xs text-gray-400">{t("support")}</p>
+                  <p className="text-xs text-gray-7">{t("support")}</p>
                   <p className="text-sm font-semiboldv whitespace-nowrap">
                     +213 549 773 117
                   </p>

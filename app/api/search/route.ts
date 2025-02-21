@@ -22,7 +22,7 @@ export const GET = async (req: NextRequest) => {
       .select(
         "title images brand category variances updatedAt overallRating numberOfReviews"
       )
-      .sort({ score: { $meta: "textScore" }, updatedAt: -1 })
+      .sort({ score: { $meta: "textScore" }, createdAt: -1 })
       .skip((page - 1) * perPage)
       .limit(perPage);
 

@@ -8,8 +8,8 @@ export const GET = async () => {
     const productsWithPromotion = await Product.find({
       "variances.newPrice": { $exists: true },
     })
-      .select("title description variances images")
-      .sort({ updatedAt: -1 })
+      .select("title description variances images createdAt")
+      .sort({ createdAt: -1 })
       .limit(4);
 
     const products = productsWithPromotion.map((p) => {

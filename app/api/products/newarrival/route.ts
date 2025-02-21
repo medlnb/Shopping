@@ -9,7 +9,7 @@ export const GET = async () => {
       .select(
         "title description variances images overallRating numberOfReviews"
       )
-      .sort({ updatedAt: -1 })
+      .sort({ createdAt: -1 })
       .limit(8);
 
     const products = productsWithPromotion.map((p) => {

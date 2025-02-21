@@ -23,11 +23,13 @@ function Filters() {
 
   return (
     <section
-      className={`border-b px-4 duration-300 ${StickyMenu ? "py-2" : "py-4"}`}
+      className={`border-b border-gray-5 px-4 duration-300 ${
+        StickyMenu ? "py-2" : "py-4"
+      }`}
     >
       <div
         ref={containerRef}
-        className="max-w-[73rem] mx-auto flex items-center gap-2 md:gap-4 flex-wrap font-semibold text-sm text-gray-600 relative"
+        className="max-w-[73rem] mx-auto flex items-center gap-2 md:gap-4 flex-wrap font-semibold text-sm text-gray-7 relative"
       >
         <IoIosMore
           className={`md:hidden text-xl duration-150 ${
