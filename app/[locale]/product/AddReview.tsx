@@ -35,7 +35,7 @@ function AddReview({ id }: { id?: string }) {
     toast.success(t("reviewSubmitSuccess"));
     setReview({ comment: "", rating: 3 });
   };
-
+  if (!session?.user) return;
   return (
     <form
       onSubmit={HandleSubmit}
