@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Buy from "./Buy";
 import Images from "./Images";
+import Reviews from "./Reviews";
 
 interface Product {
   _id: string;
@@ -23,6 +24,8 @@ interface Product {
   };
   description: string;
   ingedients: string[];
+  numberOfReviews?: number;
+  overallRating?: number;
 }
 
 async function Page({
@@ -36,7 +39,7 @@ async function Page({
   if (!res.ok) return <p className="text-red-600">Error fetching Product...</p>;
   const t = await getTranslations("product");
   const { product }: { product: Product } = await res.json();
-
+  console.log(product);
   return (
     <main>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-16 p-2 py-10 max-w-[72rem] mx-auto">
@@ -81,8 +84,8 @@ async function Page({
         <div className="max-w-[72rem] mx-auto">
           {product.description && (
             <>
-              <h1 className="md:text-4xl text-2xl font-bold text-[#1c274c]">
-                {t("description")}:
+              <h1 className="md:text-4xl text-2xl font-bold text-[#1c274c] my-4">
+                {t("description")}
               </h1>
               <p className="ml-2">{product.description}</p>
             </>
@@ -90,8 +93,8 @@ async function Page({
 
           {product.ingedients && (
             <>
-              <h1 className="text-xl font-bold text-[#314071] mt-4">
-                {t("ingredients")}:
+              <h1 className="md:text-4xl text-2xl font-bold text-[#1c274c] my-4">
+                {t("ingredients")}
               </h1>
               <div className="ml-2">
                 {product.ingedients.map((ingedient) => (
@@ -102,6 +105,12 @@ async function Page({
           )}
         </div>
       </section>
+      <Reviews
+        id={id}
+        t={t}
+        avrRating={product.overallRating}
+        ratingCounts={product.numberOfReviews}
+      />
     </main>
   );
 }

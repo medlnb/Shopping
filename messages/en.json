@@ -126,14 +126,21 @@
     "pending": "Pending",
     "completed": "Completed",
     "canceled": "Canceled",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "manageProducts": "Manage Products"
   },
   "product": {
     "prices": "Prices",
     "description": "Description",
     "ingredients": "Ingredients",
     "addedSucces": "Item added to cart",
-    "outOfStock": "Out of stock"
+    "outOfStock": "Out of stock",
+    "reviews": "Reviews",
+    "commentPlaceholder": "Write your review here...",
+    "submit": "Submit",
+    "emptyComment": "Please, write Something about the product",
+    "reviewSubmitError": "Sorry, something Wrong went while trying to submit your review",
+    "reviewSubmitSuccess": "Your review has been submitted successfully"
   },
   "products": {
     "filters": "Filters",

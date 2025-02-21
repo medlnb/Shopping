@@ -54,15 +54,14 @@ const productSchema = new Schema(
       type: [String],
     },
     images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-    // ratings: {
-    //   type: [
-    //     {
-    //       user: { type: Schema.Types.ObjectId, ref: "User" },
-    //       rating: { type: Number, min: 1, max: 5 },
-    //     },
-    //   ],
-    //   default: [],
-    // },
+    overallRating: {
+      type: Number,
+      default: 0,
+    },
+    numberOfReviews: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

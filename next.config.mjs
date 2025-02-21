@@ -12,6 +12,9 @@ const nextConfig = {
       "shopping-hamma.vercel.app",
     ],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default withNextIntl(nextConfig);

@@ -1,5 +1,5 @@
 "use client";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,8 +8,10 @@ import { CiLogout } from "react-icons/ci";
 import { LuUser } from "react-icons/lu";
 import { RxDashboard } from "react-icons/rx";
 import { TbShoppingCartCheck } from "react-icons/tb";
+import { LuPackageOpen } from "react-icons/lu";
 
 function Nav() {
+  const { data: session } = useSession();
   const t = useTranslations("myacc");
   const pathname = usePathname();
   const navs = [
@@ -29,6 +31,14 @@ function Nav() {
       link: "/myacc/accdetails",
     },
   ];
+
+  if (session?.user.isAdmin)
+    navs.push({
+      title: t("manageProducts"),
+      icon: <LuPackageOpen />,
+      link: "/manageproducts",
+    });
+
   return (
     <nav className="flex flex-wrap xl:flex-nowrap xl:flex-col gap-4">
       {navs.map((nav) => (

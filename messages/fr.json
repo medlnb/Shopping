@@ -126,14 +126,21 @@
     "pending": "En Attente",
     "completed": "Terminé",
     "canceled": "Annulé",
-    "logout": "Se Déconnecter"
+    "logout": "Se Déconnecter",
+    "manageProducts": "Gérer les Produits"
   },
   "product": {
     "prices": "Prix",
     "description": "Description",
     "ingredients": "Ingrédients",
     "addedSucces": "Article ajouté au panier",
-    "outOfStock": "En rupture de stock"
+    "outOfStock": "En rupture de stock",
+    "reviews": "Avis",
+    "commentPlaceholder": "Écrivez votre avis ici...",
+    "submit": "Soumettre",
+    "emptyComment": "S'il vous plaît, écrivez quelque chose sur le produit",
+    "reviewSubmitError": "Désolé, quelque chose s'est mal passé lors de la tentative de soumission de votre avis",
+    "reviewSubmitSuccess": "Votre avis a été soumis avec succès"
   },
   "products": {
     "filters": "Filtres",
