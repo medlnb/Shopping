@@ -24,8 +24,8 @@ interface Product {
   };
   description: string;
   ingedients: string[];
-  numberOfReviews?: number;
-  overallRating?: number;
+  numberOfReviews: number;
+  overallRating: number;
 }
 
 async function Page({
@@ -39,7 +39,7 @@ async function Page({
   if (!res.ok) return <p className="text-red-600">Error fetching Product...</p>;
   const t = await getTranslations("product");
   const { product }: { product: Product } = await res.json();
-  console.log(product);
+
   return (
     <main>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-16 p-2 py-10 max-w-[72rem] mx-auto">

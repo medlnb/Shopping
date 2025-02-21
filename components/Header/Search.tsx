@@ -8,6 +8,7 @@ import { ImCancelCircle } from "react-icons/im";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { FaStar } from "react-icons/fa6";
 
 interface Product {
   _id: number;
@@ -19,6 +20,8 @@ interface Product {
     aisle: string;
     subcategory: string;
   };
+  numberOfReviews: number;
+  overallRating: number;
 }
 
 function Search() {
@@ -99,6 +102,18 @@ function Search() {
                     <div className="flex-1 flex justify-between bg-gray-2 hover:bg-gray-3 rounded-lg p-1 duration-150">
                       <div>
                         <p className="text-sm font-bold">{product.title}</p>
+                        <div className="flex flex-row gap-0.5 items-center">
+                          {Array.from(
+                            { length: Math.ceil(product.overallRating) },
+                            (_, index) => (
+                              <FaStar
+                                key={index}
+                                size={15}
+                                className="text-blue-light"
+                              />
+                            )
+                          )}
+                        </div>
                         <p>{product.brand}</p>
                       </div>
                       <p className="px-2 text-xs my-auto font-semibold">

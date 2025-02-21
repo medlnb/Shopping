@@ -7,6 +7,8 @@ interface Product {
   image: string;
   description: string;
   price: number;
+  numberOfReviews: number;
+  overallRating: number;
 }
 
 const NewArrival = async () => {

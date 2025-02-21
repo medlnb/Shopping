@@ -19,7 +19,9 @@ export const GET = async (req: NextRequest) => {
     const count = await Product.countDocuments(searchQuery);
 
     const products = await Product.find(searchQuery)
-      .select("title images brand category variances updatedAt")
+      .select(
+        "title images brand category variances updatedAt overallRating numberOfReviews"
+      )
       .sort({ score: { $meta: "textScore" }, updatedAt: -1 })
       .skip((page - 1) * perPage)
       .limit(perPage);

@@ -6,7 +6,9 @@ export const GET = async () => {
     await connectToDatabase();
 
     const productsWithPromotion = await Product.find()
-      .select("title description variances images")
+      .select(
+        "title description variances images overallRating numberOfReviews"
+      )
       .sort({ updatedAt: -1 })
       .limit(8);
 
@@ -17,6 +19,8 @@ export const GET = async () => {
         image: p.images[0],
         description: p.description,
         price: p.variances[0].price,
+        overallRating: p.overallRating,
+        numberOfReviews: p.numberOfReviews,
       };
     });
 

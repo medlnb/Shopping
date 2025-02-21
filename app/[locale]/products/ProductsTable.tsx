@@ -2,6 +2,7 @@ import EmptyState from "@components/EmptyState";
 import Pagin from "@components/Pagin";
 import Image from "next/image";
 import Link from "next/link";
+import starIcon from "@public/icons/icon-star.svg";
 
 interface QueriesProps {
   p?: string;
@@ -17,6 +18,8 @@ interface Product {
   price: number;
   image: string;
   createdAt: string;
+  overallRating: number;
+  numberOfReviews: number;
 }
 
 async function ProductsTable({ queries }: { queries: QueriesProps }) {
@@ -58,6 +61,29 @@ async function ProductsTable({ queries }: { queries: QueriesProps }) {
                   className="h-40 w-full object-contain rounded-md mx-auto"
                 />
               </section>
+              <div
+                className={`flex items-center gap-2.5 mb-2 ${
+                  product.numberOfReviews ? "" : "invisible"
+                }`}
+              >
+                <div className="flex items-center gap-1">
+                  {Array(Math.ceil(product.overallRating))
+                    .fill(null)
+                    .map((_, index) => (
+                      <Image
+                        key={index}
+                        src={starIcon}
+                        alt="star icon"
+                        width={14}
+                        height={14}
+                      />
+                    ))}
+                </div>
+
+                <p className="text-custom-sm">
+                  ( {product.overallRating.toFixed(1)} )
+                </p>
+              </div>
               <h1 className="my-1 text-gray-700 font-semibold">
                 {product.title}
               </h1>

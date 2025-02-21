@@ -58,10 +58,21 @@ export const POST = async (req: NextRequest) => {
       .sort({ createdAt: -1 })
       .skip((page - 1) * perPage)
       .limit(perPage)
-      .select("title variances brand images createdAt");
+      .select(
+        "title variances brand images createdAt numberOfReviews overallRating"
+      );
 
     const rearanged = products.map((product) => {
-      const { _id, title, variances, brand, images, createdAt } = product;
+      const {
+        _id,
+        title,
+        variances,
+        brand,
+        images,
+        createdAt,
+        numberOfReviews,
+        overallRating,
+      } = product;
       const price = variances.reduce((acc: number, curr: { price: number }) => {
         if (curr.price < acc) return curr.price;
         return acc;
@@ -74,6 +85,8 @@ export const POST = async (req: NextRequest) => {
         price,
         image: images[0],
         createdAt,
+        numberOfReviews,
+        overallRating,
       };
     });
 

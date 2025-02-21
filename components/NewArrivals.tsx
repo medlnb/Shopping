@@ -17,7 +17,7 @@ async function NewArrivals() {
   });
   if (!res.ok) return <p className="text-red-700">Error Fetching Data...</p>;
   const { products }: { products: Product[] } = await res.json();
-  console.log(products);
+
   return (
     <section className="max-w-[73rem] mx-auto my-8">
       <div className="flex justify-between items-center">

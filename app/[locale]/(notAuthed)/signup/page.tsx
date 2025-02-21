@@ -40,7 +40,6 @@ function Signup() {
       if (!res.ok) {
         setSubmitting(false);
         setErrors({ phoneNumber: data.err });
-        console.log(data);
         return;
       }
       setSubmitting(false);

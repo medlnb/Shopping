@@ -19,8 +19,8 @@ async function Reviews({
   ratingCounts,
 }: {
   id?: string;
-  avrRating?: number;
-  ratingCounts?: number;
+  avrRating: number;
+  ratingCounts: number;
 }) {
   const res = await fetch(`${process.env.URL}/api/review?id=${id}`);
   if (!res.ok) return;
@@ -30,12 +30,20 @@ async function Reviews({
   return (
     <div className="border-t border-gray-4 py-8">
       <section className="max-w-[72rem] mx-auto p-2">
-        <h1 className="md:text-4xl text-2xl font-bold text-[#1c274c] mb-4">
+        <div className="md:text-4xl text-2xl font-bold text-[#1c274c] mb-4 flex gap-4 items-end">
           {t("reviews")}{" "}
-          <span className="text-gray-7 font-semibold text-xl">
-            {avrRating} {ratingCounts ? `( ${ratingCounts} )` : ""}
+          <span className="text-gray-7 font-semibold text-xl flex gap-2">
+            {avrRating ? (
+              <span className="flex items-center gap-0.5">
+                {avrRating}
+                <FaStar size={13} />
+              </span>
+            ) : (
+              ""
+            )}{" "}
+            {ratingCounts ? `( ${ratingCounts} )` : ""}
           </span>
-        </h1>
+        </div>
         <div className="flex gap-2 mb-2 overflow-x-auto hidden-scrollbar">
           {reviews.map((review) => {
             return (

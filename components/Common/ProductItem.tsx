@@ -9,14 +9,15 @@ interface Product {
   image: string;
   description: string;
   price: number;
+  numberOfReviews: number;
+  overallRating: number;
 }
 
 const ProductItem = ({ item }: { item: Product }) => {
-  const review = 4;
   return (
     <Link
       href={`product?id=${item._id}`}
-      className="group h-full flex flex-col justify-between p-4 sm:p-7.5 bg-white rounded-[10px] ease-out duration-200 hover:shadow-lg"
+      className="group h-full flex flex-col justify-between p-4 sm:p-7.5 bg-white rounded-[10px] ease-out duration-200 hover:shadow-3"
     >
       <div className="relative overflow-hidden flex items-center justify-center rounded-lg min-h-[270px] mb-4">
         <Image
@@ -30,11 +31,11 @@ const ProductItem = ({ item }: { item: Product }) => {
       <div>
         <div
           className={`flex items-center gap-2.5 mb-2 ${
-            review ? "" : "invisible"
+            item.numberOfReviews ? "" : "invisible"
           }`}
         >
           <div className="flex items-center gap-1">
-            {Array(Math.floor(review))
+            {Array(Math.ceil(item.overallRating))
               .fill(null)
               .map((_, index) => (
                 <Image
@@ -47,7 +48,7 @@ const ProductItem = ({ item }: { item: Product }) => {
               ))}
           </div>
 
-          <p className="text-custom-sm">({review})</p>
+          <p className="text-custom-sm">( {item.overallRating.toFixed(1)} )</p>
         </div>
 
         <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">
