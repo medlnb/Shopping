@@ -1,6 +1,7 @@
 import React from "react";
 import AddReview from "./AddReview";
 import { FaStar } from "react-icons/fa6";
+import { getTranslations } from "next-intl/server";
 
 interface Review {
   _id: string;
@@ -14,18 +15,17 @@ interface Review {
 
 async function Reviews({
   id,
-  t,
   avrRating,
   ratingCounts,
 }: {
   id?: string;
-  t: any;
   avrRating?: number;
   ratingCounts?: number;
 }) {
   const res = await fetch(`${process.env.URL}/api/review?id=${id}`);
   if (!res.ok) return;
   const { reviews }: { reviews: Review[] } = await res.json();
+  const t = await getTranslations("product");
 
   return (
     <div className="border-t border-gray-4 py-8">

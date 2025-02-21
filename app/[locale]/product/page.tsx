@@ -107,7 +107,6 @@ async function Page({
       </section>
       <Reviews
         id={id}
-        t={t}
         avrRating={product.overallRating}
         ratingCounts={product.numberOfReviews}
       />
