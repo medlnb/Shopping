@@ -44,7 +44,7 @@ async function Reviews({
             {ratingCounts ? `( ${ratingCounts} )` : ""}
           </span>
         </div>
-        <div className="flex gap-2 mb-2 overflow-x-auto hidden-scrollbar">
+        <div className="flex gap-2 mb-2 overflow-x-auto styles-scrollbar py-2">
           {reviews.map((review) => {
             return (
               <div

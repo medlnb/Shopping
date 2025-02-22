@@ -25,10 +25,10 @@ function Images({ images }: { images: string[] }) {
               height={100}
               width={100}
               src={`https://shopping-hamma.vercel.app/api/image/${img}`}
-              className={`md:h-20 md:min-w-24 h-16 min-w-16 rounded-md object-contain cursor-pointer ${
+              className={`md:h-20 md:min-w-24 h-16 min-w-16 rounded-md object-contain cursor-pointer border-2  ${
                 img === selectedImage
-                  ? "border-2 border-blue-500"
-                  : "hover:border-blue-200"
+                  ? "border-blue-light"
+                  : "hover:border-blue-light-4"
               }`}
             />
           </div>
