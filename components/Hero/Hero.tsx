@@ -3,6 +3,7 @@ import HeroCarousel from "./HeroCarousel";
 import Image from "next/image";
 import heroBg from "@public/hero/hero-bg.png";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 interface Product {
   _id: string;
@@ -20,7 +21,7 @@ const Hero = async () => {
   });
   if (!res.ok) return <p className="text-red-700">Error Fetching Data...</p>;
   const { products }: { products: Product[] } = await res.json();
-
+  const t = await getTranslations("home");
   return (
     <>
       <div className="xl:max-w-[757px] w-full">
@@ -52,7 +53,7 @@ const Hero = async () => {
 
                   <div>
                     <p className="font-medium text-dark-4 text-custom-sm mb-1.5">
-                      limited time offer
+                      {t("limited")}
                     </p>
                     <span className="whitespace-nowrap">
                       <p className="ml-2 font-medium text-xl text-dark-4 line-through">

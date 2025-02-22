@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import "swiper/css";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface Product {
   _id: string;
@@ -17,6 +18,7 @@ interface Product {
 }
 
 const HeroCarousal = ({ products }: { products: Product[] }) => {
+  const t = useTranslations("home");
   return (
     <Swiper
       spaceBetween={30}
@@ -40,9 +42,9 @@ const HeroCarousal = ({ products }: { products: Product[] }) => {
                   {product.dicount}%
                 </span>
                 <span className="block text-dark text-sm sm:text-custom-1 sm:leading-[24px]">
-                  Sale
+                  {t("soldes")}
                   <br />
-                  Off
+                  {t("off")}
                 </span>
               </div>
 
@@ -56,7 +58,7 @@ const HeroCarousal = ({ products }: { products: Product[] }) => {
                 href={"product?id=" + product._id}
                 className="inline-flex font-medium text-white text-custom-sm rounded-md bg-dark py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
               >
-                Shop Now
+                {t("shopNow")}
               </Link>
             </div>
 

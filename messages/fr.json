@@ -16,6 +16,16 @@
     "termsOfUse": "Conditions d'utilisation",
     "contact": "Contact"
   },
+  "home": {
+    "categorySubtitle": "Catégories",
+    "categoryTitle": "Acheter par catégorie",
+    "newArrivalSubtitle": "Cette semaine",
+    "newArrivalTitle": "Nouveautés",
+    "limited": "Offre à durée limitée",
+    "shopNow": "Acheter maintenant",
+    "soldes": "Soldes",
+    "off": ""
+  },
   "notAuthed": {
     "signUpTitle": "Créer un Compte",
     "signUpSubtitle": "Veuillez entrer vos informations",
@@ -146,6 +156,7 @@
     "filters": "Filtres",
     "clear": "Tout effacer",
     "price": "Prix",
-    "filter": "Filtrer"
+    "filter": "Filtrer",
+    "reset": "réinitialiser"
   }
 }

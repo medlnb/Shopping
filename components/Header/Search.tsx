@@ -150,16 +150,14 @@ function Search() {
         </DialogActions>
       </Dialog>
       <div
-        className="flex justtify-center items-center gap-8 border rounded-md p-1 px-4 bg-gray-100 cursor-pointer hover:bg-gray-2 duration-150 w-full md:w-auto"
+        className="flex justtify-center items-center gap-8 border border-gray-4 text-gray-7 rounded-md p-1 px-4 bg-gray-1 cursor-pointer hover:bg-gray-2 duration-150 w-full md:w-60"
         onClick={async () => {
           setDialog(true);
-          setTimeout(() => {
-            inputRef.current?.focus();
-          }, 200);
+          setTimeout(() => inputRef.current?.focus(), 200);
         }}
       >
-        <p className="text-gray-400 flex-1">{t("seachTitle")}</p>
-        <CiSearch className="text-gray-600" />
+        <p className="flex-1">{t("seachTitle")}</p>
+        <CiSearch className="text-gray-6" />
       </div>
     </>
   );

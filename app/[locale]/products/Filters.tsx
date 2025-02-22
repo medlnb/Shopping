@@ -62,9 +62,9 @@ function Filters({ queries }: { queries: QueriesProps }) {
           }}
         />
         <div className="flex justify-between items-center p-4 py-2">
-          <p className="text-gray-600">{t("filters")}:</p>
+          <p className="text-gray-6">{t("filters")}:</p>
           <button
-            className="text-sm text-blue-700 disabled:text-blue-400"
+            className="text-sm text-blue disabled:text-blue-light"
             onClick={() => startTransition(() => replace("/products"))}
             disabled={isPending}
           >
@@ -96,7 +96,11 @@ function Filters({ queries }: { queries: QueriesProps }) {
               />
               <label
                 htmlFor={category.aisle}
-                className="text-sm font-medium text-gray-500 hover:text-blue-700 duration-200 cursor-pointer"
+                className={`text-sm font-medium hover:text-blue duration-200 cursor-pointer ${
+                  queries.category === category.aisle
+                    ? "text-blue"
+                    : "text-gray-5"
+                }`}
               >
                 {locale === "en" ? category.aisle : category.aislefr}
               </label>
@@ -141,13 +145,13 @@ function Filters({ queries }: { queries: QueriesProps }) {
               ]}
             />
           </div>
-          <div className="flex justify-between items-center gap-0.5 text-gray-700 mt-4 flex-wrap">
-            <div className="flex items-center justify-between border border-gray-400 rounded-[4px] px-1">
-              <p className="border-r border-gray-400 p-1 px-0.5">Dzd</p>
+          <div className="flex justify-between items-center gap-0.5 text-gray-7 mt-4 flex-wrap">
+            <div className="flex items-center justify-between border border-gray-4 rounded-[4px] px-1">
+              <p className="border-r border-gray-4 p-1 px-0.5">Dzd</p>
               <p className="px-0.5">{selectedPrice.from}</p>
             </div>
-            <div className="flex items-center justify-between border border-gray-400 rounded-[4px] px-1">
-              <p className="border-r border-gray-400 p-1 px-0.5">Dzd</p>
+            <div className="flex items-center justify-between border border-gray-4 rounded-[4px] px-1">
+              <p className="border-r border-gray-4 p-1 px-0.5">Dzd</p>
               <p className="px-0.5">{selectedPrice.to}</p>
             </div>
           </div>
@@ -159,9 +163,25 @@ function Filters({ queries }: { queries: QueriesProps }) {
               })
             }
             disabled={isPending}
-            className="w-full bg-blue-700 hover:bg-blue-600 disabled:bg-blue-400 text-white py-1 mt-2 rounded-md relative"
+            className="w-full bg-blue hover:bg-blue-light duration-150 disabled:bg-blue-light text-white py-1 mt-2 rounded-md relative"
           >
             {t("filter")}
+          </button>
+          <button
+            onClick={() => {
+              updateQuery({
+                min: 0,
+                max: 10000,
+              });
+              setSelectedPrice({
+                from: 0,
+                to: 10000,
+              });
+            }}
+            disabled={isPending}
+            className="w-full bg-gray-3 hover:bg-gray-5 duration-150 disabled:bg-gray-5 py-1 mt-2 rounded-md relative"
+          >
+            {t("reset")}
           </button>
         </Filter>
       </div>
@@ -187,14 +207,14 @@ const Filter = ({
   return (
     <section className={isLoading ? "opacity-70 pointer-events-none" : ""}>
       <div
-        className={`bg-white p-3 py-2 shadow-md flex justify-between items-center mt-3 border-b cursor-pointer ${
+        className={`bg-white p-3 py-2 shadow-md flex justify-between items-center mt-3 border-b border-gray-4 cursor-pointer ${
           toggle ? "rounded-t-md" : "rounded-md"
-        } ${activated ? "border border-gray-300" : ""}`}
+        } ${activated ? "border border-gray-3" : ""}`}
         onClick={() => setToggle(!toggle)}
       >
-        <p className="text-gray-800">{title}</p>
+        <p className="text-gray-7">{title}</p>
         <IoIosArrowDown
-          className={`text-blue-700 ${toggle ? "rotate-180" : ""} duration-200`}
+          className={`text-blue-7 ${toggle ? "rotate-180" : ""} duration-200`}
         ></IoIosArrowDown>
       </div>
       {toggle && (

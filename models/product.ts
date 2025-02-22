@@ -5,11 +5,9 @@ const productSchema = new Schema(
     title: {
       type: String,
       required: true,
-      text: true,
     },
     description: {
       type: String,
-      text: true,
     },
     variances: [
       {
@@ -40,7 +38,6 @@ const productSchema = new Schema(
     brand: {
       type: String,
       required: true,
-      text: true,
     },
     category: {
       type: {
@@ -67,8 +64,6 @@ const productSchema = new Schema(
     timestamps: true,
   }
 );
-
-productSchema.index({ title: "text", description: "text", brand: "text" });
 
 const Product = models.Product || model("Product", productSchema);
 

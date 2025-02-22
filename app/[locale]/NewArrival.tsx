@@ -1,5 +1,6 @@
 import React from "react";
 import ProductItem from "@components/Common/ProductItem";
+import { getTranslations } from "next-intl/server";
 
 interface Product {
   _id: string;
@@ -17,10 +18,11 @@ const NewArrival = async () => {
   });
   if (!res.ok) return <p className="text-red-700">Error Fetching Data...</p>;
   const { products }: { products: Product[] } = await res.json();
+  const t = await getTranslations("home");
+
   return (
     <section className="overflow-hidden pt-15">
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
-        {/* <!-- section title --> */}
         <div className="mb-7 flex items-center justify-between">
           <div>
             <span className="flex items-center gap-2.5 font-medium text-dark mb-1.5">
@@ -43,10 +45,10 @@ const NewArrival = async () => {
                   strokeLinecap="round"
                 />
               </svg>
-              {"This Week’s"}
+              {t("newArrivalSubtitle")}
             </span>
             <h2 className="font-semibold text-xl xl:text-heading-5 text-dark">
-              New Arrivals
+              {t("newArrivalTitle")}
             </h2>
           </div>
         </div>

@@ -16,6 +16,16 @@
     "termsOfUse": "Terms of Use",
     "contact": "Contact"
   },
+  "home": {
+    "categorySubtitle": "Categories",
+    "categoryTitle": "Shop by Category",
+    "newArrivalSubtitle": "This Week’s",
+    "newArrivalTitle": "New Arrivals",
+    "limited": "limited time offer",
+    "shopNow": "Shop Now",
+    "soldes": "Sale",
+    "off": "Off"
+  },
   "notAuthed": {
     "signUpTitle": "Create an Account",
     "signUpSubtitle": "Please enter your details",
@@ -146,6 +156,7 @@
     "filters": "Filters",
     "clear": "Clear All",
     "price": "Price",
-    "filter": "Filter"
+    "filter": "Filter",
+    "reset": "Reset"
   }
 }

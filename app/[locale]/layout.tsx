@@ -23,7 +23,7 @@ export default async function RootLayout({
   const messages = await getMessages();
   return (
     <html lang={locale}>
-      <body className="md:pt-[7.9rem] pt-[13.5rem]">
+      <body className="md:pt-30 pt-[13.5rem]">
         <NextIntlClientProvider messages={messages}>
           <Toaster richColors />
           <AuthProvider>

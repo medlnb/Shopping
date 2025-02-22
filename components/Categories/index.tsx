@@ -6,8 +6,11 @@ import "swiper/css";
 import data from "@data/categories";
 import SingleItem from "./SingleItem";
 import { Swiper as SwiperClass } from "swiper/types"; // Import Swiper types
+import { useLocale, useTranslations } from "next-intl";
 
 const Categories = () => {
+  const t = useTranslations("home");
+  const locale = useLocale();
   const sliderRef = useRef<SwiperClass | null>(null);
 
   const handlePrev = useCallback(() => {
@@ -60,10 +63,10 @@ const Categories = () => {
                     </clipPath>
                   </defs>
                 </svg>
-                Categories
+                {t("categorySubtitle")}
               </span>
               <h2 className="font-semibold text-xl xl:text-heading-5 text-dark">
-                Browse by Category
+                {t("categoryTitle")}
               </h2>
             </div>
 
@@ -123,7 +126,10 @@ const Categories = () => {
           >
             {data.map((item, key) => (
               <SwiperSlide key={key}>
-                <SingleItem item={item} />
+                <SingleItem
+                  img={item.img}
+                  aisle={locale === "en" ? item.aisle : item.aislefr}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
