@@ -33,9 +33,7 @@ export const GET = async () => {
         status: 401,
       });
 
-    const user = await Member.findOne({
-      phoneNumber: session.user.phoneNumber,
-    })
+    const user = await Member.findById(session?.user._id)
       .select("cart")
       .populate("cart.product", "title _id images variances");
 
@@ -75,9 +73,7 @@ export const POST = async (req: NextRequest) => {
         status: 401,
       });
 
-    const user = await Member.findOne({
-      phoneNumber: session.user.phoneNumber,
-    }).select("cart");
+    const user = await Member.findById(session?.user._id).select("cart");
 
     if (!user)
       return new Response(JSON.stringify({ message: "User not found" }), {
@@ -116,9 +112,7 @@ export const DELETE = async (req: NextRequest) => {
         status: 401,
       });
 
-    const user = await Member.findOne({
-      phoneNumber: session.user.phoneNumber,
-    }).select("cart");
+    const user = await Member.findById(session?.user._id).select("cart");
 
     if (!user)
       return new Response(JSON.stringify({ message: "User not found" }), {

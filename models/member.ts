@@ -12,7 +12,15 @@ const MemberSchema = new Schema({
   },
   phoneNumber: {
     type: String,
-    required: true,
+    unique: true,
+    spare: true,
+  },
+  email: {
+    type: String,
+    unique: true,
+  },
+  facebookId: {
+    type: String,
     unique: true,
   },
   image: {

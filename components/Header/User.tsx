@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 function User() {
   const t = useTranslations("Header");
   const { data: session } = useSession();
+  console.log(session);
   return (
     <>
       <Link

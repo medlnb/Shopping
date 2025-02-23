@@ -46,15 +46,12 @@ export const POST = async (req: NextRequest) => {
   try {
     await connectToDatabase();
     const session = await getServerSession();
-    if (!session || !session.user)
+    if (!session?.user)
       return new Response(JSON.stringify({ err: "You need to be logged in" }), {
         status: 401,
       });
 
-    const user = await Member.findOne({ email: session.user.email }).select(
-      "admin"
-    );
-    if (!user || !user.admin)
+    if (!session.user.isAdmin)
       return new Response(JSON.stringify({ err: "You need to be a Admin" }), {
         status: 401,
       });
@@ -111,16 +108,12 @@ export const DELETE = async (req: NextRequest) => {
   try {
     await connectToDatabase();
     const session = await getServerSession();
-    if (!session || !session.user)
+    if (!session?.user)
       return new Response(JSON.stringify({ err: "You need to be logged in" }), {
         status: 401,
       });
 
-    const user = await Member.findOne({ email: session.user.email }).select(
-      "admin"
-    );
-
-    if (!user || !user.admin)
+    if (!session?.user.isAdmin)
       return new Response(JSON.stringify({ err: "You need to be a Admin" }), {
         status: 401,
       });

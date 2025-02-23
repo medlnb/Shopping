@@ -15,20 +15,14 @@ export const GET = async (req: NextRequest) => {
     const limit = Number(params.get("limit") ?? 6);
 
     const session = await getServerSession(options);
-    if (!session)
+    if (!session?.user)
       return new Response(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
       });
 
-    const user = await Member.findOne({
-      phoneNumber: session.user.phoneNumber,
-    });
-
-    if (!user)
-      return new Response(JSON.stringify({ message: "User not found" }), {
-        status: 404,
-      });
-    const query = user.admin ? {} : { costumer: user._id.toString() };
+    const query = session?.user.isAdmin
+      ? {}
+      : { costumer: session?.user._id.toString() };
     const count = await Order.countDocuments(query);
 
     const orders = await Order.find(query)
@@ -75,11 +69,7 @@ export const PATCH = async (req: NextRequest) => {
         status: 401,
       });
 
-    const user = await Member.findOne({
-      phoneNumber: session.user.phoneNumber,
-    });
-
-    if (!user || !user.admin)
+    if (!session?.user.isAdmin)
       return new Response(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
       });

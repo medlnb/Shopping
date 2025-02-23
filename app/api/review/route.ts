@@ -12,18 +12,9 @@ export const POST = async (req: NextRequest) => {
     await connectToDatabase();
 
     const session = await getServerSession(options);
-    if (!session || !session.user)
+    if (!session?.user)
       return new Response(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
-      });
-
-    const user = await Member.findOne({
-      phoneNumber: session.user.phoneNumber,
-    }).select("_id");
-
-    if (!user)
-      return new Response(JSON.stringify({ message: "User not found" }), {
-        status: 404,
       });
 
     const { productId, rating, comment } = await req.json();
@@ -38,7 +29,7 @@ export const POST = async (req: NextRequest) => {
       });
 
     const newReview = await Review.create({
-      user: user._id,
+      user: session.user._id,
       product: productId,
       rating,
       comment,

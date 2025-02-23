@@ -107,9 +107,7 @@ export const POST = async (req: NextRequest) => {
         }
       );
     }
-    const user = await Member.findOne({
-      phoneNumber: session.user.phoneNumber,
-    }).select("cart");
+    const user = await Member.findById(session?.user._id).select("cart");
 
     if (!user)
       return new Response(JSON.stringify({ message: "User not found" }), {

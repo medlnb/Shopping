@@ -128,9 +128,9 @@ function Login() {
         <div className="w-full bg-gray-400 h-0.5 my-4" />
       </div>
       <button
-        className="p-3 rounded-md w-full bg-gray-3 text-gray-7 border border-gray-2 flex items-center justify-center gap-2 text-sm cursor-not-allowed"
+        className="p-3 rounded-md w-full bg-gray-3 text-gray-7 border border-gray-2 flex items-center justify-center gap-2 text-sm disabled:cursor-not-allowed"
         onClick={() => signIn("google", { callbackUrl: "/" })}
-        disabled={true}
+        // disabled={true}
       >
         <FaGoogle />
         {t("logInWithGoogle")}

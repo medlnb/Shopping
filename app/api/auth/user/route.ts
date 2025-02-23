@@ -9,9 +9,9 @@ export const GET = async () => {
     await connectToDatabase();
     const session = await getServerSession(options);
 
-    const user = await Member.findOne({
-      phoneNumber: session?.user.phoneNumber,
-    }).select("name phoneNumber address image");
+    const user = await Member.findById(session?.user._id).select(
+      "name phoneNumber address image"
+    );
 
     if (!user)
       return new Response(JSON.stringify({ err: "No User found" }), {
@@ -33,9 +33,9 @@ export const PATCH = async (req: NextRequest) => {
   try {
     await connectToDatabase();
     const session = await getServerSession(options);
-    const user = await Member.findOne({
-      phoneNumber: session?.user.phoneNumber,
-    }).select("name phoneNumber address");
+    const user = await Member.findById(session?.user._id).select(
+      "name phoneNumber address"
+    );
     if (!user || !session)
       return new Response(JSON.stringify({ err: "No User found" }), {
         status: 401,
