@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 import Review from "@models/review";
-import Member from "@models/member";
 import Product from "@models/product";
 import { options } from "../auth/[...nextauth]/options";
 import { connectToDatabase } from "@utils/database";

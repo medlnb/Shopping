@@ -1,4 +1,3 @@
-import Member from "@models/member";
 import Product from "@models/product";
 import { connectToDatabase } from "@utils/database";
 import { getServerSession } from "next-auth";

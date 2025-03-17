@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@utils/database";
 import { getServerSession } from "next-auth";
 import { options } from "../auth/[...nextauth]/options";
-import Member from "@models/member";
 import "@models/product";
 import Order from "@models/order";
 import { NextRequest } from "next/server";
