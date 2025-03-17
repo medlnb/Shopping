@@ -23,7 +23,7 @@ async function Header() {
               </Suspense>
             </div>
             <Search />
-            <div className="flex items-center justify-center gap-4 w-full md:w-auto">
+            <div className="flex items-center justify-center gap-4 w-full md:w-auto whitespace-nowrap">
               <Link
                 href="/contact"
                 className="flex items-center gap-2 cursor-pointer"
@@ -31,7 +31,7 @@ async function Header() {
                 <BsTelephone size={20} />
                 <div>
                   <p className="text-xs text-gray-7">{t("support")}</p>
-                  <p className="text-sm font-semiboldv whitespace-nowrap">
+                  <p className="text-sm font-semibold">
                     +213 549 773 117
                   </p>
                 </div>
