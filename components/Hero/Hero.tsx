@@ -1,4 +1,3 @@
-import React from "react";
 import HeroCarousel from "./HeroCarousel";
 import Image from "next/image";
 import heroBg from "@public/hero/hero-bg.png";

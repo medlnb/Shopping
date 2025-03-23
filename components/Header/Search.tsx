@@ -1,6 +1,6 @@
 "use client";
 import { Button, Dialog, DialogActions, DialogContent } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { debounce } from "lodash";
 import EmptyState from "@components/EmptyState";
@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { FaStar } from "react-icons/fa6";
+import { IoMenu } from "react-icons/io5";
 
 interface Product {
   _id: number;
@@ -24,7 +25,13 @@ interface Product {
   overallRating: number;
 }
 
-function Search() {
+function Search({
+  toggle,
+  setToggle,
+}: {
+  toggle: boolean;
+  setToggle: Dispatch<SetStateAction<boolean>>;
+}) {
   const t = useTranslations("Header");
   const inputRef = useRef<HTMLInputElement>(null);
   const [dialog, setDialog] = useState(false);
@@ -149,15 +156,24 @@ function Search() {
           <Button onClick={HandleClose}>Close</Button>
         </DialogActions>
       </Dialog>
-      <div
-        className="flex justtify-center items-center gap-8 border border-gray-4 text-gray-7 rounded-md p-1 px-4 bg-gray-1 cursor-pointer hover:bg-gray-2 duration-150 w-full md:w-60"
-        onClick={async () => {
-          setDialog(true);
-          setTimeout(() => inputRef.current?.focus(), 200);
-        }}
-      >
-        <p className="flex-1">{t("seachTitle")}</p>
-        <CiSearch className="text-gray-6" />
+      <div className="flex justify-between items-center w-full md:w-auto gap-4">
+        <div
+          className="flex justtify-center items-center gap-8 border border-gray-4 text-gray-7 rounded-md p-1 px-4 bg-gray-1 cursor-pointer hover:bg-gray-2 duration-150 w-full md:w-60"
+          onClick={async () => {
+            setDialog(true);
+            setTimeout(() => inputRef.current?.focus(), 200);
+          }}
+        >
+          <p className="flex-1">{t("seachTitle")}</p>
+          <CiSearch className="text-gray-6" />
+        </div>
+        <IoMenu
+          size={25}
+          className={`duration-200 hover:scale-125 cursor-pointer ${
+            toggle ? "rotate-90" : ""
+          }`}
+          onClick={() => setToggle((prev) => !prev)}
+        />
       </div>
     </>
   );

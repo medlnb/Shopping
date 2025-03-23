@@ -1,14 +1,17 @@
+"use client";
 import Link from "next/link";
 import { BsTelephone } from "react-icons/bs";
 import Filters from "./Filters";
 import User from "./User";
 import Search from "./Search";
 import LangSwitch from "./LangSwitch";
-import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
+import { useTranslations } from "next-intl";
+import { Suspense, useState } from "react";
 
-async function Header() {
-  const t = await getTranslations("Header");
+function Header() {
+  const t = useTranslations("Header");
+  const [toggle, setToggle] = useState(false);
+
   return (
     <header className="fixed top-0 left-0 w-full bg-white z-20">
       <section className="border-b border-gray-5 p-4">
@@ -22,7 +25,7 @@ async function Header() {
                 <LangSwitch />
               </Suspense>
             </div>
-            <Search />
+            <Search toggle={toggle} setToggle={setToggle} />
             <div className="flex items-center justify-center gap-4 w-full md:w-auto whitespace-nowrap">
               <Link
                 href="/contact"
@@ -31,9 +34,7 @@ async function Header() {
                 <BsTelephone size={20} />
                 <div>
                   <p className="text-xs text-gray-7">{t("support")}</p>
-                  <p className="text-sm font-semibold">
-                    +213 549 773 117
-                  </p>
+                  <p className="text-sm font-semibold">+213 549 773 117</p>
                 </div>
               </Link>
               <div className="h-6 w-[0.5px] bg-gray-400" />
@@ -44,7 +45,7 @@ async function Header() {
         </div>
       </section>
 
-      <Filters />
+      <Filters toggle={toggle} />
     </header>
   );
 }
