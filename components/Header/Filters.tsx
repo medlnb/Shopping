@@ -22,8 +22,8 @@ function Filters({ toggle }: { toggle: boolean }) {
   return (
     <section
       className={` border-gray-5 px-4 duration-300 overflow-hidden ${
-        StickyMenu ? "py-2" : "py-4"
-      } ${toggle ? "border-b" : "h-0 py-0"}`}
+        toggle ? `border-b ${StickyMenu ? "py-2" : "py-4"}` : "h-0 py-0"
+      }`}
     >
       <div
         ref={containerRef}
