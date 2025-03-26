@@ -17,17 +17,18 @@ const ProductItem = ({ item }: { item: Product }) => {
   return (
     <Link
       href={`product?id=${item._id}`}
-      className="group h-full flex flex-col justify-between p-4 sm:p-7.5 bg-white rounded-[10px] ease-out duration-200 hover:shadow-3"
+      className="md:h-full flex flex-col justify-between p-4 sm:p-7.5 bg-white rounded-[10px] ease-out duration-200 shadow-2 hover:shadow-3"
     >
-      <div className="relative overflow-hidden flex items-center justify-center rounded-lg min-h-[270px] mb-4">
+      <div className="relative overflow-hidden flex items-center justify-center rounded-lg p-4 md:p-8 mb-4 flex-1">
         <Image
           src={`https://shopping-hamma.vercel.app/api/image/${item.image}`}
           alt={item.tilte}
           width={256}
           height={256}
-          className="object-contain"
+          className="object-contain md:h-50 h-30"
         />
       </div>
+
       <div>
         <div
           className={`flex items-center gap-2.5 mb-2 ${
