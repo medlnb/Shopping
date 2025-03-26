@@ -1,4 +1,3 @@
-import React from "react";
 import ProductItem from "@components/Common/ProductItem";
 import { getTranslations } from "next-intl/server";
 

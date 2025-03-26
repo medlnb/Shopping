@@ -54,7 +54,7 @@ const defaultInput = {
   },
   ingedients: [],
   brand: "",
-  images: [{ image: "", id: "67e3d126e121aef950ad891f" }],
+  images: [],
 };
 
 function Page({ searchParams: { id } }: { searchParams: { id?: string } }) {
