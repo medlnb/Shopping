@@ -22,42 +22,24 @@ function ImagePost({
 }) {
   const [loading, setLoading] = useState(false);
 
-  const convertToBase64 = (
-    file: File
-  ): Promise<string | ArrayBuffer | null> => {
-    if (!file) return Promise.reject("No file provided");
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
   const HandlePicture = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return toast.error("No file selected");
     setLoading(true);
 
-    const file = event.target.files?.[0];
-    if (!file) {
-      setLoading(false);
-      return toast.error("No file selected");
-    }
+    const formData = new FormData();
+    formData.append("image", file);
 
-    const UploadedImage = (await convertToBase64(file)) as string;
     const response = await fetch(`/api/image${image ? `/${image.id}` : ""}`, {
       method: image ? "PATCH" : "POST",
-      body: JSON.stringify({ image: UploadedImage }),
+      body: formData,
     });
+    const { imageId } = await response.json();
     setLoading(false);
-    if (response.ok) {
-      const { imageId } = await response.json();
-      return HandleIsDone(UploadedImage, imageId);
-    }
-    return toast.error("Failed to upload image");
+
+    if (!response.ok) return toast.error("Failed to upload image");
+    const imageUrl = URL.createObjectURL(file);
+    return HandleIsDone(imageUrl, imageId);
   };
 
   const HandleRemove = async () => {
@@ -123,7 +105,7 @@ function ImagePost({
                 height={400}
                 width={400}
                 alt="Uploaded"
-                src={`https://shopping-hamma.vercel.app/api/image/${image.id}`}
+                src={`http://localhost:3000/api/image/${image.id}`}
                 className="h-full w-full object-cover"
               />
             )

@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@utils/database";
 import { NextRequest } from "next/server";
 import Image from "@models/image";
-import { NextResponse } from "next/server";
 
 export const GET = async (
   req: NextRequest,
@@ -10,25 +9,33 @@ export const GET = async (
   try {
     await connectToDatabase();
     const imageId = params.id;
+
+    if (!imageId)
+      return new Response(JSON.stringify({ error: "No imageId provided" }), {
+        status: 400,
+      });
+
+    // Find the image in database
     const image = await Image.findById(imageId);
 
-    if (!image) {
-      return new NextResponse("Image not found", { status: 404 });
-    }
+    if (!image)
+      return new Response(JSON.stringify({ error: "Image not found" }), {
+        status: 404,
+      });
 
-    const base64Data = image.image.split(",")[1];
-    const imgBuffer = Buffer.from(base64Data, "base64");
-
-    return new NextResponse(imgBuffer, {
+    // Create a response with the image data
+    return new Response(image.image, {
       status: 200,
       headers: {
-        "Content-Type": "image/png",
-        "Content-Length": imgBuffer.length.toString(),
+        "Content-Type": image.mimeType,
+        "Content-Length": image.image.length.toString(),
+        // Optional caching headers
+        // "Cache-Control": "public, max-age=31536000, immutable",
       },
     });
   } catch (err) {
-    console.error(err);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    console.log(err);
+    return new Response(JSON.stringify(err), { status: 500 });
   }
 };
 
@@ -38,14 +45,42 @@ export const PATCH = async (
 ) => {
   try {
     await connectToDatabase();
-
     const imageId = params.id;
-    const { image } = await req.json();
-    const imageDb = await Image.findById(imageId);
-    imageDb.image = image;
-    await imageDb.save();
-    return new Response(JSON.stringify({ imageId: imageDb._id }), {
-      status: 200,
+
+    if (!imageId)
+      return new Response(JSON.stringify({ error: "No imageId provided" }), {
+        status: 400,
+      });
+
+    // Find the image in database
+    const image = await Image.findById(imageId);
+
+    if (!image)
+      return new Response(JSON.stringify({ error: "Image not found" }), {
+        status: 404,
+      });
+
+    // Get the form data from the request
+    const formData = await req.formData();
+    const imageFile = formData.get("image") as File;
+
+    if (!imageFile)
+      return new Response(JSON.stringify({ error: "No image provided" }), {
+        status: 400,
+      });
+
+    // Read the file data
+    const bytes = await imageFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    // const imageDb = await Image.create({
+    //   image: buffer,
+    //   mimeType: imageFile.type,
+    // });
+    image.image = buffer;
+    image.mimeType = imageFile.type;
+    await image.save();
+    return new Response(JSON.stringify({ imageId }), {
+      status: 201,
     });
   } catch (err) {
     console.log(err);
